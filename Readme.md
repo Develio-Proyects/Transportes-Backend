@@ -12,9 +12,7 @@ PROD_DB_URL=
 
 ----- Claves -----  
 JWT_SECRET_KEY=  
-DB_PASSWORD=  
-MP_KEY=  
-MP_WEBHOOK_KEY=
+DB_PROD_PASSWORD=  
 
 ## Dockerización
 
