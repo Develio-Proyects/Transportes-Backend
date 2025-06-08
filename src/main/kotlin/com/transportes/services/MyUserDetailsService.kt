@@ -1,7 +1,7 @@
 package com.transportes.services
 
 import com.transportes.exceptions.InvalidCredentialsException
-import com.transportes.repositories.UserRepository
+import com.transportes.repositories.UsuarioRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service
 
 @Service
 class MyUserDetailsService : UserDetailsService {
-    @Autowired private lateinit var userRepository: UserRepository
+    @Autowired private lateinit var userRepository: UsuarioRepository
 
-    override fun loadUserByUsername(username: String): UserDetails {
-        val user = userRepository.findByUsername(username) ?: throw InvalidCredentialsException("Token Inválido")
+    override fun loadUserByUsername(email: String): UserDetails {
+        val user = userRepository.findByEmail(email) ?: throw InvalidCredentialsException("Token Inválido")
         return User(
-            user.username,
+            user.email,
             user.password,
             listOf()
         )
