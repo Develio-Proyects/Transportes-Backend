@@ -3,7 +3,7 @@ package com.transportes.services
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException
-import com.transportes.repositories.UserRepository
+import com.transportes.repositories.UsuarioRepository
 import com.transportes.utils.JwtUtil
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service
 @Service
 class AuthService {
     @Autowired private lateinit var authenticationManager: AuthenticationManager
-    @Autowired private lateinit var userRepository: UserRepository
+    @Autowired private lateinit var userRepository: UsuarioRepository
     @Autowired private lateinit var jwtUtil: JwtUtil
     @Autowired private lateinit var passwordEncoder: PasswordEncoder
 
@@ -26,12 +26,12 @@ class AuthService {
             )
         } catch (e: AuthenticationException) { throw InvalidCredentialsException("Credenciales inválidas") }
 
-        val user = userRepository.findByUsername(username) ?: throw NotFoundException("Usuario no encontrado")
-        return jwtUtil.generateToken(user.username)
+        val user = userRepository.findByEmail(username) ?: throw NotFoundException("Usuario no encontrado")
+        return jwtUtil.generateToken(user.email)
     }
 
-    fun updatePassword(username: String, oldPassword: String, newPassword: String) {
-        val user = userRepository.findByUsername(username) ?: throw NotFoundException("Usuario no encontrado")
+    fun updatePassword(email: String, oldPassword: String, newPassword: String) {
+        val user = userRepository.findByEmail(email) ?: throw NotFoundException("Usuario no encontrado")
 
         if (newPassword.isEmpty() || newPassword.isBlank()) throw BadRequestException("La nueva contraseña no puede estar vacía")
 
