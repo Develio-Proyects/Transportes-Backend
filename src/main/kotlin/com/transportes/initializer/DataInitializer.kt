@@ -36,7 +36,11 @@ class DataInitializer: InitializingBean {
     var documentoTransporte: DocumentoTransporte? = null
     var estadoPublicado: Estado? = null
     var estadoConFletero: Estado? = null
-    var viaje: Viaje? = null
+    var viaje1: Viaje? = null
+    var viaje2: Viaje? = null
+    var viaje3: Viaje? = null
+    var viaje4: Viaje? = null
+    var viaje5: Viaje? = null
     var postulacion: Postulacion? = null
 
     override fun afterPropertiesSet() {
@@ -73,30 +77,76 @@ class DataInitializer: InitializingBean {
     }
 
     private fun inicializarEstados() {
-        estadoPublicado = Estado("Publicado")
-        estadoConFletero = Estado("Con fletero")
+        estadoPublicado = Estado("PUBLICADO")
+        estadoConFletero = Estado("ACORDADO")
         repositorioEstado.save(estadoPublicado!!)
         repositorioEstado.save(estadoConFletero!!)
     }
 
     private fun inicializarViajes() {
-        viaje = Viaje(
+        viaje1 = Viaje(
             transporte!!,
             null,
             estadoPublicado!!,
             "Buenos Aires",
             "Córdoba",
             LocalDateTime.now().plusDays(10),
-            "Viaje de prueba"
+            500.0,
+            "Viaje de prueba",
         )
-        repositorioViaje.save(viaje!!)
+        viaje2 = Viaje(
+            transporte!!,
+            null,
+            estadoPublicado!!,
+            "Buenos Aires",
+            "Mendoza",
+            LocalDateTime.now().plusDays(5),
+            700.0,
+            "Viaje de prueba 2",
+        )
+        viaje3 = Viaje(
+            transporte!!,
+            null,
+            estadoPublicado!!,
+            "Buenos Aires",
+            "Rosario",
+            LocalDateTime.now().plusDays(3),
+            300.0,
+            "Viaje de prueba 3",
+        )
+        viaje4 = Viaje(
+            transporte!!,
+            null,
+            estadoPublicado!!,
+            "Buenos Aires",
+            "La Plata",
+            LocalDateTime.now().plusDays(1),
+            150.0,
+            "Viaje de prueba 4",
+        )
+        viaje5 = Viaje(
+            transporte!!,
+            null,
+            estadoPublicado!!,
+            "Buenos Aires",
+            "Tucumán",
+            LocalDateTime.now().plusDays(15),
+            1000.0,
+            "Viaje de prueba 5",
+        )
+
+        repositorioViaje.save(viaje1!!)
+        repositorioViaje.save(viaje2!!)
+        repositorioViaje.save(viaje3!!)
+        repositorioViaje.save(viaje4!!)
+        repositorioViaje.save(viaje5!!)
     }
 
     private fun inicializaPostulaciones() {
         postulacion = Postulacion(
-            viaje!!,
+            viaje1!!,
             fletero!!,
-            100.0
+            600.0
         )
         repositorioPostulacion.save(postulacion!!)
     }

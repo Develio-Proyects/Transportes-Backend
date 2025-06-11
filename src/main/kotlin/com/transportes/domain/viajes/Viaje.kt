@@ -19,6 +19,8 @@ class Viaje(
     val destino: String,
     @Column(nullable = false)
     val fechaSalida: LocalDateTime,
+    @Column(nullable = false)
+    val precioBase: Double,
     @Column
     val observaciones: String? = null
 ) {
