@@ -4,7 +4,6 @@ import com.transportes.dto.ViajeDisponibleDTO
 import com.transportes.dto.PaginadoDTO
 import com.transportes.services.ViajesService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.data.domain.Pageable
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -13,13 +12,16 @@ class ViajesController {
     @Autowired lateinit var viajesService: ViajesService
 
     @GetMapping("/disponibles")
-    fun getViajesDisponibles(pageable: Pageable): PaginadoDTO<ViajeDisponibleDTO> {
-        val page = viajesService.getViajesDisponibles(pageable)
+    fun getViajesDisponibles(
+        @RequestParam page: Int,
+        @RequestParam size: Int
+    ): PaginadoDTO<ViajeDisponibleDTO> {
+        val viaje = viajesService.getViajesDisponibles(page, size)
         return PaginadoDTO(
-            page.content,
-            page.totalElements,
-            page.totalPages,
-            page.size
+            viaje.content,
+            viaje.totalElements,
+            viaje.totalPages,
+            viaje.size
         )
     }
 }

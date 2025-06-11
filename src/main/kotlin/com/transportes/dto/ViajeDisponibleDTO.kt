@@ -6,6 +6,7 @@ data class ViajeDisponibleDTO(
     var id: String,
     var origen: String,
     var destino: String,
-    var fecha: LocalDateTime,
-    var precio: Double
+    var fechaSalida: LocalDateTime,
+    var precioBase: Double,
+    var cantidadPostulaciones: Long
 )
