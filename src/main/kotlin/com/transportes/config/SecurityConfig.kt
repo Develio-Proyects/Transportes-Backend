@@ -33,8 +33,8 @@ class SecurityConfig {
             .authorizeHttpRequests { authorize ->
                 authorize
                     .requestMatchers(
-                        HttpMethod.GET,
-                        "/api/example"
+                        HttpMethod.PUT,
+                        "/api/auth/update-password"
                     ).authenticated()
                     .anyRequest().permitAll()
             }
