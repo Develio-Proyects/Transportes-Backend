@@ -19,14 +19,14 @@ class AuthService {
     @Autowired private lateinit var jwtUtil: JwtUtil
     @Autowired private lateinit var passwordEncoder: PasswordEncoder
 
-    fun authenticate(username: String, password: String): String {
+    fun authenticate(email: String, password: String): String {
         try {
             authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(username, password)
+                UsernamePasswordAuthenticationToken(email, password)
             )
         } catch (e: AuthenticationException) { throw InvalidCredentialsException("Credenciales inválidas") }
 
-        val user = userRepository.findByEmail(username) ?: throw NotFoundException("Usuario no encontrado")
+        val user = userRepository.findByEmail(email) ?: throw NotFoundException("Usuario no encontrado")
         return jwtUtil.generateToken(user.email)
     }
 

@@ -15,7 +15,7 @@ class AuthController {
 
     @PostMapping("/login")
     fun login(@RequestBody loginDTO: LoginDTO): ResponseEntity<Map<String, String>> {
-        val token = authService.authenticate(loginDTO.username, loginDTO.password)
+        val token = authService.authenticate(loginDTO.email, loginDTO.password)
         return ResponseEntity.ok(mapOf("token" to token))
     }
 
