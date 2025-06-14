@@ -1,10 +1,10 @@
 package com.transportes.initializer
 
 import com.transportes.domain.Vehiculo
-import com.transportes.domain.documentos.DocumentoFletero
-import com.transportes.domain.documentos.DocumentoTransporte
+import com.transportes.domain.documentos.Documento
 import com.transportes.domain.usuarios.Administrador
-import com.transportes.domain.usuarios.Fletero
+import com.transportes.domain.usuarios.Flota
+import com.transportes.domain.usuarios.Unipersonal
 import com.transportes.domain.usuarios.Transporte
 import com.transportes.domain.viajes.Estado
 import com.transportes.domain.viajes.Postulacion
@@ -29,11 +29,11 @@ class DataInitializer: InitializingBean {
     @Autowired lateinit var repositorioPostulacion: PostulacionRepository
 
     var admin: Administrador? = null
-    var transporte: Transporte? = null
-    var fletero: Fletero? = null
+    var flota: Flota? = null
+    var unipersonal: Unipersonal? = null
     var vehiculo: Vehiculo? = null
-    var documentoFletero: DocumentoFletero? = null
-    var documentoTransporte: DocumentoTransporte? = null
+    var documentoFlota: Documento? = null
+    var documentoUnipersonal: Documento? = null
     var estadoPublicado: Estado? = null
     var estadoConFletero: Estado? = null
     var viaje1: Viaje? = null
@@ -57,23 +57,23 @@ class DataInitializer: InitializingBean {
 
     fun inicializarUsers() {
         admin = Administrador("admin@gmail.com", passwordEncoder.encode("admin"))
-        transporte = Transporte("transporte@gmail.com", passwordEncoder.encode("transporte"))
-        fletero = Fletero("fletero@gmail.com", passwordEncoder.encode("fletero"))
+        flota = Flota("flota@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
+        unipersonal = Unipersonal("unipersonal@gmail.com", passwordEncoder.encode("unipersonal"), "Ignacio", "Herrera", 1234567890)
         repositorioUser.save(admin!!)
-        repositorioUser.save(transporte!!)
-        repositorioUser.save(fletero!!)
+        repositorioUser.save(flota!!)
+        repositorioUser.save(unipersonal!!)
     }
 
     private fun inicializaVehiculos() {
-        vehiculo = Vehiculo("Chevrolet", fletero!!)
+        vehiculo = Vehiculo("Chevrolet", unipersonal!!)
         repositorioVehiculo.save(vehiculo!!)
     }
 
     private fun inicializaDocumentos() {
-        documentoFletero = DocumentoFletero("DNI", "", "https://s3aws.com/uhdeuijkednc", fletero!!)
-        documentoTransporte = DocumentoTransporte("DNI", "", "https://s3aws.com/uhdeuijkednc", transporte!!)
-        repositorioDocumento.save(documentoFletero!!)
-        repositorioDocumento.save(documentoTransporte!!)
+        documentoFlota = Documento(flota!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
+        documentoUnipersonal = Documento(unipersonal!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
+        repositorioDocumento.save(documentoFlota!!)
+        repositorioDocumento.save(documentoUnipersonal!!)
     }
 
     private fun inicializarEstados() {
@@ -85,7 +85,7 @@ class DataInitializer: InitializingBean {
 
     private fun inicializarViajes() {
         viaje1 = Viaje(
-            transporte!!,
+            flota!!,
             null,
             estadoPublicado!!,
             "Buenos Aires",
@@ -95,7 +95,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba",
         )
         viaje2 = Viaje(
-            transporte!!,
+            flota!!,
             null,
             estadoPublicado!!,
             "Buenos Aires",
@@ -105,7 +105,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 2",
         )
         viaje3 = Viaje(
-            transporte!!,
+            flota!!,
             null,
             estadoPublicado!!,
             "Buenos Aires",
@@ -115,7 +115,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 3",
         )
         viaje4 = Viaje(
-            transporte!!,
+            flota!!,
             null,
             estadoPublicado!!,
             "Buenos Aires",
@@ -125,7 +125,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 4",
         )
         viaje5 = Viaje(
-            transporte!!,
+            flota!!,
             null,
             estadoPublicado!!,
             "Buenos Aires",
@@ -145,7 +145,7 @@ class DataInitializer: InitializingBean {
     private fun inicializaPostulaciones() {
         postulacion = Postulacion(
             viaje1!!,
-            fletero!!,
+            unipersonal!!,
             600.0
         )
         repositorioPostulacion.save(postulacion!!)
