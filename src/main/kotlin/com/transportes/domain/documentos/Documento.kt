@@ -1,10 +1,12 @@
 package com.transportes.domain.documentos
 
+import com.transportes.domain.usuarios.Transporte
 import jakarta.persistence.*
 
 @Entity @Table(name = "documentos")
-@Inheritance(strategy = InheritanceType.JOINED)
-abstract class Documento(
+class Documento(
+    @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_transporte", nullable = false)
+    val transporte: Transporte,
     @Column(nullable = true)
     val nombre: String,
     @Column(nullable = true)
