@@ -1,6 +1,7 @@
 package com.transportes.utils
 
 import com.transportes.domain.viajes.Viaje
+import com.transportes.dto.LoginResponseDTO
 import com.transportes.dto.ViajeDisponibleDTO
 
 object Serializer {
@@ -12,6 +13,13 @@ object Serializer {
             viaje.fechaSalida,
             viaje.precioBase,
             cantPostulaciones
+        )
+    }
+
+    fun buildLoginResponseDTO(rol: String, token: String): LoginResponseDTO {
+        return LoginResponseDTO(
+            rol,
+            token
         )
     }
 }

@@ -1,6 +1,7 @@
 package com.transportes.controllers
 
 import com.transportes.dto.LoginDTO
+import com.transportes.dto.LoginResponseDTO
 import com.transportes.dto.ResponseWithMessageDTO
 import com.transportes.dto.UpdatePassDTO
 import com.transportes.services.AuthService
@@ -14,9 +15,8 @@ class AuthController {
     @Autowired private lateinit var authService: AuthService
 
     @PostMapping("/login")
-    fun login(@RequestBody loginDTO: LoginDTO): ResponseEntity<Map<String, String>> {
-        val token = authService.authenticate(loginDTO.email, loginDTO.password)
-        return ResponseEntity.ok(mapOf("token" to token))
+    fun login(@RequestBody loginDTO: LoginDTO): LoginResponseDTO {
+        return authService.authenticate(loginDTO.email, loginDTO.password)
     }
 
     @PutMapping("/update-password")

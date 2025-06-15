@@ -1,10 +1,12 @@
 package com.transportes.services
 
+import com.transportes.dto.LoginResponseDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.UsuarioRepository
 import com.transportes.utils.JwtUtil
+import com.transportes.utils.Serializer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -19,7 +21,7 @@ class AuthService {
     @Autowired private lateinit var jwtUtil: JwtUtil
     @Autowired private lateinit var passwordEncoder: PasswordEncoder
 
-    fun authenticate(email: String, password: String): String {
+    fun authenticate(email: String, password: String): LoginResponseDTO {
         try {
             authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(email, password)
@@ -27,7 +29,8 @@ class AuthService {
         } catch (e: AuthenticationException) { throw InvalidCredentialsException("Credenciales inválidas") }
 
         val user = userRepository.findByEmail(email) ?: throw NotFoundException("Usuario no encontrado")
-        return jwtUtil.generateToken(user.email)
+        val token = jwtUtil.generateToken(user.email)
+        return Serializer.buildLoginResponseDTO(user.rol, token)
     }
 
     fun updatePassword(email: String, oldPassword: String, newPassword: String) {
