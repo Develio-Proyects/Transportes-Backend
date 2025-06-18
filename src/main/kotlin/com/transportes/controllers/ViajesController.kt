@@ -24,4 +24,8 @@ class ViajesController {
             viaje.size
         )
     }
+
+    @GetMapping("/{id}")
+    fun getDetalleViaje(@PathVariable id: String) =
+        viajesService.getDetalleViaje(id)
 }
