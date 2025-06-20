@@ -1,10 +1,8 @@
 package com.transportes.controllers
 
-import com.transportes.dto.LoginDTO
-import com.transportes.dto.LoginResponseDTO
-import com.transportes.dto.ResponseWithMessageDTO
-import com.transportes.dto.UpdatePassDTO
+import com.transportes.dto.*
 import com.transportes.services.AuthService
+import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -15,12 +13,12 @@ class AuthController {
     @Autowired private lateinit var authService: AuthService
 
     @PostMapping("/login")
-    fun login(@RequestBody loginDTO: LoginDTO): LoginResponseDTO {
+    fun login(@RequestBody @Valid loginDTO: LoginDTO): LoginResponseDTO {
         return authService.authenticate(loginDTO.email, loginDTO.password)
     }
 
     @PutMapping("/update-password")
-    fun updatePassword(@RequestBody updatePassDTO: UpdatePassDTO): ResponseEntity<ResponseWithMessageDTO> {
+    fun updatePassword(@RequestBody @Valid updatePassDTO: UpdatePassDTO): ResponseEntity<ResponseWithMessageDTO> {
         authService.updatePassword(
             updatePassDTO.username,
             updatePassDTO.oldPassword,

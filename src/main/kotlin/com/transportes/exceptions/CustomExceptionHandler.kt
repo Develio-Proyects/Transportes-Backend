@@ -11,23 +11,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @ControllerAdvice
 class CustomExceptionHandler {
 
-    @ExceptionHandler(MissingServletRequestParameterException::class)
-    fun handleMissingParams(ex: MissingServletRequestParameterException): ResponseEntity<Map<String, String>> {
-        val errorDetails = mapOf(
-            "error" to "Parámetro faltante",
-            "message" to "El parámetro '${ex.parameterName}' es obligatorio."
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
-        val errorDetails = mapOf(
-            "error" to "Parámetros inválidos",
-            "message" to "Parametros recibidos inválidos."
-        )
-        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
-    }
+    // PERSONALIZADAS
 
     @ExceptionHandler(BadRequestException::class)
     fun handleBadRequestException(ex: BadRequestException): ResponseEntity<Map<String, String>> {
@@ -59,13 +43,26 @@ class CustomExceptionHandler {
         return ResponseEntity(errorDetails, HttpStatus.UNAUTHORIZED)
     }
 
+    // OTRAS
+
+    @ExceptionHandler(MissingServletRequestParameterException::class)
+    fun handleMissingParams(ex: MissingServletRequestParameterException): ResponseEntity<Map<String, String>> {
+        val errorDetails = mapOf( "error" to "Parámetros faltantes" )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
+    /**
+     * Esta excepción se lanza cuando por ejemplo no se cumple alguna validación @field de los DTOs
+     */
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handleValidationExceptions(ex: MethodArgumentNotValidException): ResponseEntity<Map<String, String>> {
+        val errorDetails = mapOf( "error" to "Parámetros inválidos" )
+        return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
+    }
+
     @ExceptionHandler(MethodArgumentTypeMismatchException::class)
     fun handleMethodArgumentTypeMismatchException(ex: MethodArgumentTypeMismatchException): ResponseEntity<Map<String, String>> {
-        val message = "Parametro ${ex.parameter.parameterName} con tipo de dato incorrecto."
-        val errorDetails = mapOf(
-            "error" to "Parámetros inválidos",
-            "message" to message
-        )
+        val errorDetails = mapOf( "error" to "Parámetros inválidos" )
         return ResponseEntity(errorDetails, HttpStatus.BAD_REQUEST)
     }
 }
