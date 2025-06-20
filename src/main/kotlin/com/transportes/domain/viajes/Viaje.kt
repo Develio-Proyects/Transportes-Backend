@@ -2,6 +2,7 @@ package com.transportes.domain.viajes
 
 import com.transportes.domain.usuarios.Flota
 import com.transportes.domain.usuarios.Transporte
+import com.transportes.domain.viajes.Dimensiones
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -21,6 +22,12 @@ class Viaje(
     val fechaSalida: LocalDateTime,
     @Column(nullable = false)
     val precioBase: Double,
+    @Column
+    val tipoDeCarga: String,
+    @Column
+    val peso: Double,
+    @Embedded
+    val dimensiones: Dimensiones,
     @Column
     val observaciones: String? = null
 ) {

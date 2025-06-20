@@ -5,10 +5,10 @@ import com.transportes.domain.documentos.Documento
 import com.transportes.domain.usuarios.Administrador
 import com.transportes.domain.usuarios.Flota
 import com.transportes.domain.usuarios.Unipersonal
-import com.transportes.domain.usuarios.Transporte
 import com.transportes.domain.viajes.Estado
 import com.transportes.domain.viajes.Postulacion
 import com.transportes.domain.viajes.Viaje
+import com.transportes.domain.viajes.Dimensiones
 import com.transportes.repositories.*
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -30,7 +30,9 @@ class DataInitializer: InitializingBean {
 
     var admin: Administrador? = null
     var flota: Flota? = null
-    var unipersonal: Unipersonal? = null
+    var unipersonal1: Unipersonal? = null
+    var unipersonal2: Unipersonal? = null
+    var unipersonal3: Unipersonal? = null
     var vehiculo: Vehiculo? = null
     var documentoFlota: Documento? = null
     var documentoUnipersonal: Documento? = null
@@ -41,7 +43,9 @@ class DataInitializer: InitializingBean {
     var viaje3: Viaje? = null
     var viaje4: Viaje? = null
     var viaje5: Viaje? = null
-    var postulacion: Postulacion? = null
+    var postulacion1: Postulacion? = null
+    var postulacion2: Postulacion? = null
+    var postulacion3: Postulacion? = null
 
     override fun afterPropertiesSet() {
         if (profile.equals("dev")) {
@@ -58,20 +62,24 @@ class DataInitializer: InitializingBean {
     fun inicializarUsers() {
         admin = Administrador("admin@gmail.com", passwordEncoder.encode("admin"))
         flota = Flota("flota@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
-        unipersonal = Unipersonal("unipersonal@gmail.com", passwordEncoder.encode("unipersonal"), "Ignacio", "Herrera", 1234567890)
+        unipersonal1 = Unipersonal("unipersonal1@gmail.com", passwordEncoder.encode("unipersonal"), "Ignacio", "Herrera", 1234567890)
+        unipersonal2 = Unipersonal("unipersonal2@gmail.com", passwordEncoder.encode("unipersonal"), "Tobias", "RichOne", 1234567891)
+        unipersonal3 = Unipersonal("unipersonal3@gmail.com", passwordEncoder.encode("unipersonal"), "Lucas", "Morales", 1234567892)
         repositorioUser.save(admin!!)
         repositorioUser.save(flota!!)
-        repositorioUser.save(unipersonal!!)
+        repositorioUser.save(unipersonal1!!)
+        repositorioUser.save(unipersonal2!!)
+        repositorioUser.save(unipersonal3!!)
     }
 
     private fun inicializaVehiculos() {
-        vehiculo = Vehiculo("Chevrolet", unipersonal!!)
+        vehiculo = Vehiculo("Chevrolet", unipersonal1!!)
         repositorioVehiculo.save(vehiculo!!)
     }
 
     private fun inicializaDocumentos() {
         documentoFlota = Documento(flota!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
-        documentoUnipersonal = Documento(unipersonal!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
+        documentoUnipersonal = Documento(unipersonal1!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
         repositorioDocumento.save(documentoFlota!!)
         repositorioDocumento.save(documentoUnipersonal!!)
     }
@@ -91,8 +99,13 @@ class DataInitializer: InitializingBean {
             "Buenos Aires",
             "Córdoba",
             LocalDateTime.now().plusDays(10),
-            500.0,
-            "Viaje de prueba",
+            700.0,
+            "Fragil",
+            250.0,
+            Dimensiones(2.0, 2.0, 2.0),
+            "Viaje prueba 1"
+
+
         )
         viaje2 = Viaje(
             flota!!,
@@ -102,7 +115,10 @@ class DataInitializer: InitializingBean {
             "Mendoza",
             LocalDateTime.now().plusDays(5),
             700.0,
-            "Viaje de prueba 2",
+            "Seco",
+            500.0,
+            Dimensiones(2.0, 1.5, 5.0),
+            "Viaje de prueba 2"
         )
         viaje3 = Viaje(
             flota!!,
@@ -112,6 +128,9 @@ class DataInitializer: InitializingBean {
             "Rosario",
             LocalDateTime.now().plusDays(3),
             300.0,
+            "Frio",
+            300.0,
+            Dimensiones(6.0, 2.5, 15.0),
             "Viaje de prueba 3",
         )
         viaje4 = Viaje(
@@ -122,6 +141,9 @@ class DataInitializer: InitializingBean {
             "La Plata",
             LocalDateTime.now().plusDays(1),
             150.0,
+            "Expuesta",
+            100.0,
+            Dimensiones(10.0, 5.0, 16.0),
             "Viaje de prueba 4",
         )
         viaje5 = Viaje(
@@ -132,6 +154,9 @@ class DataInitializer: InitializingBean {
             "Tucumán",
             LocalDateTime.now().plusDays(15),
             1000.0,
+            "Peligrosa",
+            200.0,
+            Dimensiones(8.0, 2.0, 20.0),
             "Viaje de prueba 5",
         )
 
@@ -143,11 +168,23 @@ class DataInitializer: InitializingBean {
     }
 
     private fun inicializaPostulaciones() {
-        postulacion = Postulacion(
+        postulacion1 = Postulacion(
             viaje1!!,
-            unipersonal!!,
+            unipersonal1!!,
             600.0
         )
-        repositorioPostulacion.save(postulacion!!)
+        postulacion2 = Postulacion(
+            viaje1!!,
+            unipersonal2!!,
+            1000.0
+        )
+        postulacion3 = Postulacion(
+            viaje1!!,
+            unipersonal3!!,
+            500.0
+        )
+        repositorioPostulacion.save(postulacion1!!)
+        repositorioPostulacion.save(postulacion2!!)
+        repositorioPostulacion.save(postulacion3!!)
     }
 }
