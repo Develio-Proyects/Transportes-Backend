@@ -110,7 +110,7 @@ class DataInitializer: InitializingBean {
             "Buenos Aires",
             "Córdoba",
             LocalDateTime.now().plusDays(10),
-            700.0,
+            1500.0,
             "Fragil",
             250.0,
             Dimensiones(2.0, 2.0, 2.0),
