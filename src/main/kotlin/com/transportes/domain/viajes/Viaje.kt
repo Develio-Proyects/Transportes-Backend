@@ -22,6 +22,12 @@ class Viaje(
     @Column(nullable = false)
     val precioBase: Double,
     @Column
+    val tipoDeCarga: String,
+    @Column
+    val peso: Double,
+    @Embedded
+    val dimensiones: Dimensiones,
+    @Column
     val observaciones: String? = null
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)

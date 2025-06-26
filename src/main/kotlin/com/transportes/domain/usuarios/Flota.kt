@@ -12,4 +12,4 @@ class Flota(
     val razonSocial: String,
     @Column(nullable = false)
     val cuit: Int
-): Transporte(email, password, "FLOTA")
+): Transporte(razonSocial, email, password, "FLOTA")
