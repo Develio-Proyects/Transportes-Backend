@@ -8,6 +8,6 @@ interface PostulacionRepository : CrudRepository<Postulacion, String> {
     @Query("SELECT COUNT(p) FROM Postulacion p WHERE p.viaje.id = :viajeId")
     fun getCantidadPostulacionesByViajeId(viajeId: String): Long
 
-    //devuelve las postulaciones de x viaje
-    fun findAllByViajeId(viajeId: String): List<Postulacion>
+    @Query("SELECT p FROM Postulacion p WHERE p.viaje.id = :viajeId ORDER BY p.precioOfrecido ASC")
+    fun findAllAscendingByViajeId(viajeId: String): List<Postulacion>
 }

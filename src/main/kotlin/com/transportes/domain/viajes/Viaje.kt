@@ -2,7 +2,6 @@ package com.transportes.domain.viajes
 
 import com.transportes.domain.usuarios.Flota
 import com.transportes.domain.usuarios.Transporte
-import com.transportes.domain.viajes.Dimensiones
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

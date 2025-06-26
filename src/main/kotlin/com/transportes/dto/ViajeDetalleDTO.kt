@@ -1,17 +1,18 @@
 package com.transportes.dto
 
-import java.time.LocalDate
+import com.transportes.domain.viajes.Dimensiones
+import java.time.LocalDateTime
 
 data class ViajeDetalleDTO(
     val razonSocial: String,
-    val fechaSalida: LocalDate,
+    val fechaSalida: LocalDateTime,
     val origen: String,
     val destino: String,
     val observaciones: String?,
     val tipoDeCarga: String,
     val peso: Double,
-    val dimensiones: DimensionesDTO,
+    val dimensiones: Dimensiones,
     val precioInicial: Double,
     val ofertaMasBaja: Double?,
-    val usuarioConOferta: List<String>
+    val postulantes: List<String>
 )

@@ -8,10 +8,9 @@ import jakarta.persistence.Table
 class Unipersonal(
     email: String,
     password: String,
-    @Column(nullable = false)
-    val nombre: String,
+    nombre: String,
     @Column(nullable = false)
     val apellido: String,
     @Column(nullable = false)
     val cuil: Int
-) : Transporte(email, password, "UNIPERSONAL")
+) : Transporte(nombre, email, password, "UNIPERSONAL")
