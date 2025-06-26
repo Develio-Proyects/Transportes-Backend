@@ -28,24 +28,35 @@ class DataInitializer: InitializingBean {
     @Autowired lateinit var repositorioViaje: ViajeRepository
     @Autowired lateinit var repositorioPostulacion: PostulacionRepository
 
+    // Usuarios
     var admin: Administrador? = null
     var flota: Flota? = null
     var unipersonal1: Unipersonal? = null
     var unipersonal2: Unipersonal? = null
     var unipersonal3: Unipersonal? = null
-    var vehiculo: Vehiculo? = null
-    var documentoFlota: Documento? = null
-    var documentoUnipersonal: Documento? = null
-    var estadoPublicado: Estado? = null
-    var estadoConFletero: Estado? = null
+
+    // Viajes
     var viaje1: Viaje? = null
     var viaje2: Viaje? = null
     var viaje3: Viaje? = null
     var viaje4: Viaje? = null
     var viaje5: Viaje? = null
+
+    // Estados
+    var estadoPublicado: Estado? = null
+    var estadoConFletero: Estado? = null
+
+    // Postulaciones
     var postulacion1: Postulacion? = null
     var postulacion2: Postulacion? = null
     var postulacion3: Postulacion? = null
+
+    // Vehiculos
+    var vehiculo: Vehiculo? = null
+
+    // Documentos
+    var documentoFlota: Documento? = null
+    var documentoUnipersonal: Documento? = null
 
     override fun afterPropertiesSet() {
         if (profile.equals("dev")) {
@@ -104,8 +115,6 @@ class DataInitializer: InitializingBean {
             250.0,
             Dimensiones(2.0, 2.0, 2.0),
             "Viaje prueba 1"
-
-
         )
         viaje2 = Viaje(
             flota!!,
