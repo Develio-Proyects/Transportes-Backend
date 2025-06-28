@@ -20,6 +20,8 @@ class Viaje(
     @Column(nullable = false)
     val fechaSalida: LocalDateTime,
     @Column(nullable = false)
+    val fechaPublicacion: LocalDateTime,
+    @Column(nullable = false)
     val precioBase: Double,
     @Column
     val tipoDeCarga: String,

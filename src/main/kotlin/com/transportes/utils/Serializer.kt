@@ -6,15 +6,18 @@ import com.transportes.dto.LoginResponseDTO
 import com.transportes.dto.ViajeDetalleDTO
 import com.transportes.dto.ViajeDisponibleDTO
 
+
 object Serializer {
     fun buildViajeDisponibleDTO(viaje: Viaje, cantPostulaciones: Long): ViajeDisponibleDTO {
+        val publicadoHace: String = FechaUtils.tiempoTranscurrido(viaje.fechaPublicacion)
         return ViajeDisponibleDTO(
             viaje.id,
             viaje.origen,
             viaje.destino,
             viaje.fechaSalida,
             viaje.precioBase,
-            cantPostulaciones
+            cantPostulaciones,
+            publicadoHace
         )
     }
 
