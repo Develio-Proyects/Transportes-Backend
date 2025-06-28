@@ -16,13 +16,17 @@ import org.springframework.stereotype.Service
 class ViajesService {
     @Autowired lateinit var viajesRepository: ViajeRepository
     @Autowired lateinit var postulacionesRepository: PostulacionRepository
+    @Autowired lateinit var userDetailsService: MyUserDetailsService
 
-    fun getViajesDisponibles(page: Int, size: Int): Page<ViajeDisponibleDTO> {
+    fun getViajesDisponibles(token: String?, page: Int, size: Int): Page<ViajeDisponibleDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
+        val userid = if (token != null) userDetailsService.loadUserByToken(token)?.id else null
+
         val listaViajes = viajesRepository.getViajesDisponibles(page)
         return listaViajes.map {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
-            Serializer.buildViajeDisponibleDTO(it, cantPostulaciones)
+            val miPublicacion = if (userid != null) it.flota.id == userid else false
+            Serializer.buildViajeDisponibleDTO(it, cantPostulaciones, miPublicacion)
         }
     }
 

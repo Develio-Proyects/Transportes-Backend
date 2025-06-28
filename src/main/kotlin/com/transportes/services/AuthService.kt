@@ -48,7 +48,7 @@ class AuthService {
 
     fun validateToken(token: String): Boolean {
         val tokenWithoutBearer = token.removePrefix("Bearer ").trim()
-        val username = jwtUtil.extractUsername(tokenWithoutBearer)
+        val username = jwtUtil.extractEmail(tokenWithoutBearer)
         return jwtUtil.validateToken(tokenWithoutBearer, username)
     }
 }

@@ -13,28 +13,24 @@ class JwtUtil {
     @Value("\${jwt.secret-key}") private lateinit var secretKey: String
     @Value("\${jwt.expiration-time}") private lateinit var expirationTime: String
 
-    fun generateToken(username: String): String {
+    fun generateToken(email: String): String {
         return Jwts.builder()
-            .setSubject(username)
+            .setSubject(email)
             .setIssuedAt(Date(System.currentTimeMillis()))
             .setExpiration(Date(System.currentTimeMillis() + expirationTime.toLong()))
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact()
     }
 
-    fun extractUsername(token: String): String? {
-        return try {
-            extractClaim(token, Claims::getSubject)
-        } catch (e: JwtException) {
-            null
-        } catch (e: IllegalArgumentException) {
-            null
-        }
+    fun extractEmail(token: String): String? {
+        return try { extractClaim(token, Claims::getSubject) }
+        catch (e: JwtException ) { null }
+        catch (e: IllegalArgumentException) { null }
     }
 
     fun validateToken(token: String, username: String?): Boolean {
         if (username == null) return false
-        val extractedUsername = extractUsername(token)
+        val extractedUsername = extractEmail(token)
         return extractedUsername == username && !isTokenExpired(token)
     }
 

@@ -32,7 +32,7 @@ class JwtRequestFilter : OncePerRequestFilter() {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             jwt = authorizationHeader.substring(7)
             try {
-                username = jwtUtil.extractUsername(jwt)
+                username = jwtUtil.extractEmail(jwt)
             } catch (e: SignatureException) {
                 handleException(response, "Token inválido")
                 return

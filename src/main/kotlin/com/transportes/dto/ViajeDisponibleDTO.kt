@@ -9,5 +9,6 @@ data class ViajeDisponibleDTO(
     var fechaSalida: LocalDateTime,
     var precioBase: Double,
     var cantidadPostulaciones: Long,
-    var publicadoHace: String
+    var publicadoHace: String,
+    var miPublicacion: Boolean
 )
