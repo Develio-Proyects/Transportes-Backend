@@ -14,9 +14,10 @@ class ViajesController {
     @GetMapping("/disponibles")
     fun getViajesDisponibles(
         @RequestParam page: Int,
-        @RequestParam size: Int
+        @RequestParam size: Int,
+        @RequestHeader("Authorization", required = false) token: String?
     ): PaginadoDTO<ViajeDisponibleDTO> {
-        val viaje = viajesService.getViajesDisponibles(page, size)
+        val viaje = viajesService.getViajesDisponibles(token, page, size)
         return PaginadoDTO(
             viaje.content,
             viaje.totalElements,
