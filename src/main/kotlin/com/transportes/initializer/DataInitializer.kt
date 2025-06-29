@@ -2,6 +2,7 @@ package com.transportes.initializer
 
 import com.transportes.domain.Vehiculo
 import com.transportes.domain.documentos.Documento
+import com.transportes.domain.enums.EstadosViaje
 import com.transportes.domain.usuarios.Administrador
 import com.transportes.domain.usuarios.Flota
 import com.transportes.domain.usuarios.Unipersonal
@@ -96,8 +97,8 @@ class DataInitializer: InitializingBean {
     }
 
     private fun inicializarEstados() {
-        estadoPublicado = Estado("PUBLICADO")
-        estadoConFletero = Estado("ACORDADO")
+        estadoPublicado = Estado(EstadosViaje.SUBASTA)
+        estadoConFletero = Estado(EstadosViaje.ACORDADO)
         repositorioEstado.save(estadoPublicado!!)
         repositorioEstado.save(estadoConFletero!!)
     }
