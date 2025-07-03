@@ -3,6 +3,7 @@ package com.transportes.services
 import com.transportes.domain.viajes.Viaje
 import com.transportes.dto.ViajeDetalleDTO
 import com.transportes.dto.ViajeDisponibleDTO
+import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.PostulacionRepository
 import com.transportes.repositories.ViajeRepository
@@ -34,5 +35,11 @@ class ViajesService {
         val viaje: Viaje = viajesRepository.findById(id).orElseThrow{ NotFoundException("Viaje con id $id no fue encontrado") }
         val postulaciones = postulacionesRepository.findAllAscendingByViajeId(viaje.id)
         return Serializer.buildDetalleViajeDTO(viaje, postulaciones)
+    }
+
+    fun getTarifaViaje(id: String): Double {
+        val viaje: Viaje = viajesRepository.findById(id).orElseThrow { NotFoundException("Viaje con id $id no fue encontrado") }
+        if (viaje.postulacionElegida == null) throw BadRequestException("El viaje con id $id no tiene una postulacion elegida")
+        return viaje.postulacionElegida!!.precioOfrecido * 0.2
     }
 }

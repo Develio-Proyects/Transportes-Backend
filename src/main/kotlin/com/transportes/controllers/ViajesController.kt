@@ -4,6 +4,7 @@ import com.transportes.dto.ViajeDisponibleDTO
 import com.transportes.dto.PaginadoDTO
 import com.transportes.services.ViajesService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -28,4 +29,10 @@ class ViajesController {
 
     @GetMapping("/{id}")
     fun getDetalleViaje(@PathVariable id: String) = viajesService.getDetalleViaje(id)
+
+    @GetMapping("/postulacion/tarifa/{id}")
+    fun getTarifaViaje(@PathVariable id: String): ResponseEntity<Map<String, Double>> {
+        val tarifa = viajesService.getTarifaViaje(id)
+        return ResponseEntity.ok( mapOf("tarifa" to tarifa) )
+    }
 }

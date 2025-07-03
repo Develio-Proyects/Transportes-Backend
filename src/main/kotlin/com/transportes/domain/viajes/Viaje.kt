@@ -1,7 +1,7 @@
 package com.transportes.domain.viajes
 
+import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.transportes.domain.usuarios.Flota
-import com.transportes.domain.usuarios.Transporte
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -9,8 +9,9 @@ import java.time.LocalDateTime
 class Viaje(
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_publicador", nullable = false)
     val flota: Flota,
-    @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_fletero_elegido", nullable = true)
-    val transporteElegido: Transporte? = null,
+    @OneToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_postulacion_elegida", nullable = true)
+    @JsonManagedReference // Evita referencia circular
+    var postulacionElegida: Postulacion? = null,
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_estado", nullable = false)
     val estado: Estado,
     @Column(nullable = false)

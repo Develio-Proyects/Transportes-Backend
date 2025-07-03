@@ -24,12 +24,12 @@ class AuthController {
             updatePassDTO.oldPassword,
             updatePassDTO.newPassword
         )
-        return ResponseEntity.ok().body(ResponseWithMessageDTO("Contraseña actualizada correctamente"))
+        return ResponseEntity.ok( ResponseWithMessageDTO("Contraseña actualizada correctamente") )
     }
 
     @PostMapping("/validate-token")
     fun validateToken(@RequestHeader("Authorization") token: String): ResponseEntity<Map<String, Boolean>> {
         val isValid = authService.validateToken(token)
-        return ResponseEntity.ok().body(mapOf("isValid" to isValid))
+        return ResponseEntity.ok( mapOf("isValid" to isValid) )
     }
 }

@@ -44,13 +44,14 @@ class DataInitializer: InitializingBean {
     var viaje5: Viaje? = null
 
     // Estados
-    var estadoPublicado: Estado? = null
+    var estadoEnSubasta: Estado? = null
     var estadoConFletero: Estado? = null
 
     // Postulaciones
     var postulacion1: Postulacion? = null
     var postulacion2: Postulacion? = null
     var postulacion3: Postulacion? = null
+    var postulacion4: Postulacion? = null
 
     // Vehiculos
     var vehiculo: Vehiculo? = null
@@ -67,6 +68,7 @@ class DataInitializer: InitializingBean {
             inicializarEstados()
             inicializarViajes()
             inicializaPostulaciones()
+            vincularViajesConPostulaciones()
             println("Datos inicializados")
         }
     }
@@ -97,9 +99,9 @@ class DataInitializer: InitializingBean {
     }
 
     private fun inicializarEstados() {
-        estadoPublicado = Estado(EstadosViaje.SUBASTA)
+        estadoEnSubasta = Estado(EstadosViaje.SUBASTA)
         estadoConFletero = Estado(EstadosViaje.ACORDADO)
-        repositorioEstado.save(estadoPublicado!!)
+        repositorioEstado.save(estadoEnSubasta!!)
         repositorioEstado.save(estadoConFletero!!)
     }
 
@@ -107,7 +109,7 @@ class DataInitializer: InitializingBean {
         viaje1 = Viaje(
             flota!!,
             null,
-            estadoPublicado!!,
+            estadoEnSubasta!!,
             "Buenos Aires",
             "Córdoba",
             LocalDateTime.now().plusDays(10),
@@ -121,7 +123,7 @@ class DataInitializer: InitializingBean {
         viaje2 = Viaje(
             flota!!,
             null,
-            estadoPublicado!!,
+            estadoEnSubasta!!,
             "Buenos Aires",
             "Mendoza",
             LocalDateTime.now().plusDays(5),
@@ -135,7 +137,7 @@ class DataInitializer: InitializingBean {
         viaje3 = Viaje(
             flota!!,
             null,
-            estadoPublicado!!,
+            estadoEnSubasta!!,
             "Buenos Aires",
             "Rosario",
             LocalDateTime.now().plusDays(3),
@@ -149,7 +151,7 @@ class DataInitializer: InitializingBean {
         viaje4 = Viaje(
             flota!!,
             null,
-            estadoPublicado!!,
+            estadoEnSubasta!!,
             "Buenos Aires",
             "La Plata",
             LocalDateTime.now().plusDays(1),
@@ -163,7 +165,7 @@ class DataInitializer: InitializingBean {
         viaje5 = Viaje(
             flota!!,
             null,
-            estadoPublicado!!,
+            estadoConFletero!!,
             "Buenos Aires",
             "Tucumán",
             LocalDateTime.now().plusDays(15),
@@ -198,8 +200,19 @@ class DataInitializer: InitializingBean {
             unipersonal3!!,
             500.0
         )
+        postulacion4 = Postulacion(
+            viaje5!!,
+            unipersonal3!!,
+            900.0
+        )
         repositorioPostulacion.save(postulacion1!!)
         repositorioPostulacion.save(postulacion2!!)
         repositorioPostulacion.save(postulacion3!!)
+        repositorioPostulacion.save(postulacion4!!)
+    }
+
+    private fun vincularViajesConPostulaciones() {
+        viaje5!!.postulacionElegida = postulacion4
+        repositorioViaje.save(viaje5!!)
     }
 }
