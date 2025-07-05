@@ -36,6 +36,10 @@ class SecurityConfig {
                         HttpMethod.PUT,
                         "/api/auth/update-password"
                     ).authenticated()
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "api/viajes/postulacion/tarifa/{id}"
+                    ).hasRole("FLOTA")
                     .anyRequest().permitAll()
             }
             .headers { headers ->
