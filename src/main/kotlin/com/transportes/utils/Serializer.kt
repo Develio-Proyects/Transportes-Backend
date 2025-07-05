@@ -3,6 +3,7 @@ package com.transportes.utils
 import com.transportes.domain.viajes.Postulacion
 import com.transportes.domain.viajes.Viaje
 import com.transportes.dto.LoginResponseDTO
+import com.transportes.dto.ViajeAdminDTO
 import com.transportes.dto.ViajeDetalleDTO
 import com.transportes.dto.ViajeDisponibleDTO
 
@@ -19,6 +20,18 @@ object Serializer {
             cantPostulaciones,
             publicadoHace,
             miPublicacion
+        )
+    }
+
+    fun buildViajeAdminDTO(viaje: Viaje): ViajeAdminDTO {
+        return ViajeAdminDTO(
+            viaje.origen,
+            viaje.destino,
+            viaje.fechaSalida,
+            viaje.precioBase,
+            viaje.postulacionElegida?.transporte?.nombre,
+            viaje.flota.razonSocial,
+            viaje.estado.nombre.frontName
         )
     }
 
