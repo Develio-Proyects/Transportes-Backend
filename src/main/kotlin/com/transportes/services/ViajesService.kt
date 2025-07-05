@@ -40,9 +40,8 @@ class ViajesService {
     }
 
     fun getTarifaViaje(id: String): Double {
-        val viaje: Viaje = viajesRepository.findById(id).orElseThrow { NotFoundException("Viaje con id $id no fue encontrado") }
-        if (viaje.postulacionElegida == null) throw BadRequestException("El viaje con id $id no tiene una postulacion elegida")
-        return viaje.postulacionElegida!!.precioOfrecido * 0.2
+        val postulacion = postulacionesRepository.findById(id).orElseThrow { NotFoundException("Postulacion con id $id no fue encontrada") }
+        return postulacion.precioOfrecido * 0.2
     }
 
     fun getAllViajesAdmin(page: Int, size: Int): Page<ViajeAdminDTO> {
