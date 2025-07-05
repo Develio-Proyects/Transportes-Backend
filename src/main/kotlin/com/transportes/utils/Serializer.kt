@@ -2,10 +2,7 @@ package com.transportes.utils
 
 import com.transportes.domain.viajes.Postulacion
 import com.transportes.domain.viajes.Viaje
-import com.transportes.dto.LoginResponseDTO
-import com.transportes.dto.ViajeAdminDTO
-import com.transportes.dto.ViajeDetalleDTO
-import com.transportes.dto.ViajeDisponibleDTO
+import com.transportes.dto.*
 
 
 object Serializer {
@@ -42,11 +39,21 @@ object Serializer {
         )
     }
 
+    fun buildPostulacionDTO(postulacion: Postulacion): PostulacionDTO {
+        return PostulacionDTO(
+            postulacion.id,
+            postulacion.transporte.nombre,
+            postulacion.precioOfrecido
+        )
+    }
+
     fun buildDetalleViajeDTO(viaje: Viaje, postulaciones: List<Postulacion>): ViajeDetalleDTO {
         val ofertaMasBaja = postulaciones.minByOrNull{ it.precioOfrecido }?.precioOfrecido
+        val listaPostulacionesDTO = postulaciones.map { buildPostulacionDTO(it) }
         return ViajeDetalleDTO(
             viaje.flota.razonSocial,
             viaje.fechaSalida,
+            viaje.estado.nombre.frontName,
             viaje.origen,
             viaje.destino,
             viaje.observaciones,
@@ -55,7 +62,7 @@ object Serializer {
             viaje.dimensiones,
             viaje.precioBase,
             ofertaMasBaja,
-            postulaciones.map { it.transporte.nombre }
+            listaPostulacionesDTO
         )
     }
 }
