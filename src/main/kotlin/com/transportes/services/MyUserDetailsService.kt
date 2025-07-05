@@ -5,6 +5,7 @@ import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.repositories.UsuarioRepository
 import com.transportes.utils.JwtUtil
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -18,10 +19,11 @@ class MyUserDetailsService : UserDetailsService {
 
     override fun loadUserByUsername(email: String): UserDetails {
         val user = userRepository.findByEmail(email) ?: throw InvalidCredentialsException("Token Inválido")
+        val role = "ROLE_${user.rol.uppercase()}"
         return User(
             user.email,
             user.password,
-            listOf()
+            listOf(SimpleGrantedAuthority(role))
         )
     }
 
