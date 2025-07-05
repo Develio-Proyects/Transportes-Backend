@@ -6,6 +6,7 @@ import java.time.LocalDateTime
 data class ViajeDetalleDTO(
     val razonSocial: String,
     val fechaSalida: LocalDateTime,
+    val estados: String,
     val origen: String,
     val destino: String,
     val observaciones: String?,
@@ -14,5 +15,5 @@ data class ViajeDetalleDTO(
     val dimensiones: Dimensiones,
     val precioInicial: Double,
     val ofertaMasBaja: Double?,
-    val postulantes: List<String>
+    val postulantes: List<PostulacionDTO>
 )
