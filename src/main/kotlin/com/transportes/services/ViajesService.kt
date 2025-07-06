@@ -31,25 +31,36 @@ class ViajesService {
         }
     }
 
-    fun getMisPublicaciones(page: Int, size: Int): Page<ViajePublicadoDTO> {
+    fun getMisPublicaciones(page: Int, size: Int): Page<ViajeDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
         val email = userDetailsService.getCurrentUserEmail() ?: throw BadRequestException("Usuario no autenticado")
 
         val listaViajes = viajesRepository.getViajesByFlotaEmail(email, page)
         return listaViajes.map {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
-            Serializer.buildViajePublicadoDTO(it, cantPostulaciones)
+            Serializer.buildViajeDTO(it, cantPostulaciones)
         }
     }
 
-    fun getViajesAcordados(page: Int, size: Int): Page<ViajeAcordadoDTO> {
+    fun getViajesAcordados(page: Int, size: Int): Page<ViajeDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
         val email = userDetailsService.getCurrentUserEmail() ?: throw BadRequestException("Usuario no autenticado")
 
         val listaViajes = viajesRepository.getViajesByTransporteElegidoEmail(email, page)
         return listaViajes.map {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
-            Serializer.buildViajeAcordadoDTO(it, cantPostulaciones)
+            Serializer.buildViajeDTO(it, cantPostulaciones)
+        }
+    }
+
+    fun getViajesPostulados(page: Int, size: Int): Page<ViajeDTO> {
+        val page: Pageable = Pageable.ofSize(size).withPage(page)
+        val email = userDetailsService.getCurrentUserEmail() ?: throw BadRequestException("Usuario no autenticado")
+
+        val listaViajes = viajesRepository.getViajesByPostulanteEmail(email, page)
+        return listaViajes.map {
+            val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
+            Serializer.buildViajeDTO(it, cantPostulaciones)
         }
     }
 

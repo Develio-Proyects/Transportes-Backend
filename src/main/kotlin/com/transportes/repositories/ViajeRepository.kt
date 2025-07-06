@@ -15,4 +15,7 @@ interface ViajeRepository : JpaRepository<Viaje, String> {
 
     @Query("SELECT v FROM Viaje v WHERE v.transporteElegido.email = :email")
     fun getViajesByTransporteElegidoEmail(email: String, pageable: Pageable): Page<Viaje>
+
+    @Query("SELECT v FROM Viaje v JOIN v.postulaciones p WHERE p.email = :email")
+    fun getViajesByPostulanteEmail(email: String, pageable: Pageable): Page<Viaje>
 }
