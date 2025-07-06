@@ -1,10 +1,7 @@
 package com.transportes.services
 
 import com.transportes.domain.viajes.Viaje
-import com.transportes.dto.ViajeAdminDTO
-import com.transportes.dto.ViajeDetalleDTO
-import com.transportes.dto.ViajeDisponibleDTO
-import com.transportes.dto.ViajePublicadoDTO
+import com.transportes.dto.*
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.PostulacionRepository
@@ -42,6 +39,17 @@ class ViajesService {
         return listaViajes.map {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
             Serializer.buildViajePublicadoDTO(it, cantPostulaciones)
+        }
+    }
+
+    fun getViajesAcordados(page: Int, size: Int): Page<ViajeAcordadoDTO> {
+        val page: Pageable = Pageable.ofSize(size).withPage(page)
+        val email = userDetailsService.getCurrentUserEmail() ?: throw BadRequestException("Usuario no autenticado")
+
+        val listaViajes = viajesRepository.getViajesByTransporteElegidoEmail(email, page)
+        return listaViajes.map {
+            val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
+            Serializer.buildViajeAcordadoDTO(it, cantPostulaciones)
         }
     }
 
