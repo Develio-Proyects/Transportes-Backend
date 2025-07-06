@@ -40,7 +40,7 @@ class ViajesController {
         )
     }
 
-    @GetMapping("/acordado")
+    @GetMapping("/acordados")
     fun getMisViajesAcordados(
         @RequestParam page: Int,
         @RequestParam size: Int
@@ -54,7 +54,7 @@ class ViajesController {
         )
     }
 
-    @GetMapping("/postulado")
+    @GetMapping("/postulados")
     fun getMisViajesPostulados(
         @RequestParam page: Int,
         @RequestParam size: Int
