@@ -1,9 +1,6 @@
 package com.transportes.controllers
 
-import com.transportes.dto.ViajeDisponibleDTO
-import com.transportes.dto.PaginadoDTO
-import com.transportes.dto.ViajeAdminDTO
-import com.transportes.dto.ViajePublicadoDTO
+import com.transportes.dto.*
 import com.transportes.services.ViajesService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -33,8 +30,36 @@ class ViajesController {
     fun getMisPublicaciones(
         @RequestParam page: Int,
         @RequestParam size: Int
-    ): PaginadoDTO<ViajePublicadoDTO> {
+    ): PaginadoDTO<ViajeDTO> {
         val page = viajesService.getMisPublicaciones(page, size)
+        return PaginadoDTO(
+            page.content,
+            page.totalElements,
+            page.totalPages,
+            page.size
+        )
+    }
+
+    @GetMapping("/acordado")
+    fun getMisViajesAcordados(
+        @RequestParam page: Int,
+        @RequestParam size: Int
+    ): PaginadoDTO<ViajeDTO> {
+        val page = viajesService.getViajesAcordados(page, size)
+        return PaginadoDTO(
+            page.content,
+            page.totalElements,
+            page.totalPages,
+            page.size
+        )
+    }
+
+    @GetMapping("/postulado")
+    fun getMisViajesPostulados(
+        @RequestParam page: Int,
+        @RequestParam size: Int
+    ): PaginadoDTO<ViajeDTO> {
+        val page = viajesService.getViajesPostulados(page, size)
         return PaginadoDTO(
             page.content,
             page.totalElements,

@@ -20,9 +20,9 @@ object Serializer {
         )
     }
 
-    fun buildViajePublicadoDTO(viaje: Viaje, cantPostulaciones: Long): ViajePublicadoDTO {
+    fun buildViajeDTO(viaje: Viaje, cantPostulaciones: Long): ViajeDTO {
         val publicadoHace: String = FechaUtils.tiempoTranscurrido(viaje.fechaPublicacion)
-        return ViajePublicadoDTO(
+        return ViajeDTO(
             viaje.id,
             viaje.origen,
             viaje.destino,

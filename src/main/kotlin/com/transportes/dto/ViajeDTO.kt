@@ -2,7 +2,7 @@ package com.transportes.dto
 
 import java.time.LocalDateTime
 
-data class ViajePublicadoDTO(
+data class ViajeDTO(
     val id: String,
     val origen: String,
     val destino: String,
