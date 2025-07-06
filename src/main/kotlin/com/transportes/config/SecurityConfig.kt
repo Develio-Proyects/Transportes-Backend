@@ -43,6 +43,11 @@ class SecurityConfig {
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.GET,
+                        "api/viajes/acordados",
+                        "api/viajes/postulados",
+                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
+                    .requestMatchers(
+                        HttpMethod.GET,
                         "api/viajes/admin"
                     ).hasRole("ADMINISTRADOR")
                     .anyRequest().permitAll()
