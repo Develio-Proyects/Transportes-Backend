@@ -32,4 +32,11 @@ class MyUserDetailsService : UserDetailsService {
         return if (email != null) usuarioRepository.findByEmail(email)
         else throw InvalidCredentialsException("Token Inválido")
     }
+
+    fun getCurrentUserEmail(): String? {
+        val auth = org.springframework.security.core.context.SecurityContextHolder.getContext().authentication
+        return if (auth != null && auth.isAuthenticated) {
+            (auth.principal as User).username
+        } else null
+    }
 }
