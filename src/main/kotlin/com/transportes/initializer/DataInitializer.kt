@@ -32,6 +32,7 @@ class DataInitializer: InitializingBean {
     // Usuarios
     var admin: Administrador? = null
     var flota: Flota? = null
+    var flota2: Flota? = null
     var unipersonal1: Unipersonal? = null
     var unipersonal2: Unipersonal? = null
     var unipersonal3: Unipersonal? = null
@@ -76,11 +77,13 @@ class DataInitializer: InitializingBean {
     fun inicializarUsers() {
         admin = Administrador("admin@gmail.com", passwordEncoder.encode("admin"))
         flota = Flota("flota@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
+        flota2 = Flota("flota2@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
         unipersonal1 = Unipersonal("unipersonal1@gmail.com", passwordEncoder.encode("unipersonal"), "Ignacio", "Herrera", 1234567890)
         unipersonal2 = Unipersonal("unipersonal2@gmail.com", passwordEncoder.encode("unipersonal"), "Tobias", "RichOne", 1234567891)
         unipersonal3 = Unipersonal("unipersonal3@gmail.com", passwordEncoder.encode("unipersonal"), "Lucas", "Morales", 1234567892)
         repositorioUser.save(admin!!)
         repositorioUser.save(flota!!)
+        repositorioUser.save(flota2!!)
         repositorioUser.save(unipersonal1!!)
         repositorioUser.save(unipersonal2!!)
         repositorioUser.save(unipersonal3!!)
@@ -135,7 +138,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 2"
         )
         viaje3 = Viaje(
-            flota!!,
+            flota2!!,
             null,
             estadoEnSubasta!!,
             "Buenos Aires",

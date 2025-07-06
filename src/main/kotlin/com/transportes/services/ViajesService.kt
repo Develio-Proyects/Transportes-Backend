@@ -4,6 +4,7 @@ import com.transportes.domain.viajes.Viaje
 import com.transportes.dto.ViajeAdminDTO
 import com.transportes.dto.ViajeDetalleDTO
 import com.transportes.dto.ViajeDisponibleDTO
+import com.transportes.dto.ViajePublicadoDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.PostulacionRepository
@@ -30,6 +31,17 @@ class ViajesService {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
             val miPublicacion = if (userid != null) it.flota.id == userid else false
             Serializer.buildViajeDisponibleDTO(it, cantPostulaciones, miPublicacion)
+        }
+    }
+
+    fun getMisPublicaciones(page: Int, size: Int): Page<ViajePublicadoDTO> {
+        val page: Pageable = Pageable.ofSize(size).withPage(page)
+        val email = userDetailsService.getCurrentUserEmail() ?: throw BadRequestException("Usuario no autenticado")
+
+        val listaViajes = viajesRepository.getViajesByFlotaEmail(email, page)
+        return listaViajes.map {
+            val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
+            Serializer.buildViajePublicadoDTO(it, cantPostulaciones)
         }
     }
 
