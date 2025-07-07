@@ -31,12 +31,12 @@ class ViajesController {
         @RequestParam page: Int,
         @RequestParam size: Int
     ): PaginadoDTO<ViajeDTO> {
-        val page = viajesService.getMisPublicaciones(page, size)
+        val viaje = viajesService.getMisPublicaciones(page, size)
         return PaginadoDTO(
-            page.content,
-            page.totalElements,
-            page.totalPages,
-            page.size
+            viaje.content,
+            viaje.totalElements,
+            viaje.totalPages,
+            viaje.size
         )
     }
 
@@ -45,12 +45,12 @@ class ViajesController {
         @RequestParam page: Int,
         @RequestParam size: Int
     ): PaginadoDTO<ViajeDTO> {
-        val page = viajesService.getViajesAcordados(page, size)
+        val viaje = viajesService.getViajesAcordados(page, size)
         return PaginadoDTO(
-            page.content,
-            page.totalElements,
-            page.totalPages,
-            page.size
+            viaje.content,
+            viaje.totalElements,
+            viaje.totalPages,
+            viaje.size
         )
     }
 
@@ -82,12 +82,12 @@ class ViajesController {
         @RequestParam page: Int,
         @RequestParam size: Int,
     ): PaginadoDTO<ViajeAdminDTO> {
-        val page = viajesService.getAllViajesAdmin(page, size)
+        val viaje = viajesService.getAllViajesAdmin(page, size)
         return PaginadoDTO(
-            page.content,
-            page.totalElements,
-            page.totalPages,
-            page.size
+            viaje.content,
+            viaje.totalElements,
+            viaje.totalPages,
+            viaje.size
         )
     }
 }
