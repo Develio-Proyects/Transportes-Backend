@@ -49,9 +49,10 @@ object Serializer {
         )
     }
 
-    fun buildLoginResponseDTO(rol: String, token: String): LoginResponseDTO {
+    fun buildLoginResponseDTO(rol: String, nombre: String, token: String): LoginResponseDTO {
         return LoginResponseDTO(
             rol,
+            nombre,
             token
         )
     }

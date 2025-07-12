@@ -10,6 +10,8 @@ abstract class Usuario(
     @Column(nullable = false)
     var password: String,
     @Column(nullable = false)
+    var nombre: String,
+    @Column(nullable = false)
     val rol: String
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
