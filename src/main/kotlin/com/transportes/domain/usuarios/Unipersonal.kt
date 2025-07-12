@@ -13,4 +13,4 @@ class Unipersonal(
     val apellido: String,
     @Column(nullable = false)
     val cuil: Int
-) : Transporte(nombre, email, password, "UNIPERSONAL")
+) : Transporte(nombre + " " + apellido, email, password, "UNIPERSONAL")

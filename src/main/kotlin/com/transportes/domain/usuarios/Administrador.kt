@@ -6,4 +6,4 @@ import jakarta.persistence.*
 class Administrador(
     email: String,
     password: String
-) : Usuario(email, password, "ADMINISTRADOR")
+) : Usuario(email, password, "Administrador", "ADMINISTRADOR")
