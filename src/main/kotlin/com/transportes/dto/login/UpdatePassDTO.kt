@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.login
 
 import jakarta.validation.constraints.NotBlank
 

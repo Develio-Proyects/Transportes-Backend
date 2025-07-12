@@ -1,6 +1,9 @@
 package com.transportes.controllers
 
 import com.transportes.dto.*
+import com.transportes.dto.viajes.ViajeAdminDTO
+import com.transportes.dto.viajes.ViajeDTO
+import com.transportes.dto.viajes.ViajeDisponibleDTO
 import com.transportes.services.ViajesService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity

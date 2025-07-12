@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.viajes
 
 data class PostulacionDTO(
     val id: String,

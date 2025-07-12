@@ -1,6 +1,9 @@
 package com.transportes.controllers
 
 import com.transportes.dto.*
+import com.transportes.dto.login.LoginDTO
+import com.transportes.dto.login.LoginResponseDTO
+import com.transportes.dto.login.UpdatePassDTO
 import com.transportes.services.AuthService
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired

@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.login
 
 data class LoginResponseDTO(
     val rol: String,
