@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.viajes
 
 import com.transportes.domain.viajes.Dimensiones
 import java.time.LocalDateTime

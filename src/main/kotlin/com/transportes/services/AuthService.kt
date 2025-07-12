@@ -1,6 +1,6 @@
 package com.transportes.services
 
-import com.transportes.dto.LoginResponseDTO
+import com.transportes.dto.login.LoginResponseDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException

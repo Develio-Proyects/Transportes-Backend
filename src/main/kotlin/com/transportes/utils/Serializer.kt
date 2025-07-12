@@ -1,8 +1,11 @@
 package com.transportes.utils
 
+import com.transportes.domain.Vehiculo
 import com.transportes.domain.viajes.Postulacion
 import com.transportes.domain.viajes.Viaje
-import com.transportes.dto.*
+import com.transportes.dto.login.LoginResponseDTO
+import com.transportes.dto.vehiculo.VehiculoDTO
+import com.transportes.dto.viajes.*
 
 
 object Serializer {
@@ -77,6 +80,17 @@ object Serializer {
             viaje.precioBase,
             ofertaMasBaja,
             listaPostulacionesDTO
+        )
+    }
+
+    fun buildVehiculoDTO(vehiculo: Vehiculo): VehiculoDTO {
+        return VehiculoDTO(
+            vehiculo.id,
+            vehiculo.marca,
+            vehiculo.modelo,
+            vehiculo.patente,
+            vehiculo.urlTituloCamion,
+            vehiculo.urlTituloSemi
         )
     }
 }

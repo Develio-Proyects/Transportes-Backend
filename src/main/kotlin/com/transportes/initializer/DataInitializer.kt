@@ -90,7 +90,7 @@ class DataInitializer: InitializingBean {
     }
 
     private fun inicializaVehiculos() {
-        vehiculo = Vehiculo("Chevrolet", unipersonal1!!)
+        vehiculo = Vehiculo("IVECO", "v4", "GDF-654", "https://imgv2-1-f.scribdassets.com/img/document/435324717/original/1c73ae3a14/1?v=1", "https://imgv2-1-f.scribdassets.com/img/document/435324717/original/1c73ae3a14/1?v=1", unipersonal1!!)
         repositorioVehiculo.save(vehiculo!!)
     }
 
