@@ -1,6 +1,7 @@
 package com.transportes.services
 
 import com.transportes.domain.viajes.Viaje
+import com.transportes.dto.*
 import com.transportes.dto.viajes.ViajeAdminDTO
 import com.transportes.dto.viajes.ViajeDTO
 import com.transportes.dto.viajes.ViajeDetalleDTO
@@ -15,12 +16,19 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import com.transportes.services.MyUserDetailsService
+import org.springframework.security.core.userdetails.UserDetails
+import org.springframework.security.provisioning.UserDetailsManager
+import java.io.Serial
 
 @Service
 class ViajesService {
-    @Autowired lateinit var viajesRepository: ViajeRepository
-    @Autowired lateinit var postulacionesRepository: PostulacionRepository
-    @Autowired lateinit var userDetailsService: MyUserDetailsService
+    @Autowired
+    private lateinit var userDetailsService: MyUserDetailsService
+    @Autowired
+    private lateinit var viajesRepository: ViajeRepository
+    @Autowired
+    private lateinit var postulacionesRepository: PostulacionRepository
 
     fun getViajesDisponibles(token: String?, page: Int, size: Int): Page<ViajeDisponibleDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
@@ -45,26 +53,29 @@ class ViajesService {
         }
     }
 
-    fun getViajesAcordados(page: Int, size: Int): Page<ViajeDTO> {
-        val page: Pageable = Pageable.ofSize(size).withPage(page)
+    fun getMisViajes(page: Int, size: Int): Page<ViajeDTO> {
+        val pageable: Pageable = Pageable.ofSize(size).withPage(page)
         val user = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
 
-        val listaViajes = viajesRepository.getViajesByTransporteElegidoEmail(user.email, page)
-        return listaViajes.map {
-            val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
-            Serializer.buildViajeDTO(it, cantPostulaciones)
-        }
-    }
+        val listaIdViajesPostulados = viajesRepository.getViajesByPostulanteUser(user.email)
+            .map {
+                it.id
+            }
 
-    fun getViajesPostulados(page: Int, size: Int): Page<ViajeDTO> {
-        val page: Pageable = Pageable.ofSize(size).withPage(page)
-        val user = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
+        val listaIdViajesAcordados = viajesRepository.getViajesByTransporteElegidoUser(user.email)
+            .map {
+                it.id
+            }
 
-        val listaViajes = viajesRepository.getViajesByPostulanteEmail(user.email, page)
-        return listaViajes.map {
-            val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
-            Serializer.buildViajeDTO(it, cantPostulaciones)
-        }
+        val listaIds = (listaIdViajesPostulados + listaIdViajesAcordados).distinctBy {it}
+
+        val listaViajes = viajesRepository.findAllByIds(listaIds, pageable)
+            .map{
+                val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
+                Serializer.buildViajeDTO(it, cantPostulaciones)
+            }
+
+        return listaViajes
     }
 
     fun getDetalleViaje(id: String): ViajeDetalleDTO {
