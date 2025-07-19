@@ -1,7 +1,7 @@
 package com.transportes.services
 
+import com.transportes.domain.enums.EstadosViaje
 import com.transportes.domain.viajes.Viaje
-import com.transportes.dto.*
 import com.transportes.dto.viajes.ViajeAdminDTO
 import com.transportes.dto.viajes.ViajeDTO
 import com.transportes.dto.viajes.ViajeDetalleDTO
@@ -16,10 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import com.transportes.services.MyUserDetailsService
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.provisioning.UserDetailsManager
-import java.io.Serial
 
 @Service
 class ViajesService {
@@ -34,7 +30,7 @@ class ViajesService {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
         val userid = if (token != null) userDetailsService.loadUserByToken(token)?.id else null
 
-        val listaViajes = viajesRepository.getViajesDisponibles(page)
+        val listaViajes = viajesRepository.getViajesByEstado(EstadosViaje.SUBASTA,page)
         return listaViajes.map {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
             val miPublicacion = if (userid != null) it.flota.id == userid else false
