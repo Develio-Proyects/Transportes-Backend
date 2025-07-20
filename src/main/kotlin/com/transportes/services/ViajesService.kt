@@ -6,6 +6,7 @@ import com.transportes.dto.viajes.ViajeDTO
 import com.transportes.dto.viajes.ViajeDetalleDTO
 import com.transportes.dto.viajes.ViajeDisponibleDTO
 import com.transportes.exceptions.BadRequestException
+import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.PostulacionRepository
 import com.transportes.repositories.ViajeRepository
@@ -24,12 +25,15 @@ class ViajesService {
 
     fun getViajesDisponibles(token: String?, page: Int, size: Int): Page<ViajeDisponibleDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
-        val userid = if (token != null) userDetailsService.loadUserByToken(token)?.id else null
+        val user = if (token != null) {
+            try { userDetailsService.loadUserByToken(token) }
+            catch (e: InvalidCredentialsException) { null }
+        } else null
 
         val listaViajes = viajesRepository.getViajesDisponibles(page)
         return listaViajes.map {
             val cantPostulaciones = postulacionesRepository.getCantidadPostulacionesByViajeId(it.id)
-            val miPublicacion = if (userid != null) it.flota.id == userid else false
+            val miPublicacion = if (user != null) it.flota.id == user.id else false
             Serializer.buildViajeDisponibleDTO(it, cantPostulaciones, miPublicacion)
         }
     }
