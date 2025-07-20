@@ -45,12 +45,16 @@ class SecurityConfig {
                         HttpMethod.GET,
                         "api/viajes/acordados",
                         "api/viajes/postulados",
-                        "api/vehiculos",
+                        "api/vehiculos"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.GET,
                         "api/viajes/admin"
                     ).hasRole("ADMINISTRADOR")
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "api/documentos"
+                    ).authenticated()
                     .anyRequest().permitAll()
             }
             .headers { headers ->

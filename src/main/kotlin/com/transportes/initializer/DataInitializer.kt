@@ -4,6 +4,7 @@ import com.transportes.domain.Vehiculo
 import com.transportes.domain.documentos.Documento
 import com.transportes.domain.enums.EstadosViaje
 import com.transportes.domain.usuarios.Administrador
+import com.transportes.domain.usuarios.Empleado
 import com.transportes.domain.usuarios.Flota
 import com.transportes.domain.usuarios.Unipersonal
 import com.transportes.domain.viajes.Estado
@@ -23,6 +24,7 @@ class DataInitializer: InitializingBean {
     @Value("\${SPRING_PROFILES_ACTIVE}") lateinit var profile: String
     @Autowired lateinit var passwordEncoder: PasswordEncoder
     @Autowired lateinit var repositorioUser: UsuarioRepository
+    @Autowired lateinit var repositorioEmpleado: EmpleadoRepository
     @Autowired lateinit var repositorioDocumento: DocumentoRepository
     @Autowired lateinit var repositorioVehiculo: VehiculoRepository
     @Autowired lateinit var repositorioEstado: EstadoRepository
@@ -33,6 +35,7 @@ class DataInitializer: InitializingBean {
     var admin: Administrador? = null
     var flota: Flota? = null
     var flota2: Flota? = null
+    var empleado: Empleado? = null
     var unipersonal1: Unipersonal? = null
     var unipersonal2: Unipersonal? = null
     var unipersonal3: Unipersonal? = null
@@ -58,8 +61,8 @@ class DataInitializer: InitializingBean {
     var vehiculo: Vehiculo? = null
 
     // Documentos
-    var documentoFlota: Documento? = null
     var documentoUnipersonal: Documento? = null
+    var documentoEmpleado: Documento? = null
 
     override fun afterPropertiesSet() {
         if (profile.equals("dev")) {
@@ -76,29 +79,35 @@ class DataInitializer: InitializingBean {
 
     fun inicializarUsers() {
         admin = Administrador("admin@gmail.com", passwordEncoder.encode("admin"))
+
         flota = Flota("flota@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
         flota2 = Flota("flota2@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
+
+        empleado = Empleado("Martin", "Gomez", flota!!)
+
         unipersonal1 = Unipersonal("unipersonal1@gmail.com", passwordEncoder.encode("unipersonal"), "Ignacio", "Herrera", 1234567890)
         unipersonal2 = Unipersonal("unipersonal2@gmail.com", passwordEncoder.encode("unipersonal"), "Tobias", "RichOne", 1234567891)
         unipersonal3 = Unipersonal("unipersonal3@gmail.com", passwordEncoder.encode("unipersonal"), "Lucas", "Morales", 1234567892)
+
         repositorioUser.save(admin!!)
         repositorioUser.save(flota!!)
         repositorioUser.save(flota2!!)
+        repositorioEmpleado.save(empleado!!)
         repositorioUser.save(unipersonal1!!)
         repositorioUser.save(unipersonal2!!)
         repositorioUser.save(unipersonal3!!)
     }
 
     private fun inicializaVehiculos() {
-        vehiculo = Vehiculo("IVECO", "v4", "GDF-654", "https://imgv2-1-f.scribdassets.com/img/document/435324717/original/1c73ae3a14/1?v=1", "https://imgv2-1-f.scribdassets.com/img/document/435324717/original/1c73ae3a14/1?v=1", unipersonal1!!)
+        vehiculo = Vehiculo("IVECO", "v4", "GDF-654", unipersonal1!!)
         repositorioVehiculo.save(vehiculo!!)
     }
 
     private fun inicializaDocumentos() {
-        documentoFlota = Documento(flota!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
-        documentoUnipersonal = Documento(unipersonal1!!, "DNI", "", "https://s3aws.com/uhdeuijkednc")
-        repositorioDocumento.save(documentoFlota!!)
+        documentoUnipersonal = Documento(unipersonal1!!, null, "DNI", "https://s3aws.com/uhdeuijkednc")
+        documentoEmpleado = Documento(null, empleado!!, "DNI", "https://s3aws.com/uhdeuijkednc")
         repositorioDocumento.save(documentoUnipersonal!!)
+        repositorioDocumento.save(documentoEmpleado!!)
     }
 
     private fun inicializarEstados() {

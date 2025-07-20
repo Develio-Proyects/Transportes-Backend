@@ -1,12 +1,13 @@
 package com.transportes.utils
 
 import com.transportes.domain.Vehiculo
+import com.transportes.domain.documentos.Documento
 import com.transportes.domain.viajes.Postulacion
 import com.transportes.domain.viajes.Viaje
+import com.transportes.dto.DocumentDTO
 import com.transportes.dto.login.LoginResponseDTO
 import com.transportes.dto.vehiculo.VehiculoDTO
 import com.transportes.dto.viajes.*
-
 
 object Serializer {
     fun buildViajeDisponibleDTO(viaje: Viaje, cantPostulaciones: Long, miPublicacion: Boolean): ViajeDisponibleDTO {
@@ -89,9 +90,15 @@ object Serializer {
             vehiculo.id,
             vehiculo.marca,
             vehiculo.modelo,
-            vehiculo.patente,
-            vehiculo.urlTituloCamion,
-            vehiculo.urlTituloSemi
+            vehiculo.patente
+        )
+    }
+
+    fun buildDocumentDTO(document: Documento): DocumentDTO {
+        return DocumentDTO(
+            document.getIdUser(),
+            document.nombre,
+            document.linkArchivo
         )
     }
 }

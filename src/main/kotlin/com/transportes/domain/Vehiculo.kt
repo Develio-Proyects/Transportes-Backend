@@ -11,10 +11,6 @@ class Vehiculo(
     val modelo: String,
     @Column(nullable = false)
     val patente: String,
-    @Column(nullable = false)
-    val urlTituloCamion: String,
-    @Column(nullable = false)
-    val urlTituloSemi: String,
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_transporte", nullable = false)
     val transporte: Transporte
 ) {
