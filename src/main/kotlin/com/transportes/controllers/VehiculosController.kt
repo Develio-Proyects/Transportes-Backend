@@ -11,5 +11,5 @@ class VehiculosController {
     lateinit var vehiculosService: VehiculosService
 
     @GetMapping
-    fun getViajesDisponibles() = vehiculosService.getUserCars()
+    fun getVehiculos() = vehiculosService.getUserCars()
 }
