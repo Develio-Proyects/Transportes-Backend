@@ -1,6 +1,7 @@
 package com.transportes.controllers
 
 import com.transportes.dto.*
+import com.transportes.dto.viajes.NuevoViajeDTO
 import com.transportes.dto.viajes.ViajeAdminDTO
 import com.transportes.dto.viajes.ViajeDTO
 import com.transportes.dto.viajes.ViajeDisponibleDTO
@@ -93,4 +94,7 @@ class ViajesController {
             viaje.size
         )
     }
+
+    @PostMapping()
+    fun crearViaje(@RequestBody viaje: NuevoViajeDTO) = viajesService.crearViaje(viaje)
 }

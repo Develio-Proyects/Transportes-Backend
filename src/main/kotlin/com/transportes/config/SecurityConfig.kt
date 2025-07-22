@@ -42,6 +42,10 @@ class SecurityConfig {
                         "api/viajes/publicaciones",
                     ).hasRole("FLOTA")
                     .requestMatchers(
+                        HttpMethod.POST,
+                        "api/viajes"
+                    ).hasRole("FLOTA")
+                    .requestMatchers(
                         HttpMethod.GET,
                         "api/viajes/acordados",
                         "api/viajes/postulados",

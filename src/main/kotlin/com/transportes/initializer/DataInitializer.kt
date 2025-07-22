@@ -3,11 +3,11 @@ package com.transportes.initializer
 import com.transportes.domain.Vehiculo
 import com.transportes.domain.documentos.Documento
 import com.transportes.domain.enums.EstadosViaje
+import com.transportes.domain.enums.TipoCarga
 import com.transportes.domain.usuarios.Administrador
 import com.transportes.domain.usuarios.Empleado
 import com.transportes.domain.usuarios.Flota
 import com.transportes.domain.usuarios.Unipersonal
-import com.transportes.domain.viajes.Estado
 import com.transportes.domain.viajes.Postulacion
 import com.transportes.domain.viajes.Viaje
 import com.transportes.domain.viajes.Dimensiones
@@ -27,7 +27,6 @@ class DataInitializer: InitializingBean {
     @Autowired lateinit var repositorioEmpleado: EmpleadoRepository
     @Autowired lateinit var repositorioDocumento: DocumentoRepository
     @Autowired lateinit var repositorioVehiculo: VehiculoRepository
-    @Autowired lateinit var repositorioEstado: EstadoRepository
     @Autowired lateinit var repositorioViaje: ViajeRepository
     @Autowired lateinit var repositorioPostulacion: PostulacionRepository
 
@@ -47,10 +46,6 @@ class DataInitializer: InitializingBean {
     var viaje4: Viaje? = null
     var viaje5: Viaje? = null
 
-    // Estados
-    var estadoEnSubasta: Estado? = null
-    var estadoConFletero: Estado? = null
-
     // Postulaciones
     var postulacion1: Postulacion? = null
     var postulacion2: Postulacion? = null
@@ -69,7 +64,6 @@ class DataInitializer: InitializingBean {
             inicializarUsers()
             inicializaDocumentos()
             inicializaVehiculos()
-            inicializarEstados()
             inicializarViajes()
             inicializaPostulaciones()
             vincularViajesConPostulaciones()
@@ -110,24 +104,17 @@ class DataInitializer: InitializingBean {
         repositorioDocumento.save(documentoEmpleado!!)
     }
 
-    private fun inicializarEstados() {
-        estadoEnSubasta = Estado(EstadosViaje.SUBASTA)
-        estadoConFletero = Estado(EstadosViaje.ACORDADO)
-        repositorioEstado.save(estadoEnSubasta!!)
-        repositorioEstado.save(estadoConFletero!!)
-    }
-
     private fun inicializarViajes() {
         viaje1 = Viaje(
             flota!!,
             null,
-            estadoEnSubasta!!,
+            EstadosViaje.SUBASTA,
             "Buenos Aires",
             "Córdoba",
             LocalDateTime.now().plusDays(10),
             LocalDateTime.now().minusDays(4),
             1500.0,
-            "Fragil",
+            TipoCarga.PEDECEDERO,
             250.0,
             Dimensiones(2.0, 2.0, 2.0),
             "Viaje prueba 1"
@@ -135,13 +122,13 @@ class DataInitializer: InitializingBean {
         viaje2 = Viaje(
             flota!!,
             null,
-            estadoEnSubasta!!,
+            EstadosViaje.SUBASTA,
             "Buenos Aires",
             "Mendoza",
             LocalDateTime.now().plusDays(5),
             LocalDateTime.now(),
             700.0,
-            "Seco",
+            TipoCarga.PEDECEDERO,
             500.0,
             Dimensiones(2.0, 1.5, 5.0),
             "Viaje de prueba 2"
@@ -149,13 +136,13 @@ class DataInitializer: InitializingBean {
         viaje3 = Viaje(
             flota2!!,
             null,
-            estadoEnSubasta!!,
+            EstadosViaje.SUBASTA,
             "Buenos Aires",
             "Rosario",
             LocalDateTime.now().plusDays(3),
             LocalDateTime.now(),
             300.0,
-            "Frio",
+            TipoCarga.PEDECEDERO,
             300.0,
             Dimensiones(6.0, 2.5, 15.0),
             "Viaje de prueba 3",
@@ -163,13 +150,13 @@ class DataInitializer: InitializingBean {
         viaje4 = Viaje(
             flota!!,
             null,
-            estadoEnSubasta!!,
+            EstadosViaje.SUBASTA,
             "Buenos Aires",
             "La Plata",
             LocalDateTime.now().plusDays(1),
             LocalDateTime.now(),
             150.0,
-            "Expuesta",
+            TipoCarga.CONGELADO,
             100.0,
             Dimensiones(10.0, 5.0, 16.0),
             "Viaje de prueba 4",
@@ -177,13 +164,13 @@ class DataInitializer: InitializingBean {
         viaje5 = Viaje(
             flota!!,
             null,
-            estadoConFletero!!,
+            EstadosViaje.ACORDADO,
             "Buenos Aires",
             "Tucumán",
             LocalDateTime.now().plusDays(15),
             LocalDateTime.now(),
             1000.0,
-            "Peligrosa",
+            TipoCarga.SECOS,
             200.0,
             Dimensiones(8.0, 2.0, 20.0),
             "Viaje de prueba 5",
