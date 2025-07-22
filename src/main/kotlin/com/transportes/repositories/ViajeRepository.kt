@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface ViajeRepository : JpaRepository<Viaje, String> {
-    @Query("SELECT v FROM Viaje v WHERE v.estado.nombre = :estadosViaje")
+    @Query("SELECT v FROM Viaje v WHERE v.estado = :estadosViaje")
     fun getViajesByEstado(estadosViaje: EstadosViaje, pageable: Pageable): Page<Viaje>
 
     @Query("SELECT v FROM Viaje v WHERE v.flota.email = :email")
@@ -17,7 +17,7 @@ interface ViajeRepository : JpaRepository<Viaje, String> {
     @Query("SELECT v FROM Viaje v WHERE v.postulacionElegida.transporte.email = :email")
     fun getViajesByTransporteElegidoUser(email: String): List<Viaje>
 
-    @Query("SELECT v FROM Viaje v JOIN Postulacion p ON p.viaje.id = v.id WHERE p.transporte.email = :email AND v.estado.nombre = 'SUBASTA'")
+    @Query("SELECT v FROM Viaje v JOIN Postulacion p ON p.viaje.id = v.id WHERE p.transporte.email = :email AND v.estado = 'SUBASTA'")
     fun getViajesByPostulanteUser(email: String): List<Viaje>
 
     @Query("SELECT v FROM Viaje v WHERE v.id IN :idList")

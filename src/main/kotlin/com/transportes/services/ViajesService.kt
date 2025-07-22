@@ -2,6 +2,7 @@ package com.transportes.services
 
 import com.transportes.domain.enums.EstadosViaje
 import com.transportes.domain.viajes.Viaje
+import com.transportes.dto.viajes.NuevoViajeDTO
 import com.transportes.dto.viajes.ViajeAdminDTO
 import com.transportes.dto.viajes.ViajeDTO
 import com.transportes.dto.viajes.ViajeDetalleDTO
@@ -9,6 +10,7 @@ import com.transportes.dto.viajes.ViajeDisponibleDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException
+import com.transportes.repositories.FlotaRepository
 import com.transportes.repositories.PostulacionRepository
 import com.transportes.repositories.ViajeRepository
 import com.transportes.utils.Serializer
@@ -20,12 +22,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ViajesService {
-    @Autowired
-    private lateinit var userDetailsService: MyUserDetailsService
-    @Autowired
-    private lateinit var viajesRepository: ViajeRepository
-    @Autowired
-    private lateinit var postulacionesRepository: PostulacionRepository
+    @Autowired lateinit var viajesRepository: ViajeRepository
+    @Autowired lateinit var flotaRepository: FlotaRepository
+    @Autowired lateinit var postulacionesRepository: PostulacionRepository
+    @Autowired lateinit var userDetailsService: MyUserDetailsService
 
     fun getViajesDisponibles(token: String?, page: Int, size: Int): Page<ViajeDisponibleDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
@@ -93,5 +93,17 @@ class ViajesService {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
         val viajes = viajesRepository.findAll(page)
         return viajes.map { viaje -> buildViajeAdminDTO(viaje) }
+    }
+
+    fun crearViaje(viaje: NuevoViajeDTO): ViajeDTO {
+        val user = userDetailsService.getCurrentUser() ?: throw InvalidCredentialsException("Credenciales inválidas")
+        val flota = flotaRepository.findById(user.id).orElseThrow { BadRequestException("Credenciales inválidas") }
+
+        val nuevoViaje: Viaje = Serializer.buildViajeByNuevoViajeDTO(flota, viaje)
+        viajesRepository.save(nuevoViaje)
+
+        val viajeGuardado = Serializer.buildViajeDTO(nuevoViaje, 0)
+
+        return viajeGuardado
     }
 }
