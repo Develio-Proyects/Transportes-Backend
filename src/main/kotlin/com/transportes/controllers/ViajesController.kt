@@ -43,31 +43,17 @@ class ViajesController {
         )
     }
 
-    @GetMapping("/acordados")
-    fun getMisViajesAcordados(
+    @GetMapping("/misviajes")
+    fun getMisViajes(
         @RequestParam page: Int,
-        @RequestParam size: Int
+        @RequestParam size: Int,
     ): PaginadoDTO<ViajeDTO> {
-        val viaje = viajesService.getViajesAcordados(page, size)
+        val viaje = viajesService.getMisViajes(page, size)
         return PaginadoDTO(
             viaje.content,
             viaje.totalElements,
             viaje.totalPages,
             viaje.size
-        )
-    }
-
-    @GetMapping("/postulados")
-    fun getMisViajesPostulados(
-        @RequestParam page: Int,
-        @RequestParam size: Int
-    ): PaginadoDTO<ViajeDTO> {
-        val page = viajesService.getViajesPostulados(page, size)
-        return PaginadoDTO(
-            page.content,
-            page.totalElements,
-            page.totalPages,
-            page.size
         )
     }
 
