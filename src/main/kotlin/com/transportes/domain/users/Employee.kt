@@ -1,4 +1,4 @@
-package com.transportes.domain.usuarios
+package com.transportes.domain.users
 
 import jakarta.persistence.*
 

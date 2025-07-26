@@ -1,6 +1,6 @@
 package com.transportes.services
 
-import com.transportes.domain.usuarios.User
+import com.transportes.domain.users.User
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.repositories.UserRepository
 import com.transportes.utils.JwtUtil

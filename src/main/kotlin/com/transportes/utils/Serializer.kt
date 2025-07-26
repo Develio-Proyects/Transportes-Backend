@@ -3,13 +3,13 @@ package com.transportes.utils
 import com.transportes.domain.Truck
 import com.transportes.domain.documents.Document
 import com.transportes.domain.enums.StateTrip
-import com.transportes.domain.usuarios.MultiCarrier
-import com.transportes.domain.viajes.Offer
-import com.transportes.domain.viajes.Trip
+import com.transportes.domain.users.MultiCarrier
+import com.transportes.domain.trips.Offer
+import com.transportes.domain.trips.Trip
 import com.transportes.dto.DocumentDTO
 import com.transportes.dto.login.LoginResponseDTO
-import com.transportes.dto.vehiculo.TruckDTO
-import com.transportes.dto.viajes.*
+import com.transportes.dto.truck.TruckDTO
+import com.transportes.dto.trip.*
 import java.time.LocalDateTime
 
 object Serializer {
@@ -61,8 +61,8 @@ object Serializer {
         )
     }
 
-    fun buildPostulacionDTO(offer: Offer): PostulacionDTO {
-        return PostulacionDTO(
+    fun buildOfferDTO(offer: Offer): OfferDTO {
+        return OfferDTO(
             offer.id,
             offer.transport.name,
             offer.offeredPrice
@@ -71,7 +71,7 @@ object Serializer {
 
     fun buildTripDetailDTO(trip: Trip, postulaciones: List<Offer>): TripDetailDTO {
         val ofertaMasBaja = postulaciones.minByOrNull{ it.offeredPrice }?.offeredPrice
-        val listaPostulacionesDTO = postulaciones.map { buildPostulacionDTO(it) }
+        val listaPostulacionesDTO = postulaciones.map { buildOfferDTO(it) }
         return TripDetailDTO(
             trip.multiCarrier.razonSocial,
             trip.departureDate,
@@ -110,15 +110,15 @@ object Serializer {
             multiCarrier = multiCarrier,
             chosenOffer = null,
             state = StateTrip.OPEN,
-            origin = viaje.origen,
-            destination = viaje.destino,
-            departureDate = viaje.fechaSalida,
+            origin = viaje.origin,
+            destination = viaje.destination,
+            departureDate = viaje.departureDate,
             postedDate = LocalDateTime.now(),
-            basePrice = viaje.precioBase,
+            basePrice = viaje.basePrice,
             cargoType = viaje.cargoType,
-            weight = viaje.peso,
+            weight = viaje.weight,
             dimensions = viaje.dimensions,
-            observations = viaje.observaciones
+            observations = viaje.observations
         )
     }
 }

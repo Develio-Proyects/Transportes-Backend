@@ -1,7 +1,7 @@
 package com.transportes.domain.documents
 
-import com.transportes.domain.usuarios.Employee
-import com.transportes.domain.usuarios.SoloCarrier
+import com.transportes.domain.users.Employee
+import com.transportes.domain.users.SoloCarrier
 import jakarta.persistence.*
 
 @Entity @Table(name = "document")

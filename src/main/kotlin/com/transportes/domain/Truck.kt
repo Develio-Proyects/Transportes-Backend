@@ -1,6 +1,6 @@
 package com.transportes.domain
 
-import com.transportes.domain.usuarios.Transport
+import com.transportes.domain.users.Transport
 import jakarta.persistence.*
 
 @Entity @Table(name = "trucks")

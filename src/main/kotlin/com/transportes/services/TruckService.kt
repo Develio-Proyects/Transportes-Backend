@@ -1,7 +1,7 @@
 package com.transportes.services
 
-import com.transportes.domain.usuarios.User
-import com.transportes.dto.vehiculo.TruckDTO
+import com.transportes.domain.users.User
+import com.transportes.dto.truck.TruckDTO
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.TruckRepository
 import com.transportes.utils.Serializer

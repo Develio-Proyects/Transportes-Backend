@@ -1,11 +1,11 @@
 package com.transportes.controllers
 
 import com.transportes.dto.*
-import com.transportes.dto.viajes.NewTripDTO
-import com.transportes.dto.viajes.TripToAdminDTO
-import com.transportes.dto.viajes.TripDTO
-import com.transportes.dto.viajes.PostDTO
-import com.transportes.dto.viajes.TripDetailDTO
+import com.transportes.dto.trip.NewTripDTO
+import com.transportes.dto.trip.TripToAdminDTO
+import com.transportes.dto.trip.TripDTO
+import com.transportes.dto.trip.PostDTO
+import com.transportes.dto.trip.TripDetailDTO
 import com.transportes.services.TripService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
