@@ -1,17 +1,18 @@
 package com.transportes.initializer
 
-import com.transportes.domain.Vehiculo
-import com.transportes.domain.documentos.Documento
-import com.transportes.domain.enums.EstadosViaje
-import com.transportes.domain.enums.TipoCarga
-import com.transportes.domain.usuarios.Administrador
-import com.transportes.domain.usuarios.Empleado
-import com.transportes.domain.usuarios.Flota
-import com.transportes.domain.usuarios.Unipersonal
-import com.transportes.domain.viajes.Postulacion
-import com.transportes.domain.viajes.Viaje
-import com.transportes.domain.viajes.Dimensiones
+import com.transportes.domain.Truck
+import com.transportes.domain.documents.Document
+import com.transportes.domain.enums.StateTrip
+import com.transportes.domain.enums.CargoType
+import com.transportes.domain.usuarios.Administrator
+import com.transportes.domain.usuarios.Employee
+import com.transportes.domain.usuarios.MultiCarrier
+import com.transportes.domain.usuarios.SoloCarrier
+import com.transportes.domain.viajes.Offer
+import com.transportes.domain.viajes.Trip
+import com.transportes.domain.viajes.Dimensions
 import com.transportes.repositories.*
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -22,196 +23,197 @@ import java.time.LocalDateTime
 @Repository
 class DataInitializer: InitializingBean {
     @Value("\${SPRING_PROFILES_ACTIVE}") lateinit var profile: String
+    private val logger = LoggerFactory.getLogger("Data initializer")
     @Autowired lateinit var passwordEncoder: PasswordEncoder
-    @Autowired lateinit var repositorioUser: UsuarioRepository
-    @Autowired lateinit var repositorioEmpleado: EmpleadoRepository
-    @Autowired lateinit var repositorioDocumento: DocumentoRepository
-    @Autowired lateinit var repositorioVehiculo: VehiculoRepository
-    @Autowired lateinit var repositorioViaje: ViajeRepository
-    @Autowired lateinit var repositorioPostulacion: PostulacionRepository
+    @Autowired lateinit var repositorioUser: UserRepository
+    @Autowired lateinit var repositorioEmpleado: EmployeeRepository
+    @Autowired lateinit var repositorioDocumento: DocumentRepository
+    @Autowired lateinit var repositorioVehiculo: TruckRepository
+    @Autowired lateinit var repositorioViaje: TripRepository
+    @Autowired lateinit var repositorioPostulacion: OfferRepository
 
-    // Usuarios
-    var admin: Administrador? = null
-    var flota: Flota? = null
-    var flota2: Flota? = null
-    var empleado: Empleado? = null
-    var unipersonal1: Unipersonal? = null
-    var unipersonal2: Unipersonal? = null
-    var unipersonal3: Unipersonal? = null
+    // USERS
+    lateinit var admin: Administrator
+    lateinit var multiCarrier: MultiCarrier
+    lateinit var multiCarrier2: MultiCarrier
+    lateinit var employee: Employee
+    lateinit var soloCarrier1: SoloCarrier
+    lateinit var soloCarrier2: SoloCarrier
+    lateinit var soloCarrier3: SoloCarrier
 
-    // Viajes
-    var viaje1: Viaje? = null
-    var viaje2: Viaje? = null
-    var viaje3: Viaje? = null
-    var viaje4: Viaje? = null
-    var viaje5: Viaje? = null
+    // TRIPS
+    lateinit var trip1: Trip
+    lateinit var trip2: Trip
+    lateinit var trip3: Trip
+    lateinit var trip4: Trip
+    lateinit var trip5: Trip
 
-    // Postulaciones
-    var postulacion1: Postulacion? = null
-    var postulacion2: Postulacion? = null
-    var postulacion3: Postulacion? = null
-    var postulacion4: Postulacion? = null
+    // OFFERS
+    lateinit var offer1: Offer
+    lateinit var offer2: Offer
+    lateinit var offer3: Offer
+    lateinit var offer4: Offer
 
-    // Vehiculos
-    var vehiculo: Vehiculo? = null
+    // TRUCKS
+    lateinit var truck: Truck
 
-    // Documentos
-    var documentoUnipersonal: Documento? = null
-    var documentoEmpleado: Documento? = null
+    // DOCUMENTS
+    lateinit var documentUnipersonal: Document
+    lateinit var documentEmpleado: Document
 
     override fun afterPropertiesSet() {
-        if (profile.equals("dev")) {
-            inicializarUsers()
-            inicializaDocumentos()
-            inicializaVehiculos()
-            inicializarViajes()
-            inicializaPostulaciones()
-            vincularViajesConPostulaciones()
-            println("Datos inicializados")
+        if (profile == "dev") {
+            setUsers()
+            setDocuments()
+            setTrucks()
+            setTrips()
+            setOffers()
+            linkTripsWithOffers()
+            logger.info("Data initialized successfully")
         }
     }
 
-    fun inicializarUsers() {
-        admin = Administrador("admin@gmail.com", passwordEncoder.encode("admin"))
+    fun setUsers() {
+        admin = Administrator("admin@gmail.com", passwordEncoder.encode("1234"))
 
-        flota = Flota("flota@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
-        flota2 = Flota("flota2@gmail.com", passwordEncoder.encode("flota"), "Flota de Transporte", 1234567890)
+        multiCarrier = MultiCarrier("flota1@gmail.com", passwordEncoder.encode("1234"), "Herrera e hijos", 1234567890)
+        multiCarrier2 = MultiCarrier("flota2@gmail.com", passwordEncoder.encode("1234"), "Transportistas SA", 1234567890)
 
-        empleado = Empleado("Martin", "Gomez", flota!!)
+        employee = Employee("Martin", "benedetto", multiCarrier)
 
-        unipersonal1 = Unipersonal("unipersonal1@gmail.com", passwordEncoder.encode("unipersonal"), "Ignacio", "Herrera", 1234567890)
-        unipersonal2 = Unipersonal("unipersonal2@gmail.com", passwordEncoder.encode("unipersonal"), "Tobias", "RichOne", 1234567891)
-        unipersonal3 = Unipersonal("unipersonal3@gmail.com", passwordEncoder.encode("unipersonal"), "Lucas", "Morales", 1234567892)
+        soloCarrier1 = SoloCarrier("uni1@gmail.com", passwordEncoder.encode("1234"), "Ignacio", "Herrera", 1234567890)
+        soloCarrier2 = SoloCarrier("uni2@gmail.com", passwordEncoder.encode("1234"), "Tobias", "Riccone", 1234567891)
+        soloCarrier3 = SoloCarrier("uni3@gmail.com", passwordEncoder.encode("1234"), "Lucas", "Morales", 1234567892)
 
-        repositorioUser.save(admin!!)
-        repositorioUser.save(flota!!)
-        repositorioUser.save(flota2!!)
-        repositorioEmpleado.save(empleado!!)
-        repositorioUser.save(unipersonal1!!)
-        repositorioUser.save(unipersonal2!!)
-        repositorioUser.save(unipersonal3!!)
+        repositorioUser.save(admin)
+        repositorioUser.save(multiCarrier)
+        repositorioUser.save(multiCarrier2)
+        repositorioEmpleado.save(employee)
+        repositorioUser.save(soloCarrier1)
+        repositorioUser.save(soloCarrier2)
+        repositorioUser.save(soloCarrier3)
     }
 
-    private fun inicializaVehiculos() {
-        vehiculo = Vehiculo("IVECO", "v4", "GDF-654", unipersonal1!!)
-        repositorioVehiculo.save(vehiculo!!)
+    private fun setTrucks() {
+        truck = Truck("IVECO", "v4", "GDF-654", soloCarrier1)
+        repositorioVehiculo.save(truck)
     }
 
-    private fun inicializaDocumentos() {
-        documentoUnipersonal = Documento(unipersonal1!!, null, "DNI", "https://s3aws.com/uhdeuijkednc")
-        documentoEmpleado = Documento(null, empleado!!, "DNI", "https://s3aws.com/uhdeuijkednc")
-        repositorioDocumento.save(documentoUnipersonal!!)
-        repositorioDocumento.save(documentoEmpleado!!)
+    private fun setDocuments() {
+        documentUnipersonal = Document(soloCarrier1, null, "DNI", "https://s3aws.com/uhdeuijkednc")
+        documentEmpleado = Document(null, employee, "DNI", "https://s3aws.com/uhdeuijkednc")
+        repositorioDocumento.save(documentUnipersonal)
+        repositorioDocumento.save(documentEmpleado)
     }
 
-    private fun inicializarViajes() {
-        viaje1 = Viaje(
-            flota!!,
+    private fun setTrips() {
+        trip1 = Trip(
+            multiCarrier,
             null,
-            EstadosViaje.SUBASTA,
+            StateTrip.OPEN,
             "Buenos Aires",
             "Córdoba",
             LocalDateTime.now().plusDays(10),
             LocalDateTime.now().minusDays(4),
             1500.0,
-            TipoCarga.PEDECEDERO,
+            CargoType.PERISHABLE,
             250.0,
-            Dimensiones(2.0, 2.0, 2.0),
+            Dimensions(2.0, 2.0, 2.0),
             "Viaje prueba 1"
         )
-        viaje2 = Viaje(
-            flota!!,
+        trip2 = Trip(
+            multiCarrier,
             null,
-            EstadosViaje.SUBASTA,
+            StateTrip.OPEN,
             "Buenos Aires",
             "Mendoza",
             LocalDateTime.now().plusDays(5),
             LocalDateTime.now(),
             700.0,
-            TipoCarga.PEDECEDERO,
+            CargoType.PERISHABLE,
             500.0,
-            Dimensiones(2.0, 1.5, 5.0),
+            Dimensions(2.0, 1.5, 5.0),
             "Viaje de prueba 2"
         )
-        viaje3 = Viaje(
-            flota2!!,
+        trip3 = Trip(
+            multiCarrier2,
             null,
-            EstadosViaje.SUBASTA,
+            StateTrip.OPEN,
             "Buenos Aires",
             "Rosario",
             LocalDateTime.now().plusDays(3),
             LocalDateTime.now(),
             300.0,
-            TipoCarga.PEDECEDERO,
+            CargoType.PERISHABLE,
             300.0,
-            Dimensiones(6.0, 2.5, 15.0),
+            Dimensions(6.0, 2.5, 15.0),
             "Viaje de prueba 3",
         )
-        viaje4 = Viaje(
-            flota!!,
+        trip4 = Trip(
+            multiCarrier,
             null,
-            EstadosViaje.SUBASTA,
+            StateTrip.OPEN,
             "Buenos Aires",
             "La Plata",
             LocalDateTime.now().plusDays(1),
             LocalDateTime.now(),
             150.0,
-            TipoCarga.CONGELADO,
+            CargoType.FROZEN,
             100.0,
-            Dimensiones(10.0, 5.0, 16.0),
+            Dimensions(10.0, 5.0, 16.0),
             "Viaje de prueba 4",
         )
-        viaje5 = Viaje(
-            flota!!,
+        trip5 = Trip(
+            multiCarrier,
             null,
-            EstadosViaje.ACORDADO,
+            StateTrip.ASSIGNED,
             "Buenos Aires",
             "Tucumán",
             LocalDateTime.now().plusDays(15),
             LocalDateTime.now(),
             1000.0,
-            TipoCarga.SECOS,
+            CargoType.DRY,
             200.0,
-            Dimensiones(8.0, 2.0, 20.0),
+            Dimensions(8.0, 2.0, 20.0),
             "Viaje de prueba 5",
         )
 
-        repositorioViaje.save(viaje1!!)
-        repositorioViaje.save(viaje2!!)
-        repositorioViaje.save(viaje3!!)
-        repositorioViaje.save(viaje4!!)
-        repositorioViaje.save(viaje5!!)
+        repositorioViaje.save(trip1)
+        repositorioViaje.save(trip2)
+        repositorioViaje.save(trip3)
+        repositorioViaje.save(trip4)
+        repositorioViaje.save(trip5)
     }
 
-    private fun inicializaPostulaciones() {
-        postulacion1 = Postulacion(
-            viaje1!!,
-            unipersonal1!!,
+    private fun setOffers() {
+        offer1 = Offer(
+            trip1,
+            soloCarrier1,
             600.0
         )
-        postulacion2 = Postulacion(
-            viaje1!!,
-            unipersonal2!!,
+        offer2 = Offer(
+            trip1,
+            soloCarrier2,
             1000.0
         )
-        postulacion3 = Postulacion(
-            viaje1!!,
-            unipersonal3!!,
+        offer3 = Offer(
+            trip1,
+            soloCarrier3,
             500.0
         )
-        postulacion4 = Postulacion(
-            viaje5!!,
-            unipersonal3!!,
+        offer4 = Offer(
+            trip5,
+            soloCarrier3,
             900.0
         )
-        repositorioPostulacion.save(postulacion1!!)
-        repositorioPostulacion.save(postulacion2!!)
-        repositorioPostulacion.save(postulacion3!!)
-        repositorioPostulacion.save(postulacion4!!)
+        repositorioPostulacion.save(offer1)
+        repositorioPostulacion.save(offer2)
+        repositorioPostulacion.save(offer3)
+        repositorioPostulacion.save(offer4)
     }
 
-    private fun vincularViajesConPostulaciones() {
-        viaje5!!.postulacionElegida = postulacion4
-        repositorioViaje.save(viaje5!!)
+    private fun linkTripsWithOffers() {
+        trip5.chosenOffer = offer4
+        repositorioViaje.save(trip5)
     }
 }

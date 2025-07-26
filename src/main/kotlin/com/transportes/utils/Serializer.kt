@@ -1,55 +1,55 @@
 package com.transportes.utils
 
-import com.transportes.domain.Vehiculo
-import com.transportes.domain.documentos.Documento
-import com.transportes.domain.enums.EstadosViaje
-import com.transportes.domain.usuarios.Flota
-import com.transportes.domain.viajes.Postulacion
-import com.transportes.domain.viajes.Viaje
+import com.transportes.domain.Truck
+import com.transportes.domain.documents.Document
+import com.transportes.domain.enums.StateTrip
+import com.transportes.domain.usuarios.MultiCarrier
+import com.transportes.domain.viajes.Offer
+import com.transportes.domain.viajes.Trip
 import com.transportes.dto.DocumentDTO
 import com.transportes.dto.login.LoginResponseDTO
-import com.transportes.dto.vehiculo.VehiculoDTO
+import com.transportes.dto.vehiculo.TruckDTO
 import com.transportes.dto.viajes.*
 import java.time.LocalDateTime
 
 object Serializer {
-    fun buildViajeDisponibleDTO(viaje: Viaje, cantPostulaciones: Long, miPublicacion: Boolean): ViajeDisponibleDTO {
-        val publicadoHace: String = FechaUtils.tiempoTranscurrido(viaje.fechaPublicacion)
-        return ViajeDisponibleDTO(
-            viaje.id,
-            viaje.origen,
-            viaje.destino,
-            viaje.fechaSalida,
-            viaje.precioBase,
+    fun buildPostedTripsDTO(trip: Trip, cantPostulaciones: Long, miPublicacion: Boolean): PostDTO {
+        val postedSince: String = DateUtils.spentTime(trip.postedDate)
+        return PostDTO(
+            trip.id,
+            trip.origin,
+            trip.destination,
+            trip.departureDate,
+            trip.basePrice,
             cantPostulaciones,
-            publicadoHace,
+            postedSince,
             miPublicacion
         )
     }
 
-    fun buildViajeDTO(viaje: Viaje, cantPostulaciones: Long): ViajeDTO {
-        val publicadoHace: String = FechaUtils.tiempoTranscurrido(viaje.fechaPublicacion)
-        return ViajeDTO(
-            viaje.id,
-            viaje.origen,
-            viaje.destino,
-            viaje.estado.frontName,
-            viaje.fechaSalida,
-            viaje.precioBase,
+    fun buildTripDTO(trip: Trip, cantPostulaciones: Long): TripDTO {
+        val publicadoHace: String = DateUtils.spentTime(trip.postedDate)
+        return TripDTO(
+            trip.id,
+            trip.origin,
+            trip.destination,
+            trip.state.frontName,
+            trip.departureDate,
+            trip.basePrice,
             cantPostulaciones,
             publicadoHace
         )
     }
 
-    fun buildViajeAdminDTO(viaje: Viaje): ViajeAdminDTO {
-        return ViajeAdminDTO(
-            viaje.origen,
-            viaje.destino,
-            viaje.fechaSalida,
-            viaje.precioBase,
-            viaje.postulacionElegida?.transporte?.nombre,
-            viaje.flota.razonSocial,
-            viaje.estado.frontName
+    fun buildTripToAdminDTO(trip: Trip): TripToAdminDTO {
+        return TripToAdminDTO(
+            trip.origin,
+            trip.destination,
+            trip.departureDate,
+            trip.basePrice,
+            trip.chosenOffer?.transport?.name,
+            trip.multiCarrier.razonSocial,
+            trip.state.frontName
         )
     }
 
@@ -61,64 +61,64 @@ object Serializer {
         )
     }
 
-    fun buildPostulacionDTO(postulacion: Postulacion): PostulacionDTO {
+    fun buildPostulacionDTO(offer: Offer): PostulacionDTO {
         return PostulacionDTO(
-            postulacion.id,
-            postulacion.transporte.nombre,
-            postulacion.precioOfrecido
+            offer.id,
+            offer.transport.name,
+            offer.offeredPrice
         )
     }
 
-    fun buildDetalleViajeDTO(viaje: Viaje, postulaciones: List<Postulacion>): ViajeDetalleDTO {
-        val ofertaMasBaja = postulaciones.minByOrNull{ it.precioOfrecido }?.precioOfrecido
+    fun buildTripDetailDTO(trip: Trip, postulaciones: List<Offer>): TripDetailDTO {
+        val ofertaMasBaja = postulaciones.minByOrNull{ it.offeredPrice }?.offeredPrice
         val listaPostulacionesDTO = postulaciones.map { buildPostulacionDTO(it) }
-        return ViajeDetalleDTO(
-            viaje.flota.razonSocial,
-            viaje.fechaSalida,
-            viaje.estado.frontName,
-            viaje.origen,
-            viaje.destino,
-            viaje.observaciones,
-            viaje.tipoDeCarga.frontName,
-            viaje.peso,
-            viaje.dimensiones,
-            viaje.precioBase,
+        return TripDetailDTO(
+            trip.multiCarrier.razonSocial,
+            trip.departureDate,
+            trip.state.frontName,
+            trip.origin,
+            trip.destination,
+            trip.observations,
+            trip.cargoType.frontName,
+            trip.weight,
+            trip.dimensions,
+            trip.basePrice,
             ofertaMasBaja,
             listaPostulacionesDTO
         )
     }
 
-    fun buildVehiculoDTO(vehiculo: Vehiculo): VehiculoDTO {
-        return VehiculoDTO(
-            vehiculo.id,
-            vehiculo.marca,
-            vehiculo.modelo,
-            vehiculo.patente
+    fun buildTruckDTO(truck: Truck): TruckDTO {
+        return TruckDTO(
+            truck.id,
+            truck.brand,
+            truck.model,
+            truck.patent
         )
     }
 
-    fun buildDocumentDTO(document: Documento): DocumentDTO {
+    fun buildDocumentDTO(document: Document): DocumentDTO {
         return DocumentDTO(
             document.getIdUser(),
-            document.nombre,
-            document.linkArchivo
+            document.name,
+            document.linkImage
         )
     }
 
-    fun buildViajeByNuevoViajeDTO(flota: Flota, viaje: NuevoViajeDTO): Viaje {
-        return Viaje(
-            flota = flota,
-            postulacionElegida = null,
-            estado = EstadosViaje.SUBASTA,
-            origen = viaje.origen,
-            destino = viaje.destino,
-            fechaSalida = viaje.fechaSalida,
-            fechaPublicacion = LocalDateTime.now(),
-            precioBase = viaje.precioBase,
-            tipoDeCarga = viaje.tipoCarga,
-            peso = viaje.peso,
-            dimensiones = viaje.dimensiones,
-            observaciones = viaje.observaciones
+    fun buildTripByNewTripDTO(multiCarrier: MultiCarrier, viaje: NewTripDTO): Trip {
+        return Trip(
+            multiCarrier = multiCarrier,
+            chosenOffer = null,
+            state = StateTrip.OPEN,
+            origin = viaje.origen,
+            destination = viaje.destino,
+            departureDate = viaje.fechaSalida,
+            postedDate = LocalDateTime.now(),
+            basePrice = viaje.precioBase,
+            cargoType = viaje.cargoType,
+            weight = viaje.peso,
+            dimensions = viaje.dimensions,
+            observations = viaje.observaciones
         )
     }
 }

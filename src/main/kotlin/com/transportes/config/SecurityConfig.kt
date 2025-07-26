@@ -32,33 +32,37 @@ class SecurityConfig {
             .cors { }
             .authorizeHttpRequests { authorize ->
                 authorize
+                    // AUTHENTICATED
                     .requestMatchers(
                         HttpMethod.PUT,
                         "/api/auth/update-password"
                     ).authenticated()
                     .requestMatchers(
                         HttpMethod.GET,
-                        "api/viajes/postulacion/tarifa/{id}",
-                        "api/viajes/publicaciones",
+                        "/api/document/{idUser}",
+                    ).authenticated()
+                    // FLOTA
+                    .requestMatchers(
+                        HttpMethod.GET,
+                        "/api/trip/offer-quote/{idOffer}",
+                        "/api/trip/user-posted-trips",
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.POST,
-                        "api/viajes"
+                        "/api/trip"
                     ).hasRole("FLOTA")
+                    // FLOTA AND UNIPERSONAL
                     .requestMatchers(
                         HttpMethod.GET,
-                        "api/viajes/acordados",
-                        "api/viajes/postulados",
-                        "api/vehiculos"
+                        "/api/trip/user-trips",
+                        "/api/truck"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
+                    // ADMINISTRATOR
                     .requestMatchers(
                         HttpMethod.GET,
-                        "api/viajes/admin"
+                        "/api/trip/admin"
                     ).hasRole("ADMINISTRADOR")
-                    .requestMatchers(
-                        HttpMethod.GET,
-                        "api/documentos"
-                    ).authenticated()
+                    // PUBLIC
                     .anyRequest().permitAll()
             }
             .headers { headers ->
