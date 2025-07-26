@@ -17,7 +17,7 @@ interface TripRepository : JpaRepository<Trip, String> {
     @Query("SELECT v FROM Trip v WHERE v.chosenOffer.transport.email = :email")
     fun getTripsByAssignedUserEmail(email: String): List<Trip>
 
-    @Query("SELECT v FROM Trip v JOIN Offer p ON p.trip.id = v.id WHERE p.transport.email = :email AND v.state = 'OPEN'")
+    @Query("SELECT v FROM Trip v JOIN Offer p ON p.trip.id = v.id WHERE p.transport.email = :email AND v.state = StateTrip.OPEN")
     fun getTripsByAppliedUserEmail(email: String): List<Trip>
 
     @Query("SELECT v FROM Trip v WHERE v.id IN :idList")
