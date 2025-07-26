@@ -4,16 +4,16 @@ import com.transportes.domain.trips.Dimensions
 import java.time.LocalDateTime
 
 data class TripDetailDTO(
-    val razonSocial: String,
-    val fechaSalida: LocalDateTime,
-    val estados: String,
-    val origen: String,
-    val destino: String,
-    val observaciones: String?,
-    val tipoDeCarga: String,
-    val peso: Double,
+    val companyName: String,
+    val departureDate: LocalDateTime,
+    val state: String,
+    val origin: String,
+    val destination: String,
+    val observations: String?,
+    val cargoType: String,
+    val weight: Double,
     val dimensions: Dimensions,
-    val precioInicial: Double,
-    val ofertaMasBaja: Double?,
-    val postulantes: List<OfferDTO>
+    val initialPrice: Double,
+    val lowerOffer: Double?,
+    val offers: List<OfferDTO>
 )
