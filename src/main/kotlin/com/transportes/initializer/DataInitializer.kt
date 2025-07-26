@@ -25,16 +25,16 @@ class DataInitializer: InitializingBean {
     @Value("\${SPRING_PROFILES_ACTIVE}") lateinit var profile: String
     private val logger = LoggerFactory.getLogger("Data initializer")
     @Autowired lateinit var passwordEncoder: PasswordEncoder
-    @Autowired lateinit var repositorioUser: UserRepository
-    @Autowired lateinit var repositorioEmpleado: EmployeeRepository
-    @Autowired lateinit var repositorioDocumento: DocumentRepository
-    @Autowired lateinit var repositorioVehiculo: TruckRepository
-    @Autowired lateinit var repositorioViaje: TripRepository
-    @Autowired lateinit var repositorioPostulacion: OfferRepository
+    @Autowired lateinit var userRepository: UserRepository
+    @Autowired lateinit var employeeRepository: EmployeeRepository
+    @Autowired lateinit var documentRepository: DocumentRepository
+    @Autowired lateinit var truckRepository: TruckRepository
+    @Autowired lateinit var tripRepository: TripRepository
+    @Autowired lateinit var offerRepository: OfferRepository
 
     // USERS
     lateinit var admin: Administrator
-    lateinit var multiCarrier: MultiCarrier
+    lateinit var multiCarrier1: MultiCarrier
     lateinit var multiCarrier2: MultiCarrier
     lateinit var employee: Employee
     lateinit var soloCarrier1: SoloCarrier
@@ -58,8 +58,8 @@ class DataInitializer: InitializingBean {
     lateinit var truck: Truck
 
     // DOCUMENTS
-    lateinit var documentUnipersonal: Document
-    lateinit var documentEmpleado: Document
+    lateinit var soloCarrierDocument: Document
+    lateinit var employeeDocument: Document
 
     override fun afterPropertiesSet() {
         if (profile == "dev") {
@@ -75,40 +75,37 @@ class DataInitializer: InitializingBean {
 
     fun setUsers() {
         admin = Administrator("admin@gmail.com", passwordEncoder.encode("1234"))
-
-        multiCarrier = MultiCarrier("flota1@gmail.com", passwordEncoder.encode("1234"), "Herrera e hijos", 1234567890)
+        multiCarrier1 = MultiCarrier("flota1@gmail.com", passwordEncoder.encode("1234"), "Herrera e hijos", 1234567890)
         multiCarrier2 = MultiCarrier("flota2@gmail.com", passwordEncoder.encode("1234"), "Transportistas SA", 1234567890)
-
-        employee = Employee("Martin", "benedetto", multiCarrier)
-
+        employee = Employee("Martin", "benedetto", multiCarrier1)
         soloCarrier1 = SoloCarrier("uni1@gmail.com", passwordEncoder.encode("1234"), "Ignacio", "Herrera", 1234567890)
         soloCarrier2 = SoloCarrier("uni2@gmail.com", passwordEncoder.encode("1234"), "Tobias", "Riccone", 1234567891)
         soloCarrier3 = SoloCarrier("uni3@gmail.com", passwordEncoder.encode("1234"), "Lucas", "Morales", 1234567892)
 
-        repositorioUser.save(admin)
-        repositorioUser.save(multiCarrier)
-        repositorioUser.save(multiCarrier2)
-        repositorioEmpleado.save(employee)
-        repositorioUser.save(soloCarrier1)
-        repositorioUser.save(soloCarrier2)
-        repositorioUser.save(soloCarrier3)
+        userRepository.save(admin)
+        userRepository.save(multiCarrier1)
+        userRepository.save(multiCarrier2)
+        employeeRepository.save(employee)
+        userRepository.save(soloCarrier1)
+        userRepository.save(soloCarrier2)
+        userRepository.save(soloCarrier3)
     }
 
     private fun setTrucks() {
         truck = Truck("IVECO", "v4", "GDF-654", soloCarrier1)
-        repositorioVehiculo.save(truck)
+        truckRepository.save(truck)
     }
 
     private fun setDocuments() {
-        documentUnipersonal = Document(soloCarrier1, null, "DNI", "https://s3aws.com/uhdeuijkednc")
-        documentEmpleado = Document(null, employee, "DNI", "https://s3aws.com/uhdeuijkednc")
-        repositorioDocumento.save(documentUnipersonal)
-        repositorioDocumento.save(documentEmpleado)
+        soloCarrierDocument = Document(soloCarrier1, null, "DNI", "https://s3aws.com/uhdeuijkednc")
+        employeeDocument = Document(null, employee, "DNI", "https://s3aws.com/uhdeuijkednc")
+        documentRepository.save(soloCarrierDocument)
+        documentRepository.save(employeeDocument)
     }
 
     private fun setTrips() {
         trip1 = Trip(
-            multiCarrier,
+            multiCarrier1,
             null,
             StateTrip.OPEN,
             "Buenos Aires",
@@ -122,7 +119,7 @@ class DataInitializer: InitializingBean {
             "Viaje prueba 1"
         )
         trip2 = Trip(
-            multiCarrier,
+            multiCarrier1,
             null,
             StateTrip.OPEN,
             "Buenos Aires",
@@ -150,7 +147,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 3",
         )
         trip4 = Trip(
-            multiCarrier,
+            multiCarrier1,
             null,
             StateTrip.OPEN,
             "Buenos Aires",
@@ -164,7 +161,7 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 4",
         )
         trip5 = Trip(
-            multiCarrier,
+            multiCarrier1,
             null,
             StateTrip.ASSIGNED,
             "Buenos Aires",
@@ -178,11 +175,11 @@ class DataInitializer: InitializingBean {
             "Viaje de prueba 5",
         )
 
-        repositorioViaje.save(trip1)
-        repositorioViaje.save(trip2)
-        repositorioViaje.save(trip3)
-        repositorioViaje.save(trip4)
-        repositorioViaje.save(trip5)
+        tripRepository.save(trip1)
+        tripRepository.save(trip2)
+        tripRepository.save(trip3)
+        tripRepository.save(trip4)
+        tripRepository.save(trip5)
     }
 
     private fun setOffers() {
@@ -206,14 +203,14 @@ class DataInitializer: InitializingBean {
             soloCarrier3,
             900.0
         )
-        repositorioPostulacion.save(offer1)
-        repositorioPostulacion.save(offer2)
-        repositorioPostulacion.save(offer3)
-        repositorioPostulacion.save(offer4)
+        offerRepository.save(offer1)
+        offerRepository.save(offer2)
+        offerRepository.save(offer3)
+        offerRepository.save(offer4)
     }
 
     private fun linkTripsWithOffers() {
         trip5.chosenOffer = offer4
-        repositorioViaje.save(trip5)
+        tripRepository.save(trip5)
     }
 }

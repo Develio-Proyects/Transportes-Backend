@@ -7,7 +7,7 @@ import com.transportes.domain.usuarios.MultiCarrier
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
-@Entity @Table(name = "viajes")
+@Entity @Table(name = "trips")
 class Trip(
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_multicarrier", nullable = false)
     val multiCarrier: MultiCarrier,
