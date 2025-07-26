@@ -1,6 +1,6 @@
 package com.transportes.controllers
 
-import com.transportes.dto.vehiculo.TruckDTO
+import com.transportes.dto.truck.TruckDTO
 import com.transportes.services.TruckService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired

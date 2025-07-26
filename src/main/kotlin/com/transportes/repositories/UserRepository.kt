@@ -1,6 +1,6 @@
 package com.transportes.repositories
 
-import com.transportes.domain.usuarios.User
+import com.transportes.domain.users.User
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 

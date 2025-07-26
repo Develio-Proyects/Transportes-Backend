@@ -1,9 +1,9 @@
-package com.transportes.domain.viajes
+package com.transportes.domain.trips
 
 import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.enums.CargoType
-import com.transportes.domain.usuarios.MultiCarrier
+import com.transportes.domain.users.MultiCarrier
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

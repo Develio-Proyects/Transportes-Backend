@@ -1,7 +1,7 @@
-package com.transportes.domain.viajes
+package com.transportes.domain.trips
 
 import com.fasterxml.jackson.annotation.JsonBackReference
-import com.transportes.domain.usuarios.Transport
+import com.transportes.domain.users.Transport
 import jakarta.persistence.*
 import java.time.LocalDateTime
 

@@ -1,6 +1,6 @@
-package com.transportes.dto.viajes
+package com.transportes.dto.trip
 
-import com.transportes.domain.viajes.Dimensions
+import com.transportes.domain.trips.Dimensions
 import java.time.LocalDateTime
 
 data class TripDetailDTO(
@@ -15,5 +15,5 @@ data class TripDetailDTO(
     val dimensions: Dimensions,
     val precioInicial: Double,
     val ofertaMasBaja: Double?,
-    val postulantes: List<PostulacionDTO>
+    val postulantes: List<OfferDTO>
 )

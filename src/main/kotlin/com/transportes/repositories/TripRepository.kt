@@ -1,7 +1,7 @@
 package com.transportes.repositories
 
 import com.transportes.domain.enums.StateTrip
-import com.transportes.domain.viajes.Trip
+import com.transportes.domain.trips.Trip
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository

@@ -1,6 +1,6 @@
 package com.transportes.repositories
 
-import com.transportes.domain.viajes.Offer
+import com.transportes.domain.trips.Offer
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.CrudRepository
 

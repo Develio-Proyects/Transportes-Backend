@@ -1,4 +1,4 @@
-package com.transportes.domain.viajes
+package com.transportes.domain.trips
 
 import jakarta.persistence.Column
 import jakarta.persistence.Embeddable
