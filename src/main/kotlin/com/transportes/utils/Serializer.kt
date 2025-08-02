@@ -1,5 +1,6 @@
 package com.transportes.utils
 
+import com.transportes.domain.Message
 import com.transportes.domain.Truck
 import com.transportes.domain.documents.Document
 import com.transportes.domain.enums.StateTrip
@@ -7,6 +8,7 @@ import com.transportes.domain.users.MultiCarrier
 import com.transportes.domain.trips.Offer
 import com.transportes.domain.trips.Trip
 import com.transportes.dto.DocumentDTO
+import com.transportes.dto.chat.ExitChatMessageDTO
 import com.transportes.dto.login.LoginResponseDTO
 import com.transportes.dto.truck.TruckDTO
 import com.transportes.dto.trip.*
@@ -119,6 +121,14 @@ object Serializer {
             weight = viaje.weight,
             dimensions = viaje.dimensions,
             observations = viaje.observations
+        )
+    }
+
+    fun buildExitChatMessageDTOByMessage(message: Message): ExitChatMessageDTO {
+        return ExitChatMessageDTO(
+            message.transmitterId,
+            message.timestamp,
+            message.message
         )
     }
 }
