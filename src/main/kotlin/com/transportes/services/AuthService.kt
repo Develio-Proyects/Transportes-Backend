@@ -30,7 +30,7 @@ class AuthService {
         } catch (e: AuthenticationException) { throw InvalidCredentialsException("Credenciales inválidas") }
         val user = userRepository.findByEmail(email) ?: throw NotFoundException("Usuario no encontrado")
         val token = jwtUtil.generateToken(user.email)
-        return Serializer.buildLoginResponseDTO(user.role.frontName, user.name ,token)
+        return Serializer.buildLoginResponseDTO(user.id, user.name, user.email, user.role.frontName, token)
     }
 
     fun updatePassword(oldPassword: String, newPassword: String) {
