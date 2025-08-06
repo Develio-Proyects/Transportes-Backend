@@ -16,4 +16,14 @@ class Truck(
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String
+
+    fun copy(
+        brand: String = this.brand,
+        model: String = this.model,
+        patent: String = this.patent
+    ): Truck {
+        val newTruck = Truck(brand, model, patent, transport)
+        newTruck.id = this.id
+        return newTruck
+    }
 }

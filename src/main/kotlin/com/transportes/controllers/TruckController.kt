@@ -27,4 +27,15 @@ class TruckController {
     fun createTruck(@RequestBody truckDTO: TruckDTO): TruckDTO {
         return truckService.createTruck(truckDTO)
     }
+
+    @PutMapping("/{id}")
+    @Operation(
+        summary = "Update a truck", description = "Updates a truck owned by the authenticated user"
+    )
+    fun updateTruck(
+        @PathVariable id: String,
+        @RequestBody truckDTO: TruckDTO
+    ): TruckDTO {
+        return truckService.updateTruck(id, truckDTO)
+    }
 }
