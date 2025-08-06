@@ -19,4 +19,12 @@ class TruckController {
     fun getTrucks(): List<TruckDTO> {
         return truckService.getUserTrucks()
     }
+
+    @PostMapping
+    @Operation(
+        summary = "Create a new truck for the authenticated transport user"
+    )
+    fun createTruck(@RequestBody truckDTO: TruckDTO): TruckDTO {
+        return truckService.createTruck(truckDTO)
+    }
 }

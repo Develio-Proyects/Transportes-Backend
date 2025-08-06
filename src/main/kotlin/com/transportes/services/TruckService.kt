@@ -1,5 +1,7 @@
 package com.transportes.services
 
+import com.transportes.domain.Truck
+import com.transportes.domain.users.Transport
 import com.transportes.domain.users.User
 import com.transportes.dto.truck.TruckDTO
 import com.transportes.exceptions.NotFoundException
@@ -20,4 +22,23 @@ class TruckService {
             Serializer.buildTruckDTO(vehiculo)
         }
     }
+
+    fun createTruck(truckDTO: TruckDTO): TruckDTO {
+        val user = userDetailsService.getCurrentUser() ?: throw NotFoundException("Usuario no encontrado")
+
+        if (user !is Transport) {
+            throw IllegalAccessException("Solo los usuarios tipo Flota y Unipersonal pueden registrar vehículos")
+        }
+
+        val truck = Truck(
+            brand = truckDTO.brand,
+            model = truckDTO.model,
+            patent = truckDTO.patent,
+            transport = user
+        )
+
+        val saved = truckRepository.save(truck)
+        return Serializer.buildTruckDTO(saved)
+    }
+
 }
