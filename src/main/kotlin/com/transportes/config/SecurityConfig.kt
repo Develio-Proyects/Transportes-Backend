@@ -56,7 +56,11 @@ class SecurityConfig {
                         HttpMethod.GET,
                         "/api/trip/user-trips",
                         "/api/truck",
-                        "/api/chat/{tripId}"
+                        "/api/chat/{tripId}",
+                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
+                    .requestMatchers(
+                        HttpMethod.POST,
+                        "/api/truck"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     // ADMINISTRATOR
                     .requestMatchers(
