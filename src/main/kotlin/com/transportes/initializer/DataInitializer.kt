@@ -97,8 +97,8 @@ class DataInitializer: InitializingBean {
     }
 
     private fun setDocuments() {
-        soloCarrierDocument = Document(soloCarrier1, null, "DNI", "https://s3aws.com/uhdeuijkednc")
-        employeeDocument = Document(null, employee, "DNI", "https://s3aws.com/uhdeuijkednc")
+        soloCarrierDocument = Document(soloCarrier1, null, "DNI", "https://www.shutterstock.com/image-vector/document-contract-papers-paper-documents-600nw-2496821589.jpg")
+        employeeDocument = Document(null, employee, "DNI", "https://www.shutterstock.com/image-vector/document-contract-papers-paper-documents-600nw-2496821589.jpg")
         documentRepository.save(soloCarrierDocument)
         documentRepository.save(employeeDocument)
     }
