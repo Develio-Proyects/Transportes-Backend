@@ -52,13 +52,9 @@ class TruckService {
         if (truck.transport.id != user.id)
             throw InvalidCredentialsException("No puedes editar este vehículo")
 
-        val updatedTruck = truck.copy(
-            brand = truckDTO.brand,
-            model = truckDTO.model,
-            patent = truckDTO.patent
-        )
+        truck.update(truckDTO)
 
-        truckRepository.save(updatedTruck)
-        return Serializer.buildTruckDTO(updatedTruck)
+        truckRepository.save(truck)
+        return Serializer.buildTruckDTO(truck)
     }
 }
