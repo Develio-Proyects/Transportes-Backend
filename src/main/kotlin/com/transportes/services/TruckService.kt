@@ -9,6 +9,8 @@ import com.transportes.repositories.TruckRepository
 import com.transportes.utils.Serializer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import com.transportes.exceptions.InvalidCredentialsException
+
 
 @Service
 class TruckService {
@@ -37,4 +39,18 @@ class TruckService {
         return Serializer.buildTruckDTO(saved)
     }
 
+    fun updateTruck(id: String, truckDTO: TruckDTO): TruckDTO {
+        val user = userDetailsService.getCurrentUser() ?: throw NotFoundException("Usuario no encontrado")
+
+        val truck = truckRepository.findById(id)
+            .orElseThrow { NotFoundException("Vehículo no encontrado") }
+
+        if (truck.transport.id != user.id)
+            throw InvalidCredentialsException("No puedes editar este vehículo")
+
+        truck.update(truckDTO)
+
+        truckRepository.save(truck)
+        return Serializer.buildTruckDTO(truck)
+    }
 }

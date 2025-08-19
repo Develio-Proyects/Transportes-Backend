@@ -1,19 +1,26 @@
 package com.transportes.domain
 
 import com.transportes.domain.users.Transport
+import com.transportes.dto.truck.TruckDTO
 import jakarta.persistence.*
 
 @Entity @Table(name = "trucks")
 class Truck(
     @Column(nullable = false)
-    val brand: String,
+    var brand: String,
     @Column(nullable = false)
-    val model: String,
+    var model: String,
     @Column(nullable = false)
-    val patent: String,
+    var patent: String,
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_transport", nullable = false)
     val transport: Transport
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String
+
+    fun update(truckDTO: TruckDTO) {
+        this.brand = truckDTO.brand
+        this.model = truckDTO.model
+        this.patent = truckDTO.patent
+    }
 }
