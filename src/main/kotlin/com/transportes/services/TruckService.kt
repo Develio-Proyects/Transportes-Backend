@@ -28,15 +28,11 @@ class TruckService {
     fun createTruck(truckDTO: TruckDTO): TruckDTO {
         val user = userDetailsService.getCurrentUser() ?: throw NotFoundException("Usuario no encontrado")
 
-        if (user !is Transport) {
-            throw IllegalAccessException("Solo los usuarios tipo Flota y Unipersonal pueden registrar vehículos")
-        }
-
         val truck = Truck(
             brand = truckDTO.brand,
             model = truckDTO.model,
             patent = truckDTO.patent,
-            transport = user
+            transport = user as Transport
         )
 
         val saved = truckRepository.save(truck)
