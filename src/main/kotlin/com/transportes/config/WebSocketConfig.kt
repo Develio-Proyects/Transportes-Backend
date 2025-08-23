@@ -21,7 +21,7 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry
             .addEndpoint("/ws-chat") // Endpoint para conectar
-            .setAllowedOriginPatterns(allowOrigin) // Origenes habilitados para conectarse
+            .setAllowedOrigins(allowOrigin) // Origenes habilitados para conectarse
             .withSockJS()
     }
 }
