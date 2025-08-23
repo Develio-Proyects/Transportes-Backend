@@ -113,6 +113,7 @@ class SecurityConfig {
         configuration.allowedOrigins = listOf(allowOrigin)
         configuration.allowedMethods = listOf("*")
         configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)
