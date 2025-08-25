@@ -22,6 +22,10 @@ jwt:
   secret-key: ${JWT_SECRET_KEY}
   expiration-time: 36000000 # 10 horas en milisegundos
 
+mercadopago:
+  access-token: ${MP_ACCESS_TOKEN}
+  webhook-key: ${MP_WEBHOOK_KEY}
+
 ---
 
 spring:
