@@ -79,6 +79,9 @@ dependencies {
 
 	// Permite utilizar websockets en aplicaciones Spring Boot, facilitando la comunicación bidireccional en tiempo real.
 	implementation 'org.springframework.boot:spring-boot-starter-websocket:3.5.3'
+
+	// Mercado Pago
+	implementation 'com.mercadopago:sdk-java:2.5.0'
 }
 
 noArg {

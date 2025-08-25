@@ -41,7 +41,7 @@ class SecurityConfig {
                         HttpMethod.GET,
                         "/api/document/{idUser}",
                     ).authenticated()
-                    // FLOTA
+                    // MULTICARRIER
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/offer-quote/{idOffer}",
@@ -49,9 +49,10 @@ class SecurityConfig {
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.POST,
-                        "/api/trip"
+                        "/api/trip",
+                        "/api/payment/create-preference"
                     ).hasRole("FLOTA")
-                    // FLOTA AND UNIPERSONAL
+                    // MULTICARRIER AND SOLOCARRIER
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/user-trips",
