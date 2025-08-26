@@ -8,9 +8,11 @@ import com.mercadopago.client.preference.PreferenceItemRequest
 import com.mercadopago.client.preference.PreferenceRequest
 import com.mercadopago.resources.payment.Payment
 import com.transportes.domain.trips.Offer
+import com.transportes.dto.PaymentInfoDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.OfferRepository
+import com.transportes.repositories.TripRepository
 import jakarta.annotation.PostConstruct
 import org.apache.commons.codec.digest.HmacUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,6 +31,7 @@ class PaymentService {
     @Value("\${spring.url.api}") private lateinit var API_URL: String
 
     @Autowired lateinit var offerRepository: OfferRepository
+    @Autowired lateinit var tripRepository: TripRepository
 
     @PostConstruct
     fun initMp() {
@@ -92,5 +95,16 @@ class PaymentService {
         val cyphedSignature: String = HmacUtils("HmacSHA256", MP_WEBHOOK_KEY).hmacHex(manifest)
 
         if (key != cyphedSignature) throw IllegalArgumentException("Invalid signature")
+    }
+
+    fun getPayments(): List<PaymentInfoDTO> {
+        val trips = tripRepository.findWithOfferAssigned()
+        return trips.map { trip -> PaymentInfoDTO(
+            publisher = trip.multiCarrier.name,
+            transport = trip.chosenOffer!!.transport.name,
+            origin = trip.origin,
+            destination = trip.destination,
+            mount = trip.chosenOffer!!.offeredPrice
+        ) }
     }
 }

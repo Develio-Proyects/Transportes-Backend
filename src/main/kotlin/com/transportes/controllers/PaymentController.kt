@@ -1,5 +1,6 @@
 package com.transportes.controllers
 
+import com.transportes.dto.PaymentInfoDTO
 import com.transportes.services.PaymentService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -32,5 +33,10 @@ class PaymentController {
         paymentService.validateOrigin(body["id"].toString(), requestId, receivedSignature)
         paymentService.processPayment(body)
         return ResponseEntity.ok().build()
+    }
+
+    @GetMapping
+    fun getPayments(): List<PaymentInfoDTO> {
+        return paymentService.getPayments()
     }
 }

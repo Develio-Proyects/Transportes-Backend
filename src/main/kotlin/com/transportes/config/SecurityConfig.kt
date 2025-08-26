@@ -39,13 +39,13 @@ class SecurityConfig {
                     ).authenticated()
                     .requestMatchers(
                         HttpMethod.GET,
-                        "/api/document/{idUser}",
+                        "/api/document/{idUser}"
                     ).authenticated()
                     // MULTICARRIER
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/offer-quote/{idOffer}",
-                        "/api/trip/user-posted-trips",
+                        "/api/trip/user-posted-trips"
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.POST,
@@ -57,7 +57,7 @@ class SecurityConfig {
                         HttpMethod.GET,
                         "/api/trip/user-trips",
                         "/api/truck",
-                        "/api/chat/{tripId}",
+                        "/api/chat/{tripId}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.POST,
@@ -74,7 +74,8 @@ class SecurityConfig {
                     // ADMINISTRATOR
                     .requestMatchers(
                         HttpMethod.GET,
-                        "/api/trip/admin"
+                        "/api/trip/admin",
+                        "/api/payment"
                     ).hasRole("ADMINISTRADOR")
                     // PUBLIC
                     .anyRequest().permitAll()
