@@ -70,6 +70,10 @@ class SecurityConfig {
                         HttpMethod.PUT,
                         "/api/truck/{id}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
+                    .requestMatchers(
+                        HttpMethod.POST,
+                        "/api/document"
+                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     // ADMINISTRATOR
                     .requestMatchers(
                         HttpMethod.GET,

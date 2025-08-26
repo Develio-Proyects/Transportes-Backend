@@ -1,13 +1,11 @@
 package com.transportes.controllers
 
-import com.transportes.dto.DocumentDTO
+import com.transportes.dto.document.DocumentDTO
 import com.transportes.services.DocumentService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/api/document")
@@ -21,5 +19,16 @@ class DocumentController {
     )
     fun getUserDocuments(@PathVariable idUser: String): List<DocumentDTO> {
         return documentService.getUserDocuments(idUser)
+    }
+
+    @PostMapping
+    fun createDocument(@RequestBody dto: DocumentDTO): ResponseEntity<DocumentDTO> {
+        val document = documentService.createDocument(dto)
+        val response = DocumentDTO(
+            idUser = document.getIdUser(),
+            name = document.name,
+            fileLink = document.linkImage
+        )
+        return ResponseEntity.ok(response)
     }
 }
