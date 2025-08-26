@@ -75,7 +75,8 @@ class SecurityConfig {
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/admin",
-                        "/api/payment"
+                        "/api/payment",
+                        "/api/users",
                     ).hasRole("ADMINISTRADOR")
                     // PUBLIC
                     .anyRequest().permitAll()
