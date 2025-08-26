@@ -2,6 +2,7 @@ package com.transportes.controllers
 
 import com.transportes.dto.PaymentInfoDTO
 import com.transportes.services.PaymentService
+import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -13,6 +14,10 @@ class PaymentController {
     @Autowired lateinit var paymentService: PaymentService
 
     @PostMapping("/create-preference")
+    @Operation(
+        summary = "Create payment preference",
+        description = "Generates a payment preference in Mercado Pago and returns the init_point URL for redirection"
+    )
     fun createPreference(
         @RequestParam offerId: String
     ): ResponseEntity<Map<String, String>> {
@@ -21,6 +26,10 @@ class PaymentController {
     }
 
     @PostMapping("/webhook")
+    @Operation(
+        summary = "Endpoint to receive payment notifications",
+        description = "Handles incoming webhooks from Mercado Pago for payment status updates"
+    )
     fun handleWebhook(
         @RequestHeader("x-signature") receivedSignature: String,
         @RequestHeader("x-request-id") requestId: String,
@@ -36,6 +45,10 @@ class PaymentController {
     }
 
     @GetMapping
+    @Operation(
+        summary = "Get history payments",
+        description = "Retrieve all payments made in the system"
+    )
     fun getPayments(): List<PaymentInfoDTO> {
         return paymentService.getPayments()
     }
