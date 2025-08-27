@@ -10,4 +10,7 @@ interface OfferRepository : JpaRepository<Offer, String> {
 
     @Query("SELECT p FROM Offer p WHERE p.trip.id = :viajeId ORDER BY p.offeredPrice ASC")
     fun findAllAscendingByTripId(viajeId: String): List<Offer>
+
+    @Query("SELECT p FROM Offer p WHERE p.trip.id = :tripId ORDER BY p.offeredPrice ASC")
+    fun findOfferByMinorOffer(tripId: String): List<Offer>
 }
