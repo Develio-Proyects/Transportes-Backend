@@ -50,7 +50,8 @@ class SecurityConfig {
                     .requestMatchers(
                         HttpMethod.POST,
                         "/api/trip",
-                        "/api/payment/create-preference"
+                        "/api/payment/create-preference",
+                        "/api/trip/change-state/{tripId}"
                     ).hasRole("FLOTA")
                     // MULTICARRIER AND SOLOCARRIER
                     .requestMatchers(

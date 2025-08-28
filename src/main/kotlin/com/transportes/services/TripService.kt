@@ -127,4 +127,10 @@ class TripService {
             }
         }
     }
+
+    fun changeTripState(tripId: String, newState: StateTrip) {
+        val trip = tripRepository.findById(tripId).orElseThrow { NotFoundException("Viaje no encontrado") }
+        trip.state = newState
+        tripRepository.save(trip)
+    }
 }
