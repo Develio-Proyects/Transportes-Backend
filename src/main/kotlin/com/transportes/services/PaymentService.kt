@@ -7,6 +7,7 @@ import com.mercadopago.client.preference.PreferenceClient
 import com.mercadopago.client.preference.PreferenceItemRequest
 import com.mercadopago.client.preference.PreferenceRequest
 import com.mercadopago.resources.payment.Payment
+import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.trips.Offer
 import com.transportes.dto.PaymentInfoDTO
 import com.transportes.exceptions.BadRequestException
@@ -40,6 +41,7 @@ class PaymentService {
 
     fun createPreference(offerId: String): String {
         val offer: Offer = offerRepository.findById(offerId).orElseThrow { NotFoundException("Postulación no encontrada") }
+        val tripId: String = offer.trip.id
 
         val requestItem = PreferenceItemRequest.builder()
             .title("Postulación $offerId")
@@ -49,9 +51,9 @@ class PaymentService {
             .build()
 
         val backUrls = PreferenceBackUrlsRequest.builder()
-            .success("$FRONT_URL/success")
-            .failure("$FRONT_URL/failure")
-            .pending("$FRONT_URL/pending")
+            .success("$FRONT_URL/$tripId?status=confirmed")
+            .failure("$FRONT_URL/$tripId?status=failed")
+            .pending("$FRONT_URL/$tripId?status=pending")
             .build()
 
         val preferenceRequest = PreferenceRequest.builder()
@@ -79,7 +81,10 @@ class PaymentService {
             if (status == "approved") {
                 val offerId = payment.externalReference
                 val offer = offerRepository.findById(offerId).orElseThrow { NotFoundException("Postulación no encontrada") }
-                offer.trip.chosenOffer = offer
+                val trip = offer.trip
+                trip.chosenOffer = offer
+                trip.state = StateTrip.ASSIGNED
+                tripRepository.save(trip)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.transportes.controllers
 
+import com.transportes.domain.enums.StateTrip
 import com.transportes.dto.*
 import com.transportes.dto.trip.NewTripDTO
 import com.transportes.dto.trip.OfferDTO
@@ -137,5 +138,18 @@ class TripController {
     ): OfferDTO {
         val newOffer = tripService.offerTrip(idTrip, mount)
         return newOffer
+    }
+
+    @PostMapping("/change-state/{idTrip}")
+    @Operation(
+        summary = "Change trip state",
+        description = "Changes the state of a specific trip"
+    )
+    fun offerTrip(
+        @PathVariable idTrip: String,
+        @RequestParam state: StateTrip,
+    ): String {
+        tripService.changeTripState(idTrip, state)
+        return "Estado actualizado correctamente"
     }
 }

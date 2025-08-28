@@ -16,7 +16,7 @@ class Trip(
     var chosenOffer: Offer? = null,
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val state: StateTrip,
+    var state: StateTrip,
     @Column(nullable = false)
     val origin: String,
     @Column(nullable = false)
