@@ -61,10 +61,6 @@ class SecurityConfig {
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.POST,
-                        "/api/truck"
-                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
-                    .requestMatchers(
-                        HttpMethod.POST,
                         "/api/truck",
                         "/api/trip/offer/{idOffer}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
