@@ -11,9 +11,9 @@ class Document(
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_employee", nullable = true)
     val employee: Employee?,
     @Column(nullable = true)
-    val name: String,
+    var name: String,
     @Column(nullable = false)
-    val linkImage: String
+    var linkImage: String
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String
