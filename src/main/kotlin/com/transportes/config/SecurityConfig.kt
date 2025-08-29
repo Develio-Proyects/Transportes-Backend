@@ -60,19 +60,12 @@ class SecurityConfig {
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.POST,
-                        "/api/truck"
-                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/truck"
+                        "/api/truck",
+                        "/api/document"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.PUT,
                         "/api/truck/{id}"
-                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
-                    .requestMatchers(
-                        HttpMethod.POST,
-                        "/api/document"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     // ADMINISTRATOR
                     .requestMatchers(

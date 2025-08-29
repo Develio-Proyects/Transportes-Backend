@@ -9,6 +9,7 @@ import com.transportes.domain.documents.Document
 import com.transportes.domain.users.SoloCarrier
 import com.transportes.repositories.EmployeeRepository
 import com.transportes.repositories.UserRepository
+import com.transportes.exceptions.NotFoundException
 
 @Service
 class DocumentService {
@@ -35,7 +36,7 @@ class DocumentService {
         } else if (userRepository.existsById(dto.idUser)) {
             document.soloCarrier = userRepository.findById(dto.idUser).get() as SoloCarrier?
         } else {
-            throw RuntimeException("Usuario no encontrado")
+            throw NotFoundException("Usuario no encontrado")
         }
         return documentRepository.save(document)
     }
