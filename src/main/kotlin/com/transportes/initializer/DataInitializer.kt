@@ -53,6 +53,7 @@ class DataInitializer: InitializingBean {
     lateinit var offer2: Offer
     lateinit var offer3: Offer
     lateinit var offer4: Offer
+    lateinit var offer5: Offer
 
     // TRUCKS
     lateinit var truck: Truck
@@ -203,10 +204,16 @@ class DataInitializer: InitializingBean {
             soloCarrier3,
             900.0
         )
+        offer5 = Offer(
+            trip5,
+            soloCarrier3,
+            800.0
+        )
         offerRepository.save(offer1)
         offerRepository.save(offer2)
         offerRepository.save(offer3)
         offerRepository.save(offer4)
+        offerRepository.save(offer5)
     }
 
     private fun linkTripsWithOffers() {
