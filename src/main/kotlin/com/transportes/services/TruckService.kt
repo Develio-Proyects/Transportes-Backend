@@ -3,6 +3,7 @@ package com.transportes.services
 import com.transportes.domain.Truck
 import com.transportes.domain.users.Transport
 import com.transportes.domain.users.User
+import com.transportes.dto.truck.NewTruckDTO
 import com.transportes.dto.truck.TruckDTO
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.TruckRepository
@@ -25,7 +26,7 @@ class TruckService {
         }
     }
 
-    fun createTruck(truckDTO: TruckDTO): TruckDTO {
+    fun createTruck(truckDTO: NewTruckDTO): TruckDTO {
         val user = userDetailsService.getCurrentUser() ?: throw NotFoundException("Usuario no encontrado")
 
         val truck = Truck(
