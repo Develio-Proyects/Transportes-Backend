@@ -7,13 +7,13 @@ import jakarta.persistence.*
 @Entity @Table(name = "document")
 class Document(
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_solocarrier", nullable = true)
-    val soloCarrier: SoloCarrier?,
+    var soloCarrier: SoloCarrier?,
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_employee", nullable = true)
-    val employee: Employee?,
+    var employee: Employee?,
     @Column(nullable = true)
-    val name: String,
+    var name: String,
     @Column(nullable = false)
-    val linkImage: String
+    var linkImage: String
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String
