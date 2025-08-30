@@ -6,14 +6,20 @@
 SPRING_PROFILES_ACTIVE=
 
 ----- URLs -----  
-FRONT_URL=    
+FRONT_URL=  
 API_URL=  
 PROD_DB_URL=  
 
 ----- Claves -----  
 JWT_SECRET_KEY=  
 DB_PROD_PASSWORD=  
+MP_ACCESS_TOKEN=  
+MP_WEBHOOK_KEY= 
 
 ## Dockerización
 
-TODO
+Comandos para generar la imagen que utiliza el server
+- docker login
+- ./gradlew bootJar
+- docker build -t tobiasriccone/backend-transportes:latest .
+- docker push tobiasriccone/backend-transportes:latest

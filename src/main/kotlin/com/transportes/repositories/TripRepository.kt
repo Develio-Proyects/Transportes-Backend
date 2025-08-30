@@ -22,4 +22,7 @@ interface TripRepository : JpaRepository<Trip, String> {
 
     @Query("SELECT v FROM Trip v WHERE v.id IN :idList")
     fun findAllByIdList(idList: List<String>, pageable: Pageable): Page<Trip>
+
+    @Query("SELECT v FROM Trip v WHERE v.chosenOffer IS NOT NULL")
+    fun findWithOfferAssigned(): List<Trip>
 }

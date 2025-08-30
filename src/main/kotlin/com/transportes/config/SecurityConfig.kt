@@ -39,29 +39,32 @@ class SecurityConfig {
                     ).authenticated()
                     .requestMatchers(
                         HttpMethod.GET,
-                        "/api/document/{idUser}",
+                        "/api/document/{idUser}"
                     ).authenticated()
-                    // FLOTA
+                    // MULTICARRIER
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/offer-quote/{idOffer}",
-                        "/api/trip/user-posted-trips",
+                        "/api/trip/user-posted-trips"
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.POST,
-                        "/api/trip"
+                        "/api/trip",
+                        "/api/payment/create-preference",
+                        "/api/trip/change-state/{tripId}"
                     ).hasRole("FLOTA")
-                    // FLOTA AND UNIPERSONAL
+                    // MULTICARRIER AND SOLOCARRIER
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/user-trips",
                         "/api/truck",
-                        "/api/chat/{tripId}",
+                        "/api/chat/{tripId}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.POST,
                         "/api/truck",
-                        "/api/document"
+                        "/api/document",
+                        "/api/trip/offer/{idOffer}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.PUT,
@@ -70,7 +73,9 @@ class SecurityConfig {
                     // ADMINISTRATOR
                     .requestMatchers(
                         HttpMethod.GET,
-                        "/api/trip/admin"
+                        "/api/trip/admin",
+                        "/api/payment",
+                        "/api/users",
                     ).hasRole("ADMINISTRADOR")
                     // PUBLIC
                     .anyRequest().permitAll()
@@ -110,6 +115,7 @@ class SecurityConfig {
         configuration.allowedOrigins = listOf(allowOrigin)
         configuration.allowedMethods = listOf("*")
         configuration.allowedHeaders = listOf("*")
+        configuration.allowCredentials = true
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", configuration)

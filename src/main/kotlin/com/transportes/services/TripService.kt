@@ -1,8 +1,11 @@
 package com.transportes.services
 
 import com.transportes.domain.enums.StateTrip
+import com.transportes.domain.trips.Offer
 import com.transportes.domain.trips.Trip
+import com.transportes.domain.users.Transport
 import com.transportes.dto.trip.NewTripDTO
+import com.transportes.dto.trip.OfferDTO
 import com.transportes.dto.trip.TripToAdminDTO
 import com.transportes.dto.trip.TripDTO
 import com.transportes.dto.trip.TripDetailDTO
@@ -96,5 +99,38 @@ class TripService {
 
         val tripSaved = Serializer.buildTripDTO(newTrip, 0)
         return tripSaved
+    }
+
+    fun offerTrip(idTrip: String, mount: Double): OfferDTO {
+        validateOffer(idTrip, mount)
+        val user = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
+        val trip = tripRepository.findById(idTrip).orElseThrow { NotFoundException("Viaje con id $idTrip no fue encontrado") }
+
+        if (user.id == trip.multiCarrier.id) throw BadRequestException("No puedes ofertar en un viaje que creaste")
+
+        val newOffer = Offer(
+            trip = trip,
+            transport = user as Transport,
+            offeredPrice = mount
+        )
+
+        offerRepository.save(newOffer)
+        return Serializer.buildOfferDTO(newOffer)
+    }
+
+    fun validateOffer(tripId: String, mount: Double) {
+        val offers = offerRepository.findOfferByMinorOffer(tripId)
+        if (offers.isNotEmpty()) {
+            val offer = offers.first()
+            if (mount >= offer.offeredPrice) {
+                throw BadRequestException("La oferta debe ser menor a ${offer.offeredPrice}")
+            }
+        }
+    }
+
+    fun changeTripState(tripId: String, newState: StateTrip) {
+        val trip = tripRepository.findById(tripId).orElseThrow { NotFoundException("Viaje no encontrado") }
+        trip.state = newState
+        tripRepository.save(trip)
     }
 }
