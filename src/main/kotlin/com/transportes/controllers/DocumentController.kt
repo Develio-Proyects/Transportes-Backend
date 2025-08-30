@@ -1,6 +1,7 @@
 package com.transportes.controllers
 
-import com.transportes.dto.document.DocumentDTO
+import com.transportes.dto.DocumentDTO
+import com.transportes.dto.document.NewDocumentDTO
 import com.transportes.services.DocumentService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,28 +23,17 @@ class DocumentController {
     }
 
     @PostMapping
-    fun createDocument(@RequestBody dto: DocumentDTO): ResponseEntity<DocumentDTO> {
+    fun createDocument(@RequestBody dto: NewDocumentDTO): ResponseEntity<DocumentDTO> {
         val document = documentService.createDocument(dto)
-        val response = DocumentDTO(
-            idUser = document.getIdUser(),
-            name = document.name,
-            fileLink = document.linkImage
-        )
-        return ResponseEntity.ok(response)
+        return ResponseEntity.ok(document)
     }
 
     @PutMapping("/{id}")
     fun updateDocument(
         @PathVariable id: String,
-        @RequestBody dto: DocumentDTO
+        @RequestBody dto: NewDocumentDTO
     ): ResponseEntity<DocumentDTO> {
-        val updated = documentService.updateUserDocument(dto.copy(id = id))
-        val response = DocumentDTO(
-            id = updated.id,
-            idUser = updated.getIdUser(),
-            name = updated.name,
-            fileLink = updated.linkImage
-        )
-        return ResponseEntity.ok(response)
+        val document = documentService.updateUserDocument(id, dto)
+        return ResponseEntity.ok(document)
     }
 }
