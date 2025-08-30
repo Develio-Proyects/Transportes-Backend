@@ -68,7 +68,8 @@ class SecurityConfig {
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.PUT,
-                        "/api/truck/{id}"
+                        "/api/truck/{id}",
+                        "/api/document/{id}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     // ADMINISTRATOR
                     .requestMatchers(

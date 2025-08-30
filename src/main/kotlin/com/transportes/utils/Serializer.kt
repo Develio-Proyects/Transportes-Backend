@@ -7,7 +7,7 @@ import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.users.MultiCarrier
 import com.transportes.domain.trips.Offer
 import com.transportes.domain.trips.Trip
-import com.transportes.dto.document.DocumentDTO
+import com.transportes.dto.DocumentDTO
 import com.transportes.dto.chat.ExitChatMessageDTO
 import com.transportes.dto.login.LoginResponseDTO
 import com.transportes.dto.truck.TruckDTO
@@ -103,6 +103,7 @@ object Serializer {
 
     fun buildDocumentDTO(document: Document): DocumentDTO {
         return DocumentDTO(
+            document.id,
             document.getIdUser(),
             document.name,
             document.linkImage

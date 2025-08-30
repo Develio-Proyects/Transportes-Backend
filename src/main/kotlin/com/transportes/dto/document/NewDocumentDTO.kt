@@ -1,7 +1,6 @@
-package com.transportes.dto
+package com.transportes.dto.document
 
-data class DocumentDTO(
-    val id: String,
+data class NewDocumentDTO(
     val idUser: String,
     val name: String,
     val fileLink: String
