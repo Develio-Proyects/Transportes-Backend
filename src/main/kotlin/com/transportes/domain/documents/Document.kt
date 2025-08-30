@@ -12,8 +12,8 @@ class Document(
     var employee: Employee?,
     @Column(nullable = true)
     var name: String,
-    @Column(nullable = false)
-    var linkImage: String
+    @Column(nullable = true)
+    var linkImage: String?
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String

@@ -22,16 +22,18 @@ class DocumentController {
         return documentService.getUserDocuments(idUser)
     }
 
-    @PostMapping
-    fun createDocument(@RequestBody dto: NewDocumentDTO): ResponseEntity<DocumentDTO> {
+    @PostMapping(consumes = ["multipart/form-data"])
+    fun createDocument(
+        @ModelAttribute dto: NewDocumentDTO
+    ): ResponseEntity<DocumentDTO> {
         val document = documentService.createDocument(dto)
         return ResponseEntity.ok(document)
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{id}", consumes = ["multipart/form-data"])
     fun updateDocument(
         @PathVariable id: String,
-        @RequestBody dto: NewDocumentDTO
+        @ModelAttribute dto: NewDocumentDTO
     ): ResponseEntity<DocumentDTO> {
         val document = documentService.updateUserDocument(id, dto)
         return ResponseEntity.ok(document)
