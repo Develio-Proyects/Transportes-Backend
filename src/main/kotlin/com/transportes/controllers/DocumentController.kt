@@ -30,12 +30,16 @@ class DocumentController {
         return ResponseEntity.ok(document)
     }
 
-    @PutMapping("/{id}", consumes = ["multipart/form-data"])
+    @PutMapping("/{idDocument}", consumes = ["multipart/form-data"])
     fun updateDocument(
-        @PathVariable id: String,
-        @ModelAttribute dto: NewDocumentDTO
+        @PathVariable idDocument: String,
+        @ModelAttribute updatedDocumentDTO: NewDocumentDTO
     ): ResponseEntity<DocumentDTO> {
-        val document = documentService.updateUserDocument(id, dto)
+        // TODO
+        // Verificar que el documento a actualizar pertenezca al solo carrier logueado o a un empleado del multi carrier logueado
+        // Eliminar la imagen del documento y luego guardar la nueva. Si no va a haber dos archivos con un mismo idDocumento
+        // Si la carpeta image no existe, crearla
+        val document = documentService.updateUserDocument(idDocument, updatedDocumentDTO)
         return ResponseEntity.ok(document)
     }
 }

@@ -13,6 +13,7 @@ import com.transportes.repositories.EmployeeRepository
 import com.transportes.repositories.UserRepository
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.MultiCarrierRepository
+import jakarta.transaction.Transactional
 import org.springframework.web.multipart.MultipartFile
 
 @Service
@@ -31,6 +32,7 @@ class DocumentService {
         }
     }
 
+    @Transactional
     fun createDocument(dto: NewDocumentDTO): DocumentDTO {
         val currentUser = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
 
