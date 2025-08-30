@@ -106,7 +106,7 @@ object Serializer {
             document.id,
             document.getIdUser(),
             document.name,
-            document.linkImage
+            document.linkImage!!
         )
     }
 
