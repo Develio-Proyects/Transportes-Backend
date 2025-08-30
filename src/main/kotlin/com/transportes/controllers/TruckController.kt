@@ -1,5 +1,6 @@
 package com.transportes.controllers
 
+import com.transportes.dto.truck.NewTruckDTO
 import com.transportes.dto.truck.TruckDTO
 import com.transportes.services.TruckService
 import io.swagger.v3.oas.annotations.Operation
@@ -24,7 +25,7 @@ class TruckController {
     @Operation(
         summary = "Create a new truck for the authenticated transport user"
     )
-    fun createTruck(@RequestBody truckDTO: TruckDTO): TruckDTO {
+    fun createTruck(@RequestBody truckDTO: NewTruckDTO): TruckDTO {
         return truckService.createTruck(truckDTO)
     }
 
