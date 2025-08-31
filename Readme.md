@@ -2,15 +2,10 @@
 
 ## Variables de ambiente
 
------ Generales -----  
-SPRING_PROFILES_ACTIVE=
-
------ URLs -----  
+SPRING_PROFILES_ACTIVE=  
 FRONT_URL=  
 API_URL=  
 PROD_DB_URL=  
-
------ Claves -----  
 JWT_SECRET_KEY=  
 DB_PROD_PASSWORD=  
 MP_ACCESS_TOKEN=  
