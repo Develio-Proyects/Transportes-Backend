@@ -1,7 +1,7 @@
 package com.transportes.domain
 
 import com.transportes.domain.users.Transport
-import com.transportes.dto.truck.TruckDTO
+import com.transportes.dto.truck.NewTruckDTO
 import jakarta.persistence.*
 
 @Entity @Table(name = "trucks")
@@ -18,7 +18,7 @@ class Truck(
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String
 
-    fun update(truckDTO: TruckDTO) {
+    fun update(truckDTO: NewTruckDTO) {
         this.brand = truckDTO.brand
         this.model = truckDTO.model
         this.patent = truckDTO.patent

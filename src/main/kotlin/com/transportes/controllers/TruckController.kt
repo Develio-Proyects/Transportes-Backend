@@ -35,8 +35,8 @@ class TruckController {
     )
     fun updateTruck(
         @PathVariable id: String,
-        @RequestBody truckDTO: TruckDTO
+        @RequestBody newTruckDTO: NewTruckDTO
     ): TruckDTO {
-        return truckService.updateTruck(id, truckDTO)
+        return truckService.updateTruck(id, newTruckDTO)
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import com.transportes.exceptions.InvalidCredentialsException
 
-
 @Service
 class TruckService {
     @Autowired lateinit var userDetailsService: MyUserDetailsService
@@ -40,18 +39,14 @@ class TruckService {
         return Serializer.buildTruckDTO(saved)
     }
 
-    fun updateTruck(id: String, truckDTO: TruckDTO): TruckDTO {
+    fun updateTruck(id: String, newTruckDTO: NewTruckDTO): TruckDTO {
         val user = userDetailsService.getCurrentUser() ?: throw NotFoundException("Usuario no encontrado")
+        val truck = truckRepository.findById(id).orElseThrow { NotFoundException("Vehículo no encontrado") }
+        if (truck.transport.id != user.id) throw InvalidCredentialsException("No puedes editar este vehículo")
 
-        val truck = truckRepository.findById(id)
-            .orElseThrow { NotFoundException("Vehículo no encontrado") }
-
-        if (truck.transport.id != user.id)
-            throw InvalidCredentialsException("No puedes editar este vehículo")
-
-        truck.update(truckDTO)
-
+        truck.update(newTruckDTO)
         truckRepository.save(truck)
+
         return Serializer.buildTruckDTO(truck)
     }
 }
