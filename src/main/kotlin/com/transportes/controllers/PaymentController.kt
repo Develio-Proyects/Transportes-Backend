@@ -1,6 +1,6 @@
 package com.transportes.controllers
 
-import com.transportes.dto.PaymentInfoDTO
+import com.transportes.dto.payment.PaymentInfoDTO
 import com.transportes.services.PaymentService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired

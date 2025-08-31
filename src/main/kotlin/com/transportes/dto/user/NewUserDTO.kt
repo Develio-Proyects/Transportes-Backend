@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.user
 
 import com.transportes.domain.enums.Role
 import jakarta.validation.constraints.Email

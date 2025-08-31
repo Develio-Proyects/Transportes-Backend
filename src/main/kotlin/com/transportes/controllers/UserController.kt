@@ -1,7 +1,7 @@
 package com.transportes.controllers
 
-import com.transportes.dto.NewUserDTO
-import com.transportes.dto.UserDTO
+import com.transportes.dto.user.NewUserDTO
+import com.transportes.dto.user.UserDTO
 import com.transportes.services.UserService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid

@@ -5,8 +5,8 @@ import com.transportes.domain.users.Administrator
 import com.transportes.domain.users.MultiCarrier
 import com.transportes.domain.users.SoloCarrier
 import com.transportes.domain.users.User
-import com.transportes.dto.NewUserDTO
-import com.transportes.dto.UserDTO
+import com.transportes.dto.user.NewUserDTO
+import com.transportes.dto.user.UserDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.repositories.UserRepository
 import org.springframework.beans.factory.annotation.Autowired

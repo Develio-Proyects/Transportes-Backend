@@ -9,7 +9,7 @@ import com.mercadopago.client.preference.PreferenceRequest
 import com.mercadopago.resources.payment.Payment
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.trips.Offer
-import com.transportes.dto.PaymentInfoDTO
+import com.transportes.dto.payment.PaymentInfoDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.OfferRepository

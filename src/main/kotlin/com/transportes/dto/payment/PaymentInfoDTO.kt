@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.payment
 
 data class PaymentInfoDTO(
     val publisher: String,
