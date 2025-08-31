@@ -45,7 +45,8 @@ class SecurityConfig {
                     .requestMatchers(
                         HttpMethod.GET,
                         "/api/trip/offer-quote/{idOffer}",
-                        "/api/trip/user-posted-trips"
+                        "/api/trip/user-posted-trips",
+                        "/api/employee"
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.POST,

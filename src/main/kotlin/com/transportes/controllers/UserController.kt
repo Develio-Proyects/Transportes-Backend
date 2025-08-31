@@ -19,8 +19,8 @@ class UserController {
 
     @GetMapping
     @Operation(
-    summary = "Get all user",
-    description = "Returns a list of users."
+        summary = "Get all user",
+        description = "Returns a list of users."
     )
     fun getUsers(): List<UserDTO> {
         return userService.getUsers()
