@@ -52,7 +52,12 @@ class SecurityConfig {
                         HttpMethod.POST,
                         "/api/trip",
                         "/api/payment/create-preference",
-                        "/api/trip/change-state/{tripId}"
+                        "/api/trip/change-state/{tripId}",
+                        "/api/employee"
+                    ).hasRole("FLOTA")
+                    .requestMatchers(
+                        HttpMethod.PUT,
+                        "/api/employee/{employeeId}"
                     ).hasRole("FLOTA")
                     // MULTICARRIER AND SOLOCARRIER
                     .requestMatchers(

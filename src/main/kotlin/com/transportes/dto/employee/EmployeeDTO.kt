@@ -1,4 +1,4 @@
-package com.transportes.dto
+package com.transportes.dto.employee
 
 data class EmployeeDTO(
     val id: String,

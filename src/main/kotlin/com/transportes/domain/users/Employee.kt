@@ -6,9 +6,9 @@ import jakarta.persistence.*
 @Table(name = "employees")
 class Employee(
     @Column(nullable = false)
-    val name: String,
+    var name: String,
     @Column(nullable = false)
-    val lastname: String,
+    var lastname: String,
     @ManyToOne(fetch = FetchType.EAGER) @JoinColumn(name = "id_multicarrier", nullable = false)
     val multiCarrier: MultiCarrier
 ) {
