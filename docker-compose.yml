@@ -1,13 +1,12 @@
-version: '3.8'
-
 services:
+
   postgres:
     image: postgres:15
     container_name: postgres
     restart: always
     environment:
       POSTGRES_USER: admin
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PASSWORD: ${DB_PROD_PASSWORD}
       POSTGRES_DB: transportes
     ports:
       - "5432:5432"
@@ -21,12 +20,10 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      PROD_DB_URL: ${PROD_DB_URL}
-      DB_PASSWORD: ${DB_PASSWORD}
-      ALLOWED_ORIGIN: ${FRONT_URL}
+      PROD_DB_URL: ${DB_PROD_URL}
+      DB_PROD_PASSWORD: ${DB_PROD_PASSWORD}
+      FRONT_URL: ${FRONT_URL}
       API_URL: ${API_URL}
-    depends_on:
-      - postgres
     ports:
       - "8080:8080"
     volumes:
@@ -36,18 +33,6 @@ services:
     image: tobiasriccone/frontend-transportes:latest
     container_name: frontend
     restart: always
-
-  nginx-manager:
-    image: 'jc21/nginx-proxy-manager:latest'
-    container_name: nginx-manager
-    restart: always
-    ports:
-      - "81:81"
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/data:/data
-      - ./nginx/letsencrypt:/etc/letsencrypt
 
 volumes:
   postgres-data:
