@@ -33,6 +33,7 @@ class PaymentService {
 
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var tripRepository: TripRepository
+    @Autowired lateinit var myUserDetailsService: MyUserDetailsService
 
     @PostConstruct
     fun initMp() {
@@ -41,10 +42,13 @@ class PaymentService {
 
     fun createPreference(offerId: String): String {
         val offer: Offer = offerRepository.findById(offerId).orElseThrow { NotFoundException("Postulación no encontrada") }
+        val currentUser = myUserDetailsService.getCurrentUser() ?: throw NotFoundException("Usuario no autenticado")
+        if (offer.trip.state != StateTrip.OPEN) throw BadRequestException("El viaje ya no se encuentra disponible para elegir una postulación")
+        if (offer.trip.multiCarrier.id != currentUser.id) throw BadRequestException("No tienes permisos para realizar el pago de esta postulación")
         val tripId: String = offer.trip.id
 
         val requestItem = PreferenceItemRequest.builder()
-            .title("Postulación $offerId")
+            .title("Transporta.com.ar")
             .quantity(1)
             .unitPrice(BigDecimal(offer.offeredPrice))
             .currencyId("ARS")

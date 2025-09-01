@@ -13,7 +13,6 @@ import java.nio.file.StandardCopyOption
 class ImageService {
     private val imageDirectory: Path = Paths.get("images")
     @Value("\${spring.url.api}") private lateinit var basePath: String
-    @Value("\${SPRING_PROFILES_ACTIVE}") lateinit var profile: String
 
     init { Files.createDirectories(imageDirectory) }
 

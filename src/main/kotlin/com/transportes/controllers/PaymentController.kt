@@ -21,8 +21,9 @@ class PaymentController {
     fun createPreference(
         @RequestParam offerId: String
     ): ResponseEntity<Map<String, String>> {
-        val mpUrl = paymentService.createPreference(offerId)
-        return ResponseEntity.ok( mapOf("init_point" to mpUrl) )
+        return ResponseEntity.ok( mapOf("init_point" to "https://www.google.com") )
+        //val mpUrl = paymentService.createPreference(offerId)
+        //return ResponseEntity.ok( mapOf("init_point" to mpUrl) )
     }
 
     @PostMapping("/webhook")
