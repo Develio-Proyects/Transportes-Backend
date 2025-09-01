@@ -24,18 +24,17 @@ class ImageService {
 
     private fun saveImage(image: MultipartFile, filename: String): Path {
         val targetLocation = imageDirectory.resolve(filename)
+        deleteImage(filename)
         Files.copy(image.inputStream, targetLocation, StandardCopyOption.REPLACE_EXISTING)
         return targetLocation
     }
 
     fun deleteImage(imagePath: String) {
-        if (profile != "dev") {
-            try {
-                val filePath = imageDirectory.resolve(imagePath.substringAfterLast("/"))
-                Files.deleteIfExists(filePath)
-            } catch (e: IOException) {
-                throw RuntimeException("No se pudo eliminar la imagen: ${e.message}")
-            }
+        try {
+            val filePath = imageDirectory.resolve(imagePath.substringAfterLast("/"))
+            Files.deleteIfExists(filePath)
+        } catch (e: IOException) {
+            throw RuntimeException("No se pudo eliminar la imagen: ${e.message}")
         }
     }
 }
