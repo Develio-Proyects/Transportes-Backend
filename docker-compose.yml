@@ -19,11 +19,13 @@ services:
     restart: always
     environment:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
-      PROD_DB_URL: ${DB_PROD_URL}
-      DB_PROD_PASSWORD: ${DB_PROD_PASSWORD}
       FRONT_URL: ${FRONT_URL}
       API_URL: ${API_URL}
+      PROD_DB_URL: ${DB_PROD_URL}
+      DB_PROD_PASSWORD: ${DB_PROD_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      MP_ACCESS_TOKEN: ${MP_ACCESS_TOKEN}
+      MP_WEBHOOK_KEY: ${MP_WEBHOOK_KEY}
     ports:
       - "8080:8080"
     volumes:
@@ -32,6 +34,8 @@ services:
   frontend:
     image: tobiasriccone/frontend-transportes:latest
     container_name: frontend
+    ports:
+      - "80:80"
     restart: always
 
 volumes:
