@@ -57,6 +57,7 @@ class DocumentService {
         )
         assignUserInDocument(document, dto.idUser, currentUser.id)
         documentRepository.save(document)
+        if ( dto.image == null ) throw BadRequestException("La imagen es obligatoria")
         saveImage(document, dto.image)
         val newDocument = documentRepository.save(document)
         return Serializer.buildDocumentDTO(newDocument)
@@ -84,7 +85,7 @@ class DocumentService {
         verifyDocumentOwnership(document, currentUser.id)
 
         document.name = dto.name
-        saveImage(document, dto.image)
+        if ( dto.image != null ) saveImage(document, dto.image)
 
         val updatedDocument = documentRepository.save(document)
         return Serializer.buildDocumentDTO(updatedDocument)
