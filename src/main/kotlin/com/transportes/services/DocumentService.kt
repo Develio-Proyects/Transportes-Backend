@@ -27,8 +27,21 @@ class DocumentService {
     @Autowired lateinit var userDetailsService: MyUserDetailsService
 
     fun getUserDocuments(idUser: String): List<DocumentDTO> {
+        if ( multicarrierRepository.existsById(idUser) ) return getMulticarrierEmployeeDocuments(idUser)
         val documentsList = documentRepository.findByUserId(idUser)
         return documentsList.map { document ->
+            Serializer.buildDocumentDTO(document)
+        }
+    }
+    
+    fun getMulticarrierEmployeeDocuments(idMultiCarrier: String): List<DocumentDTO> {
+        val documentList = mutableListOf<Document>()
+        val employeeList = employeeRepository.findByMultiCarrierId(idMultiCarrier)
+        for (employee in employeeList) {
+            val employeeDocuments = documentRepository.findByUserId(employee.id)
+            for (document in employeeDocuments) { documentList.add(document) }
+        }
+        return documentList.map { document ->
             Serializer.buildDocumentDTO(document)
         }
     }
