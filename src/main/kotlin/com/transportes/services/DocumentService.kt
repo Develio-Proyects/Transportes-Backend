@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import com.transportes.dto.DocumentDTO
 import com.transportes.dto.document.NewDocumentDTO
+import com.transportes.dto.document.UpdateDocumentDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.repositories.EmployeeRepository
 import com.transportes.repositories.UserRepository
@@ -57,7 +58,6 @@ class DocumentService {
         )
         assignUserInDocument(document, dto.idUser, currentUser.id)
         documentRepository.save(document)
-        if ( dto.image == null ) throw BadRequestException("La imagen es obligatoria")
         saveImage(document, dto.image)
         val newDocument = documentRepository.save(document)
         return Serializer.buildDocumentDTO(newDocument)
@@ -78,7 +78,7 @@ class DocumentService {
         } else throw NotFoundException("Usuario a asignar el documento no encontrado")
     }
 
-    fun updateUserDocument(id: String, dto: NewDocumentDTO): DocumentDTO {
+    fun updateUserDocument(id: String, dto: UpdateDocumentDTO): DocumentDTO {
         val document = documentRepository.findById(id).orElseThrow { NotFoundException("Documento no encontrado") }
         val currentUser = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
 

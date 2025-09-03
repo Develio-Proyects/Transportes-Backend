@@ -2,6 +2,7 @@ package com.transportes.controllers
 
 import com.transportes.dto.DocumentDTO
 import com.transportes.dto.document.NewDocumentDTO
+import com.transportes.dto.document.UpdateDocumentDTO
 import com.transportes.services.DocumentService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +34,7 @@ class DocumentController {
     @PutMapping("/{idDocument}", consumes = ["multipart/form-data"])
     fun updateDocument(
         @PathVariable idDocument: String,
-        @ModelAttribute updatedDocumentDTO: NewDocumentDTO
+        @ModelAttribute updatedDocumentDTO: UpdateDocumentDTO
     ): ResponseEntity<DocumentDTO> {
         val document = documentService.updateUserDocument(idDocument, updatedDocumentDTO)
         return ResponseEntity.ok(document)
