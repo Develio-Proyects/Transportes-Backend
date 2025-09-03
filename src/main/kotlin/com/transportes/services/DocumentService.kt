@@ -75,7 +75,7 @@ class DocumentService {
             val user = soloCarrierRepository.findById(idUser).get()
             document.soloCarrier = user
 
-        } else throw NotFoundException("Usuario a asignar el socumento no encontrado")
+        } else throw NotFoundException("Usuario a asignar el documento no encontrado")
     }
 
     fun updateUserDocument(id: String, dto: NewDocumentDTO): DocumentDTO {
