@@ -107,6 +107,8 @@ object Serializer {
         return DocumentDTO(
             document.id,
             document.getIdUser(),
+            document.getNameUser(),
+            document.getLastnameUser(),
             document.name,
             document.linkImage!!
         )

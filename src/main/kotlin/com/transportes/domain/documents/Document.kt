@@ -22,4 +22,14 @@ class Document(
         return if (soloCarrier != null) soloCarrier!!.id
         else employee!!.id
     }
+
+    fun getNameUser(): String {
+        return if (soloCarrier != null) soloCarrier!!.name
+        else employee!!.name
+    }
+
+    fun getLastnameUser(): String {
+        return if (soloCarrier != null) soloCarrier!!.lastName
+        else employee!!.lastname
+    }
 }
