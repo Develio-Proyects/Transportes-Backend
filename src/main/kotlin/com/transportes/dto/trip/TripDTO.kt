@@ -8,6 +8,7 @@ data class TripDTO(
     val destination: String,
     val state: String,
     val departureDate: LocalDateTime,
+    val cargoType: String,
     val basePrice: Double,
     val offersCount: Long,
     val postedSince: String

@@ -24,6 +24,7 @@ object Serializer {
             trip.origin,
             trip.destination,
             trip.departureDate,
+            trip.cargoType.frontName,
             trip.basePrice,
             cantPostulaciones,
             postedSince,
@@ -39,6 +40,7 @@ object Serializer {
             trip.destination,
             trip.state.frontName,
             trip.departureDate,
+            trip.cargoType.frontName,
             trip.basePrice,
             cantPostulaciones,
             publicadoHace
