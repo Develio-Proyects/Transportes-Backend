@@ -34,9 +34,19 @@ services:
   frontend:
     image: tobiasriccone/frontend-transportes:latest
     container_name: frontend
-    ports:
-      - "80:80"
     restart: always
+
+  nginx-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-manager
+    restart: always
+    ports:
+      - "81:81"
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/data:/data
+      - ./nginx/letsencrypt:/etc/letsencrypt
 
 volumes:
   postgres-data:
