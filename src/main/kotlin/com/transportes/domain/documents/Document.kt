@@ -24,7 +24,7 @@ class Document(
     }
 
     fun getNameUser(): String {
-        return if (soloCarrier != null) soloCarrier!!.name
+        return if (soloCarrier != null) soloCarrier!!.name.split(" ")[0]
         else employee!!.name
     }
 
