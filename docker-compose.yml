@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: ${DB_PROD_PASSWORD}
-      POSTGRES_DB: transportes
+      POSTGRES_DB: transporta
     ports:
       - "5432:5432"
     volumes:
@@ -21,7 +21,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       FRONT_URL: ${FRONT_URL}
       API_URL: ${API_URL}
-      PROD_DB_URL: ${DB_PROD_URL}
+      DB_PROD_URL: ${DB_PROD_URL}
       DB_PROD_PASSWORD: ${DB_PROD_PASSWORD}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       MP_ACCESS_TOKEN: ${MP_ACCESS_TOKEN}

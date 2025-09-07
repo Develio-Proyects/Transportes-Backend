@@ -1,7 +1,7 @@
 spring:
 
   application:
-    name: transportes
+    name: transporta
 
   profiles:
     active: dev # Perfil por defecto
