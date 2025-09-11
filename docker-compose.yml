@@ -1,7 +1,7 @@
 services:
 
   postgres:
-    image: postgres:15
+    image: postgres:17
     container_name: postgres
     restart: always
     environment:
@@ -26,6 +26,7 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       MP_ACCESS_TOKEN: ${MP_ACCESS_TOKEN}
       MP_WEBHOOK_KEY: ${MP_WEBHOOK_KEY}
+      JAVA_TOOL_OPTIONS: "-Duser.timezone=America/Argentina/Buenos_Aires" # TZ que manda el back a la BD
     ports:
       - "8080:8080"
     volumes:

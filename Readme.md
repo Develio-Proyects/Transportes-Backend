@@ -9,7 +9,8 @@ JWT_SECRET_KEY=
 DB_PROD_URL=  
 DB_PROD_PASSWORD=  
 MP_ACCESS_TOKEN=  
-MP_WEBHOOK_KEY= 
+MP_WEBHOOK_KEY=  
+JAVA_TOOL_OPTIONS=-Duser.timezone=America/Argentina/Buenos_Aires
 
 ## Dockerización
 
