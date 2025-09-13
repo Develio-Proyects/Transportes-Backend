@@ -6,6 +6,7 @@ import com.mercadopago.client.preference.PreferenceBackUrlsRequest
 import com.mercadopago.client.preference.PreferenceClient
 import com.mercadopago.client.preference.PreferenceItemRequest
 import com.mercadopago.client.preference.PreferenceRequest
+import com.mercadopago.exceptions.MPApiException
 import com.mercadopago.resources.payment.Payment
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.trips.Offer
@@ -74,12 +75,23 @@ class PaymentService {
         else preference.initPoint
     }
 
+    // Metodo temporal para simular el pago y poder avanzar con el desarrollo
+    fun temporlyProcessPayment(offerId: String) {
+        val offer = offerRepository.findById(offerId).orElseThrow { NotFoundException("Postulación no encontrada") }
+        val trip = offer.trip
+        trip.chosenOffer = offer
+        trip.state = StateTrip.ASSIGNED
+        tripRepository.save(trip)
+    }
+
     fun processPayment(body: Map<String, Any>) {
         val eventType = body["type"] as? String
         val paymentId = (body["data"] as? Map<*, *>)?.get("id")?.toString()
 
         if (eventType == "payment" && paymentId != null) {
-            val payment: Payment = PaymentClient().get(paymentId.toLong())
+            val payment: Payment
+            try { payment = PaymentClient().get(paymentId.toLong()) }
+            catch (e: MPApiException) { throw NotFoundException("Pago no encontrado") }
             val status = payment.status
 
             if (status == "approved") {

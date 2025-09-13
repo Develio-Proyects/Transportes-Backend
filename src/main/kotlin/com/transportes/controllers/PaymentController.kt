@@ -4,6 +4,7 @@ import com.transportes.dto.payment.PaymentInfoDTO
 import com.transportes.services.PaymentService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*
 class PaymentController {
 
     @Autowired lateinit var paymentService: PaymentService
+    @Value("\${spring.url.front}") private lateinit var FRONT_URL: String
 
     @PostMapping("/create-preference")
     @Operation(
@@ -21,9 +23,10 @@ class PaymentController {
     fun createPreference(
         @RequestParam offerId: String
     ): ResponseEntity<Map<String, String>> {
-        return ResponseEntity.ok( mapOf("init_point" to "https://www.google.com") )
         //val mpUrl = paymentService.createPreference(offerId)
         //return ResponseEntity.ok( mapOf("init_point" to mpUrl) )
+        paymentService.temporlyProcessPayment(offerId)
+        return ResponseEntity.ok( mapOf("init_point" to FRONT_URL) )
     }
 
     @PostMapping("/webhook")
