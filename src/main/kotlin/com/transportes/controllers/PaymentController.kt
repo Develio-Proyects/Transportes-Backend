@@ -26,7 +26,7 @@ class PaymentController {
         //val mpUrl = paymentService.createPreference(offerId)
         //return ResponseEntity.ok( mapOf("init_point" to mpUrl) )
         paymentService.temporlyProcessPayment(offerId)
-        return ResponseEntity.ok( mapOf("init_point" to FRONT_URL) )
+        return ResponseEntity.ok( mapOf("init_point" to "$FRONT_URL/perfil/publicaiones") )
     }
 
     @PostMapping("/webhook")
