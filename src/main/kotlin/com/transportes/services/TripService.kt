@@ -81,7 +81,7 @@ class TripService {
 
     fun getQuoteOffer(idOffer: String): Double {
         val offer = offerRepository.findById(idOffer).orElseThrow { NotFoundException("Postulación con id $idOffer no fue encontrada") }
-        return offer.offeredPrice * 0.2
+        return offer.offeredPrice * 0.02
     }
 
     fun getTripsToAdmin(page: Int, size: Int): Page<TripToAdminDTO> {
