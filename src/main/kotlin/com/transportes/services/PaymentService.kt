@@ -1,12 +1,12 @@
 package com.transportes.services
 
 import com.mercadopago.MercadoPagoConfig
+import com.mercadopago.client.merchantorder.MerchantOrderClient
 import com.mercadopago.client.payment.PaymentClient
 import com.mercadopago.client.preference.PreferenceBackUrlsRequest
 import com.mercadopago.client.preference.PreferenceClient
 import com.mercadopago.client.preference.PreferenceItemRequest
 import com.mercadopago.client.preference.PreferenceRequest
-import com.mercadopago.exceptions.MPApiException
 import com.mercadopago.resources.payment.Payment
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.trips.Offer
@@ -25,7 +25,6 @@ import java.math.BigDecimal
 @Service
 class PaymentService {
 
-    @Value("\${SPRING_PROFILES_ACTIVE}") lateinit var PROFILE: String
     @Value("\${mercadopago.access-token}") private lateinit var MP_ACCESS_TOKEN: String
     @Value("\${mercadopago.webhook-key}") private lateinit var MP_WEBHOOK_KEY: String
 
@@ -56,9 +55,9 @@ class PaymentService {
             .build()
 
         val backUrls = PreferenceBackUrlsRequest.builder()
-            .success("$FRONT_URL/$tripId?status=confirmed")
-            .failure("$FRONT_URL/$tripId?status=failed")
-            .pending("$FRONT_URL/$tripId?status=pending")
+            .success("$FRONT_URL/$tripId")
+            .failure("$FRONT_URL/$tripId")
+            .pending("$FRONT_URL/$tripId")
             .build()
 
         val preferenceRequest = PreferenceRequest.builder()
@@ -71,38 +70,47 @@ class PaymentService {
 
         val preference = PreferenceClient().create(preferenceRequest)
 
-        return if (PROFILE.equals("dev")) preference.sandboxInitPoint
-        else preference.initPoint
+        return preference.initPoint
     }
 
-    // Metodo temporal para simular el pago y poder avanzar con el desarrollo
-    fun temporlyProcessPayment(offerId: String) {
+    fun processPayment(body: Map<String, Any>) {
+        var eventType = body["topic"]
+        var status = ""
+        var offerId = ""
+
+        when (eventType) {
+            "merchant_order" -> {
+                val merchantId = body["resource"].toString().split("/").last().toLong()
+                val merchant = MerchantOrderClient().get(merchantId)
+                status = merchant.payments.get(0).status
+                offerId = merchant.externalReference
+            }
+            "payment" -> {
+                val paymentId = body["resource"].toString().toLong()
+                val payment: Payment = PaymentClient().get(paymentId)
+                status = payment.status
+                offerId = payment.externalReference
+            }
+            else -> {
+                eventType = body["type"]
+                if (eventType == "payment") {
+                    val data = body["data"] as Map<*, *>
+                    val paymentId = data.get("id").toString().toLong()
+                    val payment: Payment = PaymentClient().get(paymentId)
+                    status = payment.status
+                    offerId = payment.externalReference
+                }
+            }
+        }
+        if (status == "approved") assignOfferToTrip(offerId)
+    }
+
+    fun assignOfferToTrip(offerId: String) {
         val offer = offerRepository.findById(offerId).orElseThrow { NotFoundException("Postulación no encontrada") }
         val trip = offer.trip
         trip.chosenOffer = offer
         trip.state = StateTrip.ASSIGNED
         tripRepository.save(trip)
-    }
-
-    fun processPayment(body: Map<String, Any>) {
-        val eventType = body["type"] as? String
-        val paymentId = (body["data"] as? Map<*, *>)?.get("id")?.toString()
-
-        if (eventType == "payment" && paymentId != null) {
-            val payment: Payment
-            try { payment = PaymentClient().get(paymentId.toLong()) }
-            catch (e: MPApiException) { throw NotFoundException("Pago no encontrado") }
-            val status = payment.status
-
-            if (status == "approved") {
-                val offerId = payment.externalReference
-                val offer = offerRepository.findById(offerId).orElseThrow { NotFoundException("Postulación no encontrada") }
-                val trip = offer.trip
-                trip.chosenOffer = offer
-                trip.state = StateTrip.ASSIGNED
-                tripRepository.save(trip)
-            }
-        }
     }
 
     fun validateOrigin(id: String, requestId: String, receivedSignature: String?) {
