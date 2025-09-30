@@ -50,14 +50,14 @@ class PaymentService {
         val requestItem = PreferenceItemRequest.builder()
             .title("Transporta.com.ar")
             .quantity(1)
-            .unitPrice(BigDecimal(offer.offeredPrice))
+            .unitPrice(BigDecimal(offer.offeredPrice * 0.02))
             .currencyId("ARS")
             .build()
 
         val backUrls = PreferenceBackUrlsRequest.builder()
-            .success("$FRONT_URL/$tripId")
-            .failure("$FRONT_URL/$tripId")
-            .pending("$FRONT_URL/$tripId")
+            .success("$FRONT_URL/viajes/$tripId")
+            .failure("$FRONT_URL/viajes/$tripId")
+            .pending("$FRONT_URL/viajes/$tripId")
             .build()
 
         val preferenceRequest = PreferenceRequest.builder()
@@ -133,7 +133,7 @@ class PaymentService {
             transport = trip.chosenOffer!!.transport.name,
             origin = trip.origin,
             destination = trip.destination,
-            mount = trip.chosenOffer!!.offeredPrice
+            mount = trip.chosenOffer!!.offeredPrice * 0.02
         ) }
     }
 }
