@@ -22,10 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 
 @Service
 class TripService {
     @Autowired lateinit var tripRepository: TripRepository
+    @Autowired lateinit var paymentService: PaymentService
     @Autowired lateinit var multiCarrierRepository: MultiCarrierRepository
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var userDetailsService: MyUserDetailsService
@@ -79,9 +81,9 @@ class TripService {
         return Serializer.buildTripDetailDTO(trip, offers)
     }
 
-    fun getQuoteOffer(idOffer: String): Double {
+    fun getQuoteOffer(idOffer: String): BigDecimal {
         val offer = offerRepository.findById(idOffer).orElseThrow { NotFoundException("Postulación con id $idOffer no fue encontrada") }
-        return offer.offeredPrice * 0.02
+        return paymentService.calculateOfferQuote(offer.offeredPrice)
     }
 
     fun getTripsToAdmin(page: Int, size: Int): Page<TripToAdminDTO> {

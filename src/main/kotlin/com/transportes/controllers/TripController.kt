@@ -14,6 +14,7 @@ import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.math.BigDecimal
 
 @RestController
 @RequestMapping("/api/trip")
@@ -104,7 +105,7 @@ class TripController {
     )
     fun getQuoteOffer(
         @PathVariable idOffer: String
-    ): ResponseEntity<Map<String, Double>> {
+    ): ResponseEntity<Map<String, BigDecimal>> {
         val quote = tripService.getQuoteOffer(idOffer)
         return ResponseEntity.ok( mapOf("tarifa" to quote) )
     }

@@ -50,7 +50,7 @@ class PaymentService {
         val requestItem = PreferenceItemRequest.builder()
             .title("Transporta.com.ar")
             .quantity(1)
-            .unitPrice(BigDecimal(offer.offeredPrice * 0.02))
+            .unitPrice( calculateOfferQuote(offer.offeredPrice) )
             .currencyId("ARS")
             .build()
 
@@ -133,7 +133,11 @@ class PaymentService {
             transport = trip.chosenOffer!!.transport.name,
             origin = trip.origin,
             destination = trip.destination,
-            mount = trip.chosenOffer!!.offeredPrice * 0.02
+            mount = calculateOfferQuote(trip.chosenOffer!!.offeredPrice)
         ) }
+    }
+
+    fun calculateOfferQuote(mount: Double): BigDecimal {
+        return BigDecimal(mount * 0.02).setScale(1)
     }
 }
