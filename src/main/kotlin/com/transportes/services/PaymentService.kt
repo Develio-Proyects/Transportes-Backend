@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 @Service
 class PaymentService {
@@ -138,6 +139,6 @@ class PaymentService {
     }
 
     fun calculateOfferQuote(mount: Double): BigDecimal {
-        return BigDecimal(mount * 0.02).setScale(1)
+        return BigDecimal(mount * 0.02).setScale(1, RoundingMode.HALF_UP)
     }
 }
