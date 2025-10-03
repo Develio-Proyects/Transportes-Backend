@@ -7,7 +7,9 @@ import com.mercadopago.client.preference.PreferenceBackUrlsRequest
 import com.mercadopago.client.preference.PreferenceClient
 import com.mercadopago.client.preference.PreferenceItemRequest
 import com.mercadopago.client.preference.PreferenceRequest
+import com.mercadopago.exceptions.MPApiException
 import com.mercadopago.resources.payment.Payment
+import com.mercadopago.resources.preference.Preference
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.trips.Offer
 import com.transportes.dto.payment.PaymentInfoDTO
@@ -69,7 +71,9 @@ class PaymentService {
             .notificationUrl("$API_URL/api/payment/webhook")
             .build()
 
-        val preference = PreferenceClient().create(preferenceRequest)
+        var preference: Preference
+        try { preference = PreferenceClient().create(preferenceRequest) }
+        catch (e: MPApiException) { throw NotFoundException("Error de Mercado pago, reintente más tarde") }
 
         return preference.initPoint
     }
