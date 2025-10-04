@@ -84,6 +84,14 @@ class DocumentService {
 
         verifyDocumentOwnership(document, currentUser.id)
 
+        if ( document.employee != null ) {
+            if ( dto.idUser != document.employee!!.id ) {
+                val newEmployee = employeeRepository.findById(dto.idUser).orElseThrow { NotFoundException("Empleado no encontrado") }
+                if ( newEmployee.multiCarrier.id != currentUser.id ) throw BadRequestException("El empleado no pertenece a la flota logueada")
+                document.employee = newEmployee
+            }
+        }
+
         document.name = dto.name
         if ( dto.image != null ) saveImage(document, dto.image)
 
@@ -91,14 +99,13 @@ class DocumentService {
         return Serializer.buildDocumentDTO(updatedDocument)
     }
 
-    fun verifyDocumentOwnership(document: Document, idCurrentUser: String): Boolean {
+    fun verifyDocumentOwnership(document: Document, idCurrentUser: String) {
         if ( document.soloCarrier != null ) {
             if (document.soloCarrier!!.id != idCurrentUser) throw BadRequestException("Documento no pertenece al usuario logueado")
         }
         if ( document.employee != null ) {
             if (document.employee!!.multiCarrier.id != idCurrentUser) throw BadRequestException("Documento no pertenece al usuario logueado")
         }
-        return false
     }
 
     fun saveImage(document: Document, image: MultipartFile) {
