@@ -27,28 +27,32 @@ class UserService {
     }
 
     fun createUser(newUserDTO: NewUserDTO) {
-        validateNewUser(newUserDTO)
+        val normalizedEmail = newUserDTO.email.trim().lowercase()
+        val normalizedUserDTO = newUserDTO.copy(email = normalizedEmail)
 
-        val user: User = when (newUserDTO.role) {
+        validateNewUser(normalizedUserDTO)
+
+        val user: User = when (normalizedUserDTO.role) {
             Role.SOLO_CARRIER -> {
-                if (newUserDTO.name == null) throw BadRequestException("El campo 'name' es obligatorio para el rol 'SOLO_CARRIER'")
-                if (newUserDTO.lastname == null) throw BadRequestException("El campo 'lastname' es obligatorio para el rol 'SOLO_CARRIER'")
-                if (newUserDTO.documentNumber == null) throw BadRequestException("El campo 'documentNumber' es obligatorio para el rol 'SOLO_CARRIER'")
-                SoloCarrier(newUserDTO.email, passwordEncoder.encode(newUserDTO.password), newUserDTO.name, newUserDTO.lastname, newUserDTO.documentNumber)
+                if (normalizedUserDTO.name == null) throw BadRequestException("El campo 'name' es obligatorio para el rol 'SOLO_CARRIER'")
+                if (normalizedUserDTO.lastname == null) throw BadRequestException("El campo 'lastname' es obligatorio para el rol 'SOLO_CARRIER'")
+                if (normalizedUserDTO.documentNumber == null) throw BadRequestException("El campo 'documentNumber' es obligatorio para el rol 'SOLO_CARRIER'")
+                SoloCarrier(normalizedUserDTO.email, passwordEncoder.encode(normalizedUserDTO.password), normalizedUserDTO.name, normalizedUserDTO.lastname, normalizedUserDTO.documentNumber)
             }
             Role.MULTI_CARRIER -> {
-                if (newUserDTO.name == null) throw BadRequestException("El campo 'name' es obligatorio para el rol 'MULTI_CARRIER'")
-                if (newUserDTO.documentNumber == null) throw BadRequestException("El campo 'documentNumber' es obligatorio para el rol 'MULTI_CARRIER'")
-                MultiCarrier(newUserDTO.email, passwordEncoder.encode(newUserDTO.password), newUserDTO.name, newUserDTO.documentNumber)
+                if (normalizedUserDTO.name == null) throw BadRequestException("El campo 'name' es obligatorio para el rol 'MULTI_CARRIER'")
+                if (normalizedUserDTO.documentNumber == null) throw BadRequestException("El campo 'documentNumber' es obligatorio para el rol 'MULTI_CARRIER'")
+                MultiCarrier(normalizedUserDTO.email, passwordEncoder.encode(normalizedUserDTO.password), normalizedUserDTO.name, normalizedUserDTO.documentNumber)
             }
             Role.ADMIN -> {
-                Administrator(newUserDTO.email, passwordEncoder.encode(newUserDTO.password))
+                Administrator(normalizedUserDTO.email, passwordEncoder.encode(normalizedUserDTO.password))
             }
         }
         userRepository.save(user)
     }
 
     fun validateNewUser(newUserDTO: NewUserDTO) {
-        if (userRepository.findByEmail(newUserDTO.email) != null) throw BadRequestException("El email ya está en uso")
+        val normalizedEmail = newUserDTO.email.trim().lowercase()
+        if (userRepository.findByEmail(normalizedEmail) != null) throw BadRequestException("El email ya está en uso")
     }
 }
