@@ -54,8 +54,11 @@ class CustomExceptionHandler {
      */
     @ExceptionHandler(MaxUploadSizeExceededException::class)
     fun handleMaxSizeException(ex: MaxUploadSizeExceededException): ResponseEntity<Map<String, String>> {
-        val body = mapOf("error" to "El archivo excede el tamaño máximo permitido ($maxSize)")
-        return ResponseEntity(body, HttpStatus.PAYLOAD_TOO_LARGE)
+        val errorDetails = mapOf(
+            "error" to "Imagen demasiada grande",
+            "message" to "El archivo excede el tamaño máximo permitido ($maxSize)"
+        )
+        return ResponseEntity(errorDetails, HttpStatus.PAYLOAD_TOO_LARGE)
     }
 
     @ExceptionHandler(MissingServletRequestParameterException::class)
