@@ -5,7 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
 interface OfferRepository : JpaRepository<Offer, String> {
-    @Query("SELECT COUNT(p) FROM Offer p WHERE p.trip.id = :tripId")
+    @Query("SELECT COUNT(o) FROM Offer o" +
+            "        WHERE o.trip.id = :tripId" +
+            "          AND o.offeredPrice = (" +
+            "              SELECT min(o2.offeredPrice)" +
+            "              FROM Offer o2" +
+            "              WHERE o2.trip.id = :tripId AND o2.transport.id = o.transport.id)" +
+            "           ")
     fun getOffersCountByTripId(tripId: String): Long
 
     @Query("SELECT o FROM Offer o" +
