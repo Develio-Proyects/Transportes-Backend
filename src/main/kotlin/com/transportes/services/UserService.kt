@@ -31,9 +31,14 @@ class UserService {
 
         val user: User = when (newUserDTO.role) {
             Role.SOLO_CARRIER -> {
+                if (newUserDTO.name == null) throw BadRequestException("El campo 'name' es obligatorio para el rol 'SOLO_CARRIER'")
+                if (newUserDTO.lastname == null) throw BadRequestException("El campo 'lastname' es obligatorio para el rol 'SOLO_CARRIER'")
+                if (newUserDTO.documentNumber == null) throw BadRequestException("El campo 'documentNumber' es obligatorio para el rol 'SOLO_CARRIER'")
                 SoloCarrier(newUserDTO.email, passwordEncoder.encode(newUserDTO.password), newUserDTO.name, newUserDTO.lastname, newUserDTO.documentNumber)
             }
             Role.MULTI_CARRIER -> {
+                if (newUserDTO.name == null) throw BadRequestException("El campo 'name' es obligatorio para el rol 'MULTI_CARRIER'")
+                if (newUserDTO.documentNumber == null) throw BadRequestException("El campo 'documentNumber' es obligatorio para el rol 'MULTI_CARRIER'")
                 MultiCarrier(newUserDTO.email, passwordEncoder.encode(newUserDTO.password), newUserDTO.name, newUserDTO.documentNumber)
             }
             Role.ADMIN -> {

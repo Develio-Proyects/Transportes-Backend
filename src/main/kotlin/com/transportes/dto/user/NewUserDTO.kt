@@ -5,10 +5,9 @@ import jakarta.validation.constraints.Email
 import jakarta.validation.constraints.NotBlank
 
 data class NewUserDTO(
-    @field:NotBlank
-    val name: String,
-    val lastname: String,
-    val documentNumber: Int,
+    val name: String?,
+    val lastname: String?,
+    val documentNumber: Int?,
     @field:Email
     val email: String,
     @field:NotBlank
