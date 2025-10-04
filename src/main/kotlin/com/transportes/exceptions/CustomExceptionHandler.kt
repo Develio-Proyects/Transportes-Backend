@@ -1,5 +1,6 @@
 package com.transportes.exceptions
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -7,9 +8,11 @@ import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.web.multipart.MaxUploadSizeExceededException
 
 @ControllerAdvice
 class CustomExceptionHandler {
+    @Value("\${spring.servlet.multipart.max-file-size}") private lateinit var maxSize: String
 
     // PERSONALIZADAS
 
@@ -44,6 +47,16 @@ class CustomExceptionHandler {
     }
 
     // OTRAS
+
+    /**
+     * Esta excepción se lanza cuando se intenta subir un archivo que excede el tamaño máximo permitido
+     * (configurado en application.properties)
+     */
+    @ExceptionHandler(MaxUploadSizeExceededException::class)
+    fun handleMaxSizeException(ex: MaxUploadSizeExceededException): ResponseEntity<Map<String, String>> {
+        val body = mapOf("error" to "El archivo excede el tamaño máximo permitido ($maxSize)")
+        return ResponseEntity(body, HttpStatus.PAYLOAD_TOO_LARGE)
+    }
 
     @ExceptionHandler(MissingServletRequestParameterException::class)
     fun handleMissingParams(ex: MissingServletRequestParameterException): ResponseEntity<Map<String, String>> {
