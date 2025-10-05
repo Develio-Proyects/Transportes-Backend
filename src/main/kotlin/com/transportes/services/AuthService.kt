@@ -23,12 +23,14 @@ class AuthService {
     @Autowired private lateinit var passwordEncoder: PasswordEncoder
 
     fun authenticate(email: String, password: String): LoginResponseDTO {
+        val normalizedEmail = email.trim().lowercase()
+
         try {
             authenticationManager.authenticate(
-                UsernamePasswordAuthenticationToken(email, password)
+                UsernamePasswordAuthenticationToken(normalizedEmail, password)
             )
         } catch (e: AuthenticationException) { throw InvalidCredentialsException("Credenciales inválidas") }
-        val user = userRepository.findByEmail(email) ?: throw NotFoundException("Usuario no encontrado")
+        val user = userRepository.findByEmail(normalizedEmail) ?: throw NotFoundException("Usuario no encontrado")
         val token = jwtUtil.generateToken(user.email)
         return Serializer.buildLoginResponseDTO(user.id, user.name, user.email, user.role.frontName, token)
     }
