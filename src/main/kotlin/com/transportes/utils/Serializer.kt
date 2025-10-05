@@ -77,7 +77,7 @@ object Serializer {
         )
     }
 
-    fun buildTripDetailDTO(trip: Trip, postulaciones: List<Offer>): TripDetailDTO {
+    fun buildTripDetailDTO(trip: Trip, postulaciones: List<Offer>, myPost: Boolean): TripDetailDTO {
         val ofertaMasBaja = postulaciones.minByOrNull{ it.offeredPrice }?.offeredPrice
         val listaPostulacionesDTO = postulaciones.map { buildOfferDTO(it) }
         return TripDetailDTO(
@@ -92,7 +92,8 @@ object Serializer {
             trip.dimensions,
             trip.basePrice,
             ofertaMasBaja,
-            listaPostulacionesDTO
+            listaPostulacionesDTO,
+            myPost
         )
     }
 

@@ -15,5 +15,6 @@ data class TripDetailDTO(
     val dimensions: Dimensions,
     val initialPrice: Double,
     val lowerOffer: Double?,
-    val offers: List<OfferDTO>
+    val offers: List<OfferDTO>,
+    val myPost: Boolean
 )

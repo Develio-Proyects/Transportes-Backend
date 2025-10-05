@@ -78,7 +78,14 @@ class TripService {
     fun getTripDetail(id: String): TripDetailDTO {
         val trip: Trip = tripRepository.findById(id).orElseThrow { NotFoundException("Viaje con id $id no fue encontrado") }
         val offers = offerRepository.findAllAscendingByTripId(trip.id)
-        return Serializer.buildTripDetailDTO(trip, offers)
+
+        var myPost = false
+        try {
+            val user = userDetailsService.getCurrentUser()
+            myPost = if (user != null) trip.multiCarrier.id == user.id else false
+        } catch (e: InvalidCredentialsException) {}
+
+        return Serializer.buildTripDetailDTO(trip, offers, myPost)
     }
 
     fun getQuoteOffer(idOffer: String): BigDecimal {
