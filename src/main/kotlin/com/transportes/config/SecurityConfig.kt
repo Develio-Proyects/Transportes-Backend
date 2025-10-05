@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource
 @EnableWebSecurity
 class SecurityConfig {
     @Autowired private lateinit var jwtRequestFilter: JwtRequestFilter
-    @Value("\${spring.url.front}") private lateinit var allowOrigin: String
+    @Value("\${spring.url.front}") private lateinit var allowOrigins: String
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -119,7 +119,7 @@ class SecurityConfig {
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
         val configuration = CorsConfiguration()
-        configuration.allowedOrigins = listOf(allowOrigin)
+        configuration.allowedOrigins = allowOrigins.split(",").map { it.trim() }
         configuration.allowedMethods = listOf("*")
         configuration.allowedHeaders = listOf("*")
         configuration.allowCredentials = true

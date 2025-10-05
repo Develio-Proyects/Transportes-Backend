@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 class WebSocketConfig : WebSocketMessageBrokerConfigurer {
 
-    @Value("\${spring.url.front}") private lateinit var allowOrigin: String
+    @Value("\${spring.url.front}") private lateinit var allowOrigins: String
 
     override fun configureMessageBroker(config: MessageBrokerRegistry) {
         config.enableSimpleBroker("/topic") // Destino a donde se mandan los mensajes
@@ -19,9 +19,10 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
     }
 
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
+        val list = allowOrigins.split(",").map { it.trim() }
         registry
             .addEndpoint("/ws-chat") // Endpoint para conectar
-            .setAllowedOrigins(allowOrigin) // Origenes habilitados para conectarse
+            .setAllowedOrigins(*list.toTypedArray())
             .withSockJS()
     }
 }

@@ -31,8 +31,8 @@ class PaymentService {
     @Value("\${mercadopago.access-token}") private lateinit var MP_ACCESS_TOKEN: String
     @Value("\${mercadopago.webhook-key}") private lateinit var MP_WEBHOOK_KEY: String
 
-    @Value("\${spring.url.front}") private lateinit var FRONT_URL: String
     @Value("\${spring.url.api}") private lateinit var API_URL: String
+    @Value("\${spring.url.front}") private lateinit var FRONT_URLS: String
 
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var tripRepository: TripRepository
@@ -57,10 +57,11 @@ class PaymentService {
             .currencyId("ARS")
             .build()
 
+        val frontUrl = FRONT_URLS.split(",")[0]
         val backUrls = PreferenceBackUrlsRequest.builder()
-            .success("$FRONT_URL/viajes/$tripId")
-            .failure("$FRONT_URL/viajes/$tripId")
-            .pending("$FRONT_URL/viajes/$tripId")
+            .success("${frontUrl}/viajes/$tripId")
+            .failure("${frontUrl}/viajes/$tripId")
+            .pending("${frontUrl}/viajes/$tripId")
             .build()
 
         val preferenceRequest = PreferenceRequest.builder()
