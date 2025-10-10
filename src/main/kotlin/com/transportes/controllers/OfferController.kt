@@ -26,7 +26,7 @@ class OfferController {
         description = "Cancel an offer if the associated trip is still open for bidding"
     )
     fun cancelOffer(
-        @PathVariable(value = "idOffer") idOffer: String
+        @PathVariable idOffer: String
     ): ResponseWithMessageDTO {
         offerService.cancelOffer(idOffer)
         return ResponseWithMessageDTO("Postulación cancelada con éxito")
