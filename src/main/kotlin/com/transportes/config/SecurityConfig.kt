@@ -47,7 +47,8 @@ class SecurityConfig {
                         "/api/offer/quote/{idOffer}",
                         "/api/trip/user-posted-trips",
                         "/api/employee",
-                        "/api/trip/completed/{userId}"
+                        "/api/trip/completed/{userId}",
+                        "/api/users/postulant/{userId}"
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.POST,
