@@ -5,10 +5,16 @@ import com.transportes.domain.users.Administrator
 import com.transportes.domain.users.MultiCarrier
 import com.transportes.domain.users.SoloCarrier
 import com.transportes.domain.users.User
+import com.transportes.dto.user.InfoPostulantDTO
 import com.transportes.dto.user.NewUserDTO
 import com.transportes.dto.user.UserDTO
 import com.transportes.exceptions.BadRequestException
+import com.transportes.exceptions.NotFoundException
+import com.transportes.repositories.DocumentRepository
+import com.transportes.repositories.TripRepository
+import com.transportes.repositories.TruckRepository
 import com.transportes.repositories.UserRepository
+import com.transportes.utils.Serializer
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -16,7 +22,10 @@ import org.springframework.stereotype.Service
 @Service
 class UserService {
 
+    @Autowired private lateinit var tripRepository: TripRepository
     @Autowired lateinit var userRepository: UserRepository
+    @Autowired lateinit var documentRepository: DocumentRepository
+    @Autowired lateinit var truckRepository: TruckRepository
     @Autowired lateinit var passwordEncoder: PasswordEncoder
 
     fun getUsers(): List<UserDTO> {
@@ -54,5 +63,13 @@ class UserService {
     fun validateNewUser(newUserDTO: NewUserDTO) {
         val normalizedEmail = newUserDTO.email.trim().lowercase()
         if (userRepository.findByEmail(normalizedEmail) != null) throw BadRequestException("El email ya está en uso")
+    }
+
+    fun getInfoPostulant(userId: String): InfoPostulantDTO {
+        val user = userRepository.findById(userId).orElseThrow { NotFoundException("Usuario no encontrado") }
+        val documents = documentRepository.findByUserId(userId)
+        val trucks = truckRepository.findByUserId(userId)
+        val completedTrips = tripRepository.findCompletedTripsByUserId(userId)
+        return Serializer.buildInfoPostulantDTO(user, documents, trucks, completedTrips)
     }
 }

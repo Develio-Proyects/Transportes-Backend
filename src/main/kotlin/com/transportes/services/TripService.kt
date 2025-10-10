@@ -7,7 +7,6 @@ import com.transportes.dto.trip.TripToAdminDTO
 import com.transportes.dto.trip.TripDTO
 import com.transportes.dto.trip.TripDetailDTO
 import com.transportes.dto.trip.PostDTO
-import com.transportes.dto.trip.UserCompletedTripDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException
@@ -122,13 +121,6 @@ class TripService {
                 offerRepository.deleteById(offer.id)
             }
             tripRepository.deleteById(trip.id)
-        }
-    }
-
-    fun getUserCompletedTrips(userId: String): List<UserCompletedTripDTO> {
-        userRepository.findById(userId).orElseThrow { NotFoundException("Usuario no encontrado") }
-        return tripRepository.findCompletedTripsByUserId(userId).map {
-            Serializer.buildUserCompletedTripDTO(it)
         }
     }
 }

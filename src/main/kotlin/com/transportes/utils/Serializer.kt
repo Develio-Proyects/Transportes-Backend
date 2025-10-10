@@ -8,6 +8,7 @@ import com.transportes.domain.users.MultiCarrier
 import com.transportes.domain.trips.Offer
 import com.transportes.domain.trips.Trip
 import com.transportes.domain.users.Employee
+import com.transportes.domain.users.User
 import com.transportes.dto.DocumentDTO
 import com.transportes.dto.employee.EmployeeDTO
 import com.transportes.dto.chat.ExitChatMessageDTO
@@ -15,6 +16,7 @@ import com.transportes.dto.login.LoginResponseDTO
 import com.transportes.dto.offer.OfferDTO
 import com.transportes.dto.truck.TruckDTO
 import com.transportes.dto.trip.*
+import com.transportes.dto.user.InfoPostulantDTO
 import java.time.LocalDateTime
 
 object Serializer {
@@ -160,6 +162,20 @@ object Serializer {
             trip.state.frontName,
             trip.departureDate,
             trip.cargoType.frontName
+        )
+    }
+
+    fun buildInfoPostulantDTO(user: User, documents: List<Document>, trucks: List<Truck>, completedTrips: List<Trip>): InfoPostulantDTO {
+        val documentsDTO = documents.map { buildDocumentDTO(it) }
+        val trucksDTO = trucks.map { buildTruckDTO(it) }
+        val completedTripsDTO = completedTrips.map { buildUserCompletedTripDTO(it) }
+        return InfoPostulantDTO(
+            user.name,
+            user.role.frontName,
+            user.email,
+            documentsDTO,
+            trucksDTO,
+            completedTripsDTO
         )
     }
 }
