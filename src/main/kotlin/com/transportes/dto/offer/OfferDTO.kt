@@ -1,4 +1,4 @@
-package com.transportes.dto.trip
+package com.transportes.dto.offer
 
 data class OfferDTO(
     val id: String,
