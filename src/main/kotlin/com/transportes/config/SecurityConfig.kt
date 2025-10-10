@@ -44,7 +44,7 @@ class SecurityConfig {
                     // MULTICARRIER
                     .requestMatchers(
                         HttpMethod.GET,
-                        "/api/trip/offer-quote/{idOffer}",
+                        "/api/offer/quote/{idOffer}",
                         "/api/trip/user-posted-trips",
                         "/api/employee"
                     ).hasRole("FLOTA")
@@ -70,12 +70,16 @@ class SecurityConfig {
                         HttpMethod.POST,
                         "/api/truck",
                         "/api/document",
-                        "/api/trip/offer/{idOffer}"
+                        "/api/offer/{idTrip}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     .requestMatchers(
                         HttpMethod.PUT,
                         "/api/truck/{id}",
                         "/api/document/{id}"
+                    ).hasAnyRole("FLOTA", "UNIPERSONAL")
+                    .requestMatchers(
+                        HttpMethod.DELETE,
+                        "/api/offer/{idOffer}"
                     ).hasAnyRole("FLOTA", "UNIPERSONAL")
                     // ADMINISTRATOR
                     .requestMatchers(

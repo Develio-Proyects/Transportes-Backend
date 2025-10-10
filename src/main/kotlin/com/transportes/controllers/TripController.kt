@@ -3,7 +3,6 @@ package com.transportes.controllers
 import com.transportes.domain.enums.StateTrip
 import com.transportes.dto.*
 import com.transportes.dto.trip.NewTripDTO
-import com.transportes.dto.trip.OfferDTO
 import com.transportes.dto.trip.TripToAdminDTO
 import com.transportes.dto.trip.TripDTO
 import com.transportes.dto.trip.PostDTO
@@ -12,9 +11,7 @@ import com.transportes.services.TripService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.math.BigDecimal
 
 @RestController
 @RequestMapping("/api/trip")
@@ -98,18 +95,6 @@ class TripController {
         return tripService.getTripDetail(idTrip)
     }
 
-    @GetMapping("/offer-quote/{idOffer}")
-    @Operation(
-        summary = "Get quote for offer",
-        description = "Retrieves the quote for a specific offer by its ID."
-    )
-    fun getQuoteOffer(
-        @PathVariable idOffer: String
-    ): ResponseEntity<Map<String, BigDecimal>> {
-        val quote = tripService.getQuoteOffer(idOffer)
-        return ResponseEntity.ok( mapOf("tarifa" to quote) )
-    }
-
     @GetMapping("/admin")
     @Operation(
         summary = "Get trips for admin",
@@ -126,19 +111,6 @@ class TripController {
             trip.totalPages,
             trip.size
         )
-    }
-
-    @PostMapping("/offer/{idTrip}")
-    @Operation(
-        summary = "Solocarrier or Multicarrier offer trip",
-        description = "Submits an offer for a specific trip"
-    )
-    fun offerTrip(
-        @PathVariable idTrip: String,
-        @RequestParam mount: Double,
-    ): OfferDTO {
-        val newOffer = tripService.offerTrip(idTrip, mount)
-        return newOffer
     }
 
     @PostMapping("/change-state/{idTrip}")
