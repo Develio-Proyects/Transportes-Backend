@@ -3,7 +3,7 @@ package com.transportes.services
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.trips.Offer
 import com.transportes.domain.users.Transport
-import com.transportes.dto.trip.OfferDTO
+import com.transportes.dto.offer.OfferDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.OfferRepository

@@ -25,4 +25,7 @@ interface TripRepository : JpaRepository<Trip, String> {
 
     @Query("SELECT v FROM Trip v WHERE v.chosenOffer IS NOT NULL")
     fun findWithOfferAssigned(): List<Trip>
+
+    @Query("SELECT v FROM Trip v WHERE v.chosenOffer IS NOT NULL AND v.state = 'FINALIZED' AND v.chosenOffer.transport.id = :userId")
+    fun findCompletedTripsByUserId(userId: String) : List<Trip>
 }

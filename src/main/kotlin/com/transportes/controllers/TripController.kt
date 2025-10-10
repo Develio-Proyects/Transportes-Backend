@@ -7,6 +7,7 @@ import com.transportes.dto.trip.TripToAdminDTO
 import com.transportes.dto.trip.TripDTO
 import com.transportes.dto.trip.PostDTO
 import com.transportes.dto.trip.TripDetailDTO
+import com.transportes.dto.trip.UserCompletedTripDTO
 import com.transportes.services.TripService
 import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
@@ -135,5 +136,16 @@ class TripController {
     ):String{
         tripService.deleteTrip(idTrip)
         return "Publicación Eliminada"
+    }
+
+    @GetMapping("/completed/{userId}")
+    @Operation(
+        summary = "Get user completed trips",
+        description = "Retrieves a paginated list of completed trips associated with the current user."
+    )
+    fun getUserCompletedTrips(
+        @PathVariable userId: String
+    ): List<UserCompletedTripDTO> {
+        return tripService.getUserCompletedTrips(userId)
     }
 }

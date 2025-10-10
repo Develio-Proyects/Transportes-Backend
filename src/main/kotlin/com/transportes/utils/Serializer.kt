@@ -12,6 +12,7 @@ import com.transportes.dto.DocumentDTO
 import com.transportes.dto.employee.EmployeeDTO
 import com.transportes.dto.chat.ExitChatMessageDTO
 import com.transportes.dto.login.LoginResponseDTO
+import com.transportes.dto.offer.OfferDTO
 import com.transportes.dto.truck.TruckDTO
 import com.transportes.dto.trip.*
 import java.time.LocalDateTime
@@ -148,6 +149,17 @@ object Serializer {
             message.transmitterId,
             message.timestamp,
             message.message
+        )
+    }
+
+    fun buildUserCompletedTripDTO(trip: Trip): UserCompletedTripDTO {
+        return UserCompletedTripDTO(
+            trip.id,
+            trip.origin,
+            trip.destination,
+            trip.state.frontName,
+            trip.departureDate,
+            trip.cargoType.frontName
         )
     }
 }

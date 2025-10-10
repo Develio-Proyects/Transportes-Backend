@@ -1,7 +1,7 @@
 package com.transportes.controllers
 
 import com.transportes.dto.ResponseWithMessageDTO
-import com.transportes.dto.trip.OfferDTO
+import com.transportes.dto.offer.OfferDTO
 import com.transportes.services.OfferService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.beans.factory.annotation.Autowired

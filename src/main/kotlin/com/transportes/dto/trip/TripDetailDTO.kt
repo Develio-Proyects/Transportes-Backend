@@ -1,6 +1,7 @@
 package com.transportes.dto.trip
 
 import com.transportes.domain.trips.Dimensions
+import com.transportes.dto.offer.OfferDTO
 import java.time.LocalDateTime
 
 data class TripDetailDTO(
