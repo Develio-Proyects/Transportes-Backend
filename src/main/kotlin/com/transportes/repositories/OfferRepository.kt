@@ -26,4 +26,7 @@ interface OfferRepository : JpaRepository<Offer, String> {
 
     @Query("SELECT p FROM Offer p WHERE p.trip.id = :tripId ORDER BY p.offeredPrice ASC")
     fun findOfferByMinorOffer(tripId: String): List<Offer>
+
+    @Query("SELECT o FROM Offer o WHERE o.trip.id = :tripId AND o.transport.id = :userId")
+    fun getOfferOfTrip(tripId: String, userId: String): Offer?
 }

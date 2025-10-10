@@ -9,6 +9,7 @@ import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.OfferRepository
 import com.transportes.repositories.TripRepository
 import com.transportes.utils.Serializer
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.math.BigDecimal
@@ -33,12 +34,16 @@ class OfferService {
         offerRepository.deleteById(offer.id)
     }
 
+    @Transactional
     fun offerTrip(idTrip: String, mount: Double): OfferDTO {
         validateOffer(idTrip, mount)
         val user = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
         val trip = tripRepository.findById(idTrip).orElseThrow { NotFoundException("Viaje con id $idTrip no fue encontrado") }
 
         if (user.id == trip.multiCarrier.id) throw BadRequestException("No puedes ofertar en un viaje que creaste")
+
+        val offer = offerRepository.getOfferOfTrip(trip.id, user.id)
+        if (offer != null) offerRepository.deleteById(offer.id)
 
         val newOffer = Offer(
             trip = trip,
