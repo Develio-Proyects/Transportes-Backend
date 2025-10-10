@@ -59,6 +59,10 @@ class SecurityConfig {
                         HttpMethod.PUT,
                         "/api/employee/{employeeId}"
                     ).hasRole("FLOTA")
+                    .requestMatchers(
+                        HttpMethod.DELETE,
+                        "/api/trip/{tripId}"
+                    ).hasRole("FLOTA")
                     // MULTICARRIER AND SOLOCARRIER
                     .requestMatchers(
                         HttpMethod.GET,

@@ -29,4 +29,7 @@ interface OfferRepository : JpaRepository<Offer, String> {
 
     @Query("SELECT o FROM Offer o WHERE o.trip.id = :tripId AND o.transport.id = :userId")
     fun getOfferOfTrip(tripId: String, userId: String): Offer?
+
+    @Query("SELECT o FROM Offer o WHERE o.trip.id = :tripId")
+    fun getOffersOfTrip(tripId: String): List<Offer>
 }

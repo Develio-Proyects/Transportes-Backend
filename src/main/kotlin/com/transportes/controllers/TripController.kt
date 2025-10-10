@@ -125,4 +125,15 @@ class TripController {
         tripService.changeTripState(idTrip, state)
         return "Estado actualizado correctamente"
     }
+
+    @DeleteMapping("/{idTrip}")
+    @Operation(
+        summary = "Delete a trip",
+        description = "Deletes a trip during deletion."
+    )fun deleteTrip(
+        @PathVariable idTrip: String,
+    ):String{
+        tripService.deleteTrip(idTrip)
+        return "Publicación Eliminada"
+    }
 }

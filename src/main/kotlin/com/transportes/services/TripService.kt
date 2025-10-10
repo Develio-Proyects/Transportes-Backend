@@ -15,6 +15,7 @@ import com.transportes.repositories.OfferRepository
 import com.transportes.repositories.TripRepository
 import com.transportes.utils.Serializer
 import com.transportes.utils.Serializer.buildTripToAdminDTO
+import jakarta.transaction.Transactional
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
@@ -105,5 +106,20 @@ class TripService {
         val trip = tripRepository.findById(tripId).orElseThrow { NotFoundException("Viaje no encontrado") }
         trip.state = newState
         tripRepository.save(trip)
+    }
+
+    @Transactional
+    fun deleteTrip(idTrip: String) {
+        val trip = tripRepository.findById(idTrip).orElseThrow {NotFoundException("Publicación no encontrada")}
+
+        if (trip.state != StateTrip.OPEN){
+            throw BadRequestException("El estado de la publicación no es válido")
+        } else{
+            val allOffers = offerRepository.getOffersOfTrip(trip.id)
+            for (offer in allOffers){
+                offerRepository.deleteById(offer.id)
+            }
+            tripRepository.deleteById(trip.id)
+        }
     }
 }
