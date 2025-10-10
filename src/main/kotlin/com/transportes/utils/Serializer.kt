@@ -73,6 +73,7 @@ object Serializer {
         return OfferDTO(
             offer.id,
             offer.transport.name,
+            offer.transport.id,
             offer.offeredPrice
         )
     }
