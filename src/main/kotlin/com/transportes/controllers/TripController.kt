@@ -118,7 +118,7 @@ class TripController {
         summary = "Change trip state",
         description = "Changes the state of a specific trip"
     )
-    fun offerTrip(
+    fun changeState(
         @PathVariable idTrip: String,
         @RequestParam state: StateTrip,
     ): String {
