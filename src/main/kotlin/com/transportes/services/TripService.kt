@@ -1,12 +1,15 @@
 package com.transportes.services
 
+import com.transportes.domain.enums.CargoType
 import com.transportes.domain.enums.StateTrip
+import com.transportes.domain.trips.Dimensions
 import com.transportes.domain.trips.Trip
 import com.transportes.dto.trip.NewTripDTO
 import com.transportes.dto.trip.TripToAdminDTO
 import com.transportes.dto.trip.TripDTO
 import com.transportes.dto.trip.TripDetailDTO
 import com.transportes.dto.trip.PostDTO
+import com.transportes.dto.trip.UpdateTripDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.InvalidCredentialsException
 import com.transportes.exceptions.NotFoundException
@@ -21,6 +24,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
+import java.time.LocalDateTime
+import kotlin.String
 
 @Service
 class TripService {
@@ -122,5 +128,21 @@ class TripService {
             }
             tripRepository.deleteById(trip.id)
         }
+    }
+
+    fun updateTrip(idTrip: String, updateTripDTO: UpdateTripDTO): TripDetailDTO {
+        val trip = tripRepository.findById(idTrip).orElseThrow{ NotFoundException ("Publicación no encontrada")}
+
+        if (trip.state != StateTrip.OPEN){
+            throw BadRequestException("No se puede modificar la publicación")
+        }
+
+        if (updateTripDTO.departureDate.isBefore(LocalDateTime.now())) {
+            throw BadRequestException("La fecha de salida debe ser posterior al día de hoy")
+        }
+        trip.updateTrip(updateTripDTO)
+        tripRepository.save(trip)
+
+        return getTripDetail(trip.id)
     }
 }

@@ -3,6 +3,7 @@ package com.transportes.controllers
 import com.transportes.domain.enums.StateTrip
 import com.transportes.dto.*
 import com.transportes.dto.trip.NewTripDTO
+import com.transportes.dto.trip.UpdateTripDTO
 import com.transportes.dto.trip.TripToAdminDTO
 import com.transportes.dto.trip.TripDTO
 import com.transportes.dto.trip.PostDTO
@@ -135,5 +136,16 @@ class TripController {
     ):String{
         tripService.deleteTrip(idTrip)
         return "Publicación Eliminada"
+    }
+
+    @PutMapping("/{idTrip}")
+    @Operation(
+        summary = "Update a trip",
+        description = "Updates a trip associated with the current user."
+    )fun updateTrip(
+        @PathVariable idTrip: String,
+        @RequestBody updateTripDTO: UpdateTripDTO,
+    ): TripDetailDTO {
+        return tripService.updateTrip(idTrip ,updateTripDTO)
     }
 }

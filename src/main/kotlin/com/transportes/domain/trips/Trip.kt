@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference
 import com.transportes.domain.enums.StateTrip
 import com.transportes.domain.enums.CargoType
 import com.transportes.domain.users.MultiCarrier
+import com.transportes.dto.trip.TripDTO
+import com.transportes.dto.trip.UpdateTripDTO
 import jakarta.persistence.*
 import java.time.LocalDateTime
 
@@ -18,25 +20,37 @@ class Trip(
     @Enumerated(EnumType.STRING)
     var state: StateTrip,
     @Column(nullable = false)
-    val origin: String,
+    var origin: String,
     @Column(nullable = false)
-    val destination: String,
+    var destination: String,
     @Column(nullable = false)
-    val departureDate: LocalDateTime,
+    var departureDate: LocalDateTime,
     @Column(nullable = false)
     val postedDate: LocalDateTime,
     @Column(nullable = false)
-    val basePrice: Double,
+    var basePrice: Double,
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    val cargoType: CargoType,
+    var cargoType: CargoType,
     @Column(nullable = false)
-    val weight: Double,
+    var weight: Double,
     @Embedded
-    val dimensions: Dimensions,
+    var dimensions: Dimensions,
     @Column(nullable = false)
-    val observations: String? = null
+    var observations: String? = null
 ) {
     @Id @GeneratedValue(strategy = GenerationType.UUID)
     lateinit var id: String
+
+    fun updateTrip(updateTripDTO: UpdateTripDTO): Trip {
+        this.origin = updateTripDTO.origin
+        this.destination = updateTripDTO.destination
+        this.departureDate = updateTripDTO.departureDate
+        this.basePrice = updateTripDTO.basePrice
+        this.cargoType = updateTripDTO.cargoType
+        this.weight = updateTripDTO.weight
+        this.dimensions = updateTripDTO.dimensions
+        this.observations = updateTripDTO.observations
+        return this
+    }
 }

@@ -59,7 +59,8 @@ class SecurityConfig {
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.PUT,
-                        "/api/employee/{employeeId}"
+                        "/api/employee/{employeeId}",
+                        "/api/trip/{idTrip}"
                     ).hasRole("FLOTA")
                     .requestMatchers(
                         HttpMethod.DELETE,
