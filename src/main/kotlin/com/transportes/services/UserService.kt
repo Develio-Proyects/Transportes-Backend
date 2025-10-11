@@ -1,5 +1,6 @@
 package com.transportes.services
 
+import com.transportes.domain.documents.Document
 import com.transportes.domain.enums.Role
 import com.transportes.domain.users.Administrator
 import com.transportes.domain.users.MultiCarrier
@@ -11,6 +12,7 @@ import com.transportes.dto.user.UserDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.DocumentRepository
+import com.transportes.repositories.EmployeeRepository
 import com.transportes.repositories.TripRepository
 import com.transportes.repositories.TruckRepository
 import com.transportes.repositories.UserRepository
@@ -27,6 +29,7 @@ class UserService {
     @Autowired lateinit var documentRepository: DocumentRepository
     @Autowired lateinit var truckRepository: TruckRepository
     @Autowired lateinit var passwordEncoder: PasswordEncoder
+    @Autowired lateinit var employeeRepository: EmployeeRepository
 
     fun getUsers(): List<UserDTO> {
         val users = userRepository.findAll()
@@ -67,7 +70,16 @@ class UserService {
 
     fun getInfoPostulant(userId: String): InfoPostulantDTO {
         val user = userRepository.findById(userId).orElseThrow { NotFoundException("Usuario no encontrado") }
-        val documents = documentRepository.findByUserId(userId)
+
+        var documents: ArrayList<Document> = arrayListOf()
+        if (user.role == Role.MULTI_CARRIER) {
+            val employees = employeeRepository.findByMultiCarrierId(user.id)
+            for (employee in employees) {
+                val document = documentRepository.findByUserId(employee.id)
+                documents.addAll(document)
+            }
+        } else documents.addAll(documentRepository.findByUserId(userId))
+
         val trucks = truckRepository.findByUserId(userId)
         val completedTrips = tripRepository.findCompletedTripsByUserId(userId)
         return Serializer.buildInfoPostulantDTO(user, documents, trucks, completedTrips)
