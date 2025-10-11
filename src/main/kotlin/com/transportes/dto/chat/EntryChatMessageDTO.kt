@@ -6,5 +6,5 @@ data class EntryChatMessageDTO(
     @field:NotBlank
     val transmitterId: String,
     @field:NotBlank
-    val message: String
+    var message: String
 )

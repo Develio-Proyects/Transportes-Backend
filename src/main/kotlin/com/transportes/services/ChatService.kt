@@ -21,6 +21,7 @@ class ChatService {
     }
 
     fun sendMessage(tripId: String, message: EntryChatMessageDTO) {
+        message.message = censorMessage(message.message)
         saveMessage(tripId, message)
         messagingTemplate.convertAndSend("/topic/chat/trip/$tripId", message)
     }
@@ -39,5 +40,14 @@ class ChatService {
         return messageRepository.findByTripId(tripId).map {
             Serializer.buildExitChatMessageDTOByMessage(it)
         }
+    }
+
+    fun censorMessage(text: String): String {
+        val emailRegex = Regex("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", RegexOption.IGNORE_CASE)
+        val phoneRegex = Regex("(\\+?\\d{1,3}[- .]?)?(\\(?\\d{2,4}\\)?[- .]?)?\\d{3,4}[- .]?\\d{3,4}", RegexOption.IGNORE_CASE)
+
+        return text
+            .replace(emailRegex) { "*".repeat(it.value.length) }
+            .replace(phoneRegex) { "*".repeat(it.value.length) }
     }
 }
