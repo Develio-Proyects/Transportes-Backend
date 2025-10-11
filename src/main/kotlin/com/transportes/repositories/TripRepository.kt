@@ -28,4 +28,7 @@ interface TripRepository : JpaRepository<Trip, String> {
 
     @Query("SELECT v FROM Trip v WHERE v.chosenOffer IS NOT NULL AND v.state = 'FINALIZED' AND v.chosenOffer.transport.id = :userId")
     fun findCompletedTripsByUserId(userId: String) : List<Trip>
+
+    @Query("SELECT t FROM Trip t JOIN Offer o ON o.trip.id = t.id WHERE (t.state = 'OPEN' OR t.state = 'ASSIGNED' OR t.state = 'PROGRESS') AND o.transport.id = :userId")
+    fun findUserTripsById(userId: String): List<Trip>
 }

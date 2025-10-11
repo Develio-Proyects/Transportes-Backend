@@ -42,6 +42,12 @@ class OfferService {
 
         if (user.id == trip.multiCarrier.id) throw BadRequestException("No puedes ofertar en un viaje que creaste")
 
+        val userTrips = tripRepository.findUserTripsById(user.id)
+        for (userTrip in userTrips) {
+            val tripDate = userTrip.departureDate
+            if (tripDate.equals(trip.departureDate)) throw BadRequestException("Ya tienes un viaje para la fecha ${tripDate.toLocalDate()} en estado '${userTrip.state.frontName}'")
+        }
+
         val offer = offerRepository.getOfferOfTrip(trip.id, user.id)
         if (offer != null) offerRepository.deleteById(offer.id)
 
