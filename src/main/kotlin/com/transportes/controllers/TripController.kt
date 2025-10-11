@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import java.time.LocalDateTime
 
 @RestController
 @RequestMapping("/api/trip")
@@ -38,9 +39,12 @@ class TripController {
     fun getPostedTrips(
         @RequestParam(defaultValue = "0") page: Int,
         @RequestParam(defaultValue = "10") size: Int,
+        @RequestParam() origin: String?,
+        @RequestParam() destination: String?,
+        @RequestParam() departureDate: LocalDateTime?,
         @RequestHeader("Authorization", required = false) token: String?
     ): PageableDTO<PostDTO> {
-        val trip = tripService.getPostedTrips(token, page, size)
+        val trip = tripService.getPostedTrips(token, origin, destination, departureDate, page, size)
         return PageableDTO(
             trip.content,
             trip.totalElements,

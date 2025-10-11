@@ -1,8 +1,6 @@
 package com.transportes.services
 
-import com.transportes.domain.enums.CargoType
 import com.transportes.domain.enums.StateTrip
-import com.transportes.domain.trips.Dimensions
 import com.transportes.domain.trips.Trip
 import com.transportes.dto.trip.NewTripDTO
 import com.transportes.dto.trip.TripToAdminDTO
@@ -24,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
 import java.time.LocalDateTime
 import kotlin.String
 
@@ -36,14 +33,14 @@ class TripService {
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var userDetailsService: MyUserDetailsService
 
-    fun getPostedTrips(token: String?, page: Int, size: Int): Page<PostDTO> {
+    fun getPostedTrips(token: String?, origin: String?, destination: String?, departureDate: LocalDateTime?, page: Int, size: Int): Page<PostDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
         val user = if (token != null) {
             try { userDetailsService.getUserByToken(token) }
             catch (e: InvalidCredentialsException) { null }
         } else null
 
-        val tripList = tripRepository.getTripsByState(StateTrip.OPEN, page)
+        val tripList = tripRepository.getTripsByState(StateTrip.OPEN, origin, destination, departureDate, page)
         return tripList.map {
             val offersCount = offerRepository.getOffersCountByTripId(it.id)
             val myPost = if (user != null) it.multiCarrier.id == user.id else false

@@ -6,10 +6,21 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
+import java.time.LocalDateTime
 
 interface TripRepository : JpaRepository<Trip, String> {
-    @Query("SELECT v FROM Trip v WHERE v.state = :stateTrip")
-    fun getTripsByState(stateTrip: StateTrip, pageable: Pageable): Page<Trip>
+    @Query("""
+        SELECT v
+        FROM Trip v
+        WHERE v.state = :stateTrip
+          AND (:origin IS NULL OR LOWER(v.origin) LIKE LOWER(CONCAT('%', :origin, '%')))
+          AND (:destination IS NULL OR LOWER(v.destination) LIKE LOWER(CONCAT('%', :destination, '%')))
+          AND (
+                :departureDate IS NULL
+                OR CAST(v.departureDate AS date) = CAST(:departureDate AS date)
+              )
+        """)
+    fun getTripsByState(stateTrip: StateTrip, origin: String?, destination: String?, departureDate: LocalDateTime?, pageable: Pageable): Page<Trip>
 
     @Query("SELECT v FROM Trip v WHERE v.multiCarrier.email = :email")
     fun getTripsByMultiCarrierEmail(email: String, pageable: Pageable): Page<Trip>
