@@ -46,7 +46,6 @@ class Trip(
         this.origin = updateTripDTO.origin
         this.destination = updateTripDTO.destination
         this.departureDate = updateTripDTO.departureDate
-        this.basePrice = updateTripDTO.basePrice
         this.cargoType = updateTripDTO.cargoType
         this.weight = updateTripDTO.weight
         this.dimensions = updateTripDTO.dimensions

@@ -137,6 +137,7 @@ class TripService {
         if (updateTripDTO.departureDate.isBefore(LocalDateTime.now())) {
             throw BadRequestException("La fecha de salida debe ser posterior al día de hoy")
         }
+
         trip.updateTrip(updateTripDTO)
         tripRepository.save(trip)
 
