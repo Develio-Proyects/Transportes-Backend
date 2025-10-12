@@ -41,10 +41,9 @@ class TripController {
         @RequestParam(defaultValue = "10") size: Int,
         @RequestParam() origin: String?,
         @RequestParam() destination: String?,
-        @RequestParam() departureDate: LocalDateTime?,
         @RequestHeader("Authorization", required = false) token: String?
     ): PageableDTO<PostDTO> {
-        val trip = tripService.getPostedTrips(token, origin, destination, departureDate, page, size)
+        val trip = tripService.getPostedTrips(token, origin, destination, page, size)
         return PageableDTO(
             trip.content,
             trip.totalElements,

@@ -33,14 +33,14 @@ class TripService {
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var userDetailsService: MyUserDetailsService
 
-    fun getPostedTrips(token: String?, origin: String?, destination: String?, departureDate: LocalDateTime?, page: Int, size: Int): Page<PostDTO> {
+    fun getPostedTrips(token: String?, origin: String?, destination: String?, page: Int, size: Int): Page<PostDTO> {
         val page: Pageable = Pageable.ofSize(size).withPage(page)
         val user = if (token != null) {
             try { userDetailsService.getUserByToken(token) }
             catch (e: InvalidCredentialsException) { null }
         } else null
 
-        val tripList = tripRepository.getTripsByState(StateTrip.OPEN, origin, destination, departureDate, page)
+        val tripList = tripRepository.getTripsByState(StateTrip.OPEN, origin, destination, page)
         return tripList.map {
             val offersCount = offerRepository.getOffersCountByTripId(it.id)
             val myPost = if (user != null) it.multiCarrier.id == user.id else false
