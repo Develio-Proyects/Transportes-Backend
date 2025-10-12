@@ -127,11 +127,14 @@ class TripService {
 
     fun updateTrip(idTrip: String, updateTripDTO: UpdateTripDTO): TripDetailDTO {
         val trip = tripRepository.findById(idTrip).orElseThrow{ NotFoundException ("Publicación no encontrada")}
+        val user = userDetailsService.getCurrentUser() ?: throw BadRequestException("Usuario no autenticado")
 
-        if (trip.state != StateTrip.OPEN){
+        if (trip.multiCarrier.id != user.id) {
+            throw BadRequestException("No tienes permiso para modificar esta publicación")
+        }
+        if (trip.state != StateTrip.OPEN) {
             throw BadRequestException("No se puede modificar la publicación")
         }
-
         if (updateTripDTO.departureDate.isBefore(LocalDateTime.now())) {
             throw BadRequestException("La fecha de salida debe ser posterior al día de hoy")
         }
