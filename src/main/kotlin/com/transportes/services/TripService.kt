@@ -14,7 +14,6 @@ import com.transportes.exceptions.NotFoundException
 import com.transportes.repositories.MultiCarrierRepository
 import com.transportes.repositories.OfferRepository
 import com.transportes.repositories.TripRepository
-import com.transportes.repositories.UserRepository
 import com.transportes.utils.Serializer
 import com.transportes.utils.Serializer.buildTripToAdminDTO
 import jakarta.transaction.Transactional
@@ -28,7 +27,6 @@ import kotlin.String
 @Service
 class TripService {
     @Autowired lateinit var tripRepository: TripRepository
-    @Autowired lateinit var userRepository: UserRepository
     @Autowired lateinit var multiCarrierRepository: MultiCarrierRepository
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var userDetailsService: MyUserDetailsService
