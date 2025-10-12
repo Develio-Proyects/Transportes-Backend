@@ -2,7 +2,7 @@ package com.transportes.domain.enums
 
 enum class CargoType(val frontName: String) {
     FROZEN("Congelado"),
-    DRY("Secos"),
+    DRY("Seco"),
     PERISHABLE("Perecedero"),
     DANGEROUS("Peligroso"),
     BULK("Granel"),
