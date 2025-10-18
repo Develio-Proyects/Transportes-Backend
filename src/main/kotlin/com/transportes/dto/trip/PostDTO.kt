@@ -6,6 +6,7 @@ data class PostDTO(
     var id: String,
     var origin: String,
     var destination: String,
+    var companyName: String,
     var departureDate: LocalDateTime,
     val cargoType: String,
     var basePrice: Double,

@@ -26,6 +26,7 @@ object Serializer {
             trip.id,
             trip.origin,
             trip.destination,
+            trip.multiCarrier.companyName,
             trip.departureDate,
             trip.cargoType.frontName,
             trip.basePrice,
@@ -57,7 +58,7 @@ object Serializer {
             trip.departureDate,
             trip.basePrice,
             trip.chosenOffer?.transport?.name,
-            trip.multiCarrier.razonSocial,
+            trip.multiCarrier.companyName,
             trip.state.frontName
         )
     }
@@ -85,7 +86,7 @@ object Serializer {
         val ofertaMasBaja = postulaciones.minByOrNull{ it.offeredPrice }?.offeredPrice
         val listaPostulacionesDTO = postulaciones.map { buildOfferDTO(it) }
         return TripDetailDTO(
-            trip.multiCarrier.razonSocial,
+            trip.multiCarrier.companyName,
             trip.departureDate,
             trip.state.frontName,
             trip.origin,

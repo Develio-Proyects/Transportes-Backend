@@ -10,7 +10,7 @@ class MultiCarrier(
     email: String,
     password: String,
     @Column(nullable = false)
-    val razonSocial: String,
+    val companyName: String,
     @Column(nullable = false)
     val documentNumber: Int
-): Transport(razonSocial, email, password, Role.MULTI_CARRIER)
+): Transport(companyName, email, password, Role.MULTI_CARRIER)
