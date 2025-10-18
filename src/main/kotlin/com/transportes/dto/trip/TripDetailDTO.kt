@@ -12,6 +12,7 @@ data class TripDetailDTO(
     val destination: String,
     val observations: String?,
     val cargoType: String,
+    val unitType: String?,
     val weight: Double,
     val dimensions: Dimensions,
     val initialPrice: Double,

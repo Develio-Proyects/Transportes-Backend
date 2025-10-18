@@ -10,6 +10,7 @@ data class NewTripDTO(
     val departureDate: LocalDateTime,
     val basePrice: Double,
     val cargoType: CargoType,
+    val unitType: String,
     val weight: Double,
     val dimensions: Dimensions,
     val observations: String? = null

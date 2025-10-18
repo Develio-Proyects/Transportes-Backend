@@ -32,6 +32,8 @@ class Trip(
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     var cargoType: CargoType,
+    @Column(nullable = true)
+    var unitType: String,
     @Column(nullable = false)
     var weight: Double,
     @Embedded
@@ -47,6 +49,7 @@ class Trip(
         this.destination = updateTripDTO.destination
         this.departureDate = updateTripDTO.departureDate
         this.cargoType = updateTripDTO.cargoType
+        this.unitType = updateTripDTO.unitType
         this.weight = updateTripDTO.weight
         this.dimensions = updateTripDTO.dimensions
         this.observations = updateTripDTO.observations

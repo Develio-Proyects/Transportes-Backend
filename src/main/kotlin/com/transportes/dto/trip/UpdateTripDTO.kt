@@ -9,6 +9,7 @@ data class UpdateTripDTO(
     val destination: String,
     val departureDate: LocalDateTime,
     val cargoType: CargoType,
+    val unitType: String,
     val weight: Double,
     val dimensions: Dimensions,
     val observations: String

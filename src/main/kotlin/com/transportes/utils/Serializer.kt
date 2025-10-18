@@ -93,6 +93,7 @@ object Serializer {
             trip.destination,
             trip.observations,
             trip.cargoType.frontName,
+            trip.unitType,
             trip.weight,
             trip.dimensions,
             trip.basePrice,
@@ -130,20 +131,21 @@ object Serializer {
         )
     }
 
-    fun buildTripByNewTripDTO(multiCarrier: MultiCarrier, viaje: NewTripDTO): Trip {
+    fun buildTripByNewTripDTO(multiCarrier: MultiCarrier, trip: NewTripDTO): Trip {
         return Trip(
             multiCarrier = multiCarrier,
             chosenOffer = null,
             state = StateTrip.OPEN,
-            origin = viaje.origin,
-            destination = viaje.destination,
-            departureDate = viaje.departureDate,
+            origin = trip.origin,
+            destination = trip.destination,
+            departureDate = trip.departureDate,
             postedDate = LocalDateTime.now(),
-            basePrice = viaje.basePrice,
-            cargoType = viaje.cargoType,
-            weight = viaje.weight,
-            dimensions = viaje.dimensions,
-            observations = viaje.observations
+            basePrice = trip.basePrice,
+            cargoType = trip.cargoType,
+            unitType = trip.unitType,
+            weight = trip.weight,
+            dimensions = trip.dimensions,
+            observations = trip.observations
         )
     }
 
