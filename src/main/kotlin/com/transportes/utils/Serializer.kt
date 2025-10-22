@@ -42,6 +42,7 @@ object Serializer {
             trip.id,
             trip.origin,
             trip.destination,
+            trip.multiCarrier.razonSocial,
             trip.state.frontName,
             trip.departureDate,
             trip.cargoType.frontName,
