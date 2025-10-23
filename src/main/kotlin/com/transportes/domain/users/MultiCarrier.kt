@@ -12,5 +12,5 @@ class MultiCarrier(
     @Column(nullable = false)
     val razonSocial: String,
     @Column(nullable = false)
-    val documentNumber: Int
+    val documentNumber: Long
 ): Transport(razonSocial, email, password, Role.MULTI_CARRIER)

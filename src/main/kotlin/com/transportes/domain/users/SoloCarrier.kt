@@ -13,5 +13,5 @@ class SoloCarrier(
     @Column(nullable = false)
     val lastName: String,
     @Column(nullable = false)
-    val documentNumber: Int
+    val documentNumber: Long
 ) : Transport("$name $lastName", email, password, Role.SOLO_CARRIER)
