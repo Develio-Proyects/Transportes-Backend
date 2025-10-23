@@ -6,7 +6,9 @@ import com.transportes.domain.users.Transport
 import com.transportes.dto.offer.OfferDTO
 import com.transportes.exceptions.BadRequestException
 import com.transportes.exceptions.NotFoundException
+import com.transportes.repositories.MultiCarrierRepository
 import com.transportes.repositories.OfferRepository
+import com.transportes.repositories.SoloCarrierRepository
 import com.transportes.repositories.TripRepository
 import com.transportes.utils.Serializer
 import jakarta.transaction.Transactional
@@ -16,6 +18,11 @@ import java.math.BigDecimal
 
 @Service
 class OfferService {
+    @Autowired
+    private lateinit var soloCarrierRepository: SoloCarrierRepository
+
+    @Autowired
+    private lateinit var multiCarrierRepository: MultiCarrierRepository
     @Autowired lateinit var offerRepository: OfferRepository
     @Autowired lateinit var userDetailsService: MyUserDetailsService
     @Autowired lateinit var tripRepository: TripRepository
@@ -42,10 +49,12 @@ class OfferService {
 
         if (user.id == trip.multiCarrier.id) throw BadRequestException("No puedes ofertar en un viaje que creaste")
 
-        val userTrips = tripRepository.findUserTripsById(user.id)
-        for (userTrip in userTrips) {
-            val tripDate = userTrip.departureDate
-            if (tripDate.equals(trip.departureDate)) throw BadRequestException("Ya tienes un viaje para la fecha ${tripDate.toLocalDate()} en estado '${userTrip.state.frontName}'")
+        if ( soloCarrierRepository.existsById(user.id) ) {
+            val userTrips = tripRepository.findUserTripsById(user.id)
+            for (userTrip in userTrips) {
+                val tripDate = userTrip.departureDate
+                if (tripDate.equals(trip.departureDate)) throw BadRequestException("Ya tienes un viaje para la fecha ${tripDate.toLocalDate()} en estado '${userTrip.state.frontName}'")
+            }
         }
 
         val offer = offerRepository.getOfferOfTrip(trip.id, user.id)
