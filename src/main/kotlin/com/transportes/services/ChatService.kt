@@ -21,7 +21,7 @@ class ChatService {
     }
 
     fun sendMessage(tripId: String, message: EntryChatMessageDTO) {
-        message.message = censorMessage(message.message)
+        //message.message = censorMessage(message.message) // Se deja comanetado ya que no se utilizara la censura por el momento
         saveMessage(tripId, message)
         messagingTemplate.convertAndSend("/topic/chat/trip/$tripId", message)
     }
