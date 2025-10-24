@@ -19,3 +19,5 @@ Comandos para generar la imagen que utiliza el server
 - ./gradlew bootJar
 - docker build -t tobiasriccone/backend-transportes:latest .
 - docker push tobiasriccone/backend-transportes:latest
+
+Tambien se puede ejecutar el 'deploy.bat' para automatizar el proceso (solo en Windows)
